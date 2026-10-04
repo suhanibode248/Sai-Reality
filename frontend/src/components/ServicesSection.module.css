@@ -1,0 +1,45 @@
+/* ServicesSection.module.css — Royal Blue & Gold Theme */
+.section { padding: 80px 20px; background: #F8FAFF; }
+.container { max-width: 1200px; margin: 0 auto; }
+.sectionHead { text-align: center; margin-bottom: 52px; }
+.sectionTitle { font-family: 'Poppins', sans-serif; font-size: 2rem; font-weight: 700; color: #0D1B2A; margin: 0 0 8px; }
+.sectionTitle span { color: #1E3A8A; }
+.sectionSub { font-size: 15px; color: #777; margin: 0; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 28px; }
+
+.card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 36px 28px;
+  text-align: center;
+  box-shadow: 0 3px 20px rgba(0,0,0,0.07);
+  transition: transform 0.25s, box-shadow 0.25s;
+  border: 1px solid #f0f0f0;
+  border-top: 3px solid transparent;
+}
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 36px rgba(30,58,138,0.14);
+  border-top-color: #D4AF37;
+}
+
+.iconWrap {
+  width: 72px;
+  height: 72px;
+  background: #EFF6FF;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  transition: background 0.2s;
+}
+.card:hover .iconWrap { background: #1E3A8A; }
+.iconWrap i { font-size: 1.7rem; color: #1E3A8A; transition: color 0.2s; }
+.card:hover .iconWrap i { color: #D4AF37; }
+
+.cardTitle { font-family: 'Poppins', sans-serif; font-size: 1.05rem; font-weight: 700; color: #0D1B2A; margin: 0 0 12px; }
+.cardDesc  { font-size: 14px; color: #777; line-height: 1.7; margin: 0; }
+
+@media (max-width: 768px) { .sectionTitle { font-size: 1.6rem; } }

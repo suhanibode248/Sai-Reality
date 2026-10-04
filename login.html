@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login / Register – Certified Properties</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* ---- User Type Selector Cards ---- */
+        .user-type-selector { margin-bottom: 28px; }
+        .user-type-selector h6 { font-weight: 700; color: #444; margin-bottom: 14px; font-size: 15px; }
+        .user-type-cards { display: flex; gap: 14px; }
+        .user-type-card {
+            flex: 1;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px 14px;
+            text-align: center;
+            cursor: pointer;
+            transition: all .22s;
+            background: #fff;
+            position: relative;
+        }
+        .user-type-card:hover { border-color: var(--magenta); background: #fdf0ff; }
+        .user-type-card.selected {
+            border-color: var(--magenta);
+            background: #fdf0ff;
+            box-shadow: 0 0 0 3px rgba(226,68,238,.15);
+        }
+        .user-type-card .type-icon {
+            width: 56px; height: 56px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 10px;
+            font-size: 1.5rem;
+            transition: .22s;
+        }
+        .user-type-card.landlord-card .type-icon { background: #fdf0ff; color: var(--magenta); }
+        .user-type-card.tenant-card  .type-icon { background: #fff0f0; color: #dc3545; }
+        .user-type-card.selected.landlord-card .type-icon { background: var(--magenta); color: #fff; }
+        .user-type-card.selected.tenant-card  .type-icon { background: #dc3545; color: #fff; }
+        .user-type-card h6 { font-weight: 700; font-size: 14px; margin-bottom: 3px; }
+        .user-type-card p { font-size: 12px; color: #888; margin: 0; line-height: 1.4; }
+        .user-type-card .check-badge {
+            position: absolute; top: 8px; right: 8px;
+            width: 20px; height: 20px;
+            background: var(--magenta); color: #fff;
+            border-radius: 50%; font-size: 10px;
+            display: none; align-items: center; justify-content: center;
+        }
+        .user-type-card.selected .check-badge { display: flex; }
+
+        /* ---- Role Badge in form ---- */
+        .role-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 4px 14px; border-radius: 20px;
+            font-size: 13px; font-weight: 600; margin-bottom: 18px;
+        }
+        .role-badge.landlord { background: #fdf0ff; color: var(--magenta); border: 1px solid var(--magenta); }
+        .role-badge.tenant   { background: #fff0f0; color: #dc3545; border: 1px solid #dc3545; }
+        .role-badge .back-link { margin-left: 8px; font-size: 12px; color: #999; cursor: pointer; text-decoration: underline; }
+        .role-badge .back-link:hover { color: #333; }
+
+        /* Section visibility */
+        .reg-step { display: none; }
+        .reg-step.active { display: block; }
+    </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar d-none d-lg-block">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <span class="me-4"><i class="fa fa-phone-alt me-2 text-magenta"></i>+91 9222445513 &nbsp;|&nbsp; +91 9320072003</span>
+                <span><i class="fa fa-envelope me-2 text-magenta"></i>support@certifiedproperties.in</span>
+            </div>
+            <div class="col-lg-4 text-end">
+                <span><i class="fa fa-map-marker-alt me-2 text-magenta"></i>Lohegaon, Pune, Maharashtra</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg main-navbar sticky-top">
+    <div class="container">
+        <a class="navbar-brand" href="index.html">Certified <span>Properties</span></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Projects</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="properties.html">Residential</a></li>
+                        <li><a class="dropdown-item" href="properties.html">Commercial</a></li>
+                        <li><a class="dropdown-item" href="properties.html">Plot</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="properties.html">Properties</a></li>
+                <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+                <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+                <li class="nav-item"><a class="nav-link" href="contact.html">Contact Us</a></li>
+            </ul>
+            <div class="d-flex align-items-center gap-2 mt-2 mt-lg-0">
+                <a href="login.html" class="btn-login nav-login-link"><i class="fa fa-user me-1"></i> Login / Register</a>
+                <div class="nav-user-wrap d-none dropdown">
+                    <a href="#" class="btn-login dropdown-toggle" data-bs-toggle="dropdown">
+                        <i class="fa fa-user-circle me-1"></i> <span class="nav-user-name">User</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item logout-btn" href="#"><i class="fa fa-sign-out-alt me-2"></i>Logout</a></li>
+                    </ul>
+                </div>
+                <a href="#" class="btn-submit" onclick="return false;">Submit Property</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- MARQUEE -->
+<div class="marquee-bar">
+    <marquee behavior="scroll" direction="left">
+        Find your dream home in Pune with Certified Properties! &nbsp;|&nbsp; No Brokerage &nbsp;|&nbsp; Free Site Visit &nbsp;|&nbsp; 100% Loan Available &nbsp;|&nbsp; Contact: +91 9222445513
+    </marquee>
+</div>
+
+<!-- PAGE BANNER -->
+<div class="page-banner">
+    <div class="container">
+        <h1><i class="fa fa-user-circle text-magenta me-2"></i>Login / Register</h1>
+        <nav aria-label="breadcrumb" class="mt-2">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="index.html" class="text-light-50">Home</a></li>
+                <li class="breadcrumb-item active">Login / Register</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<!-- AUTH SECTION -->
+<div class="auth-page-wrap">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-10 col-lg-11">
+                <div class="auth-card">
+                    <div class="row g-0">
+
+                        <!-- LEFT PANEL -->
+                        <div class="col-md-4 auth-left" id="authLeftPanel">
+                            <div class="mb-4 text-center">
+                                <img src="images/logo.png" alt="Sai Reality Logo" style="height: 85px; object-fit: contain;">
+                            </div>
+                            <div>
+                                <h2 id="leftTitle" class="mb-3" style="font-size: 1.5rem; color: #fff;">Welcome to Sai Reality</h2>
+                            </div>
+                            <p id="leftDesc">Your trusted real estate partner in Pune. Join thousands of landlords and tenants already using our platform.</p>
+                            <ul class="benefits" id="leftBenefits">
+                                <li><i class="fa fa-check-circle"></i> Browse 1000+ verified properties</li>
+                                <li><i class="fa fa-check-circle"></i> No brokerage fee</li>
+                                <li><i class="fa fa-check-circle"></i> Free site visits</li>
+                                <li><i class="fa fa-check-circle"></i> 100% loan assistance</li>
+                                <li><i class="fa fa-check-circle"></i> Secure &amp; trusted platform</li>
+                            </ul>
+                        </div>
+
+                        <!-- RIGHT PANEL -->
+                        <div class="col-md-8 auth-right">
+
+                            <!-- MAIN TABS: Login / Register -->
+                            <div class="auth-tabs mb-0">
+                                <button id="loginTab" class="active" type="button">
+                                    <i class="fa fa-sign-in-alt me-1"></i> Login
+                                </button>
+                                <button id="registerTab" type="button">
+                                    <i class="fa fa-user-plus me-1"></i> Register
+                                </button>
+                            </div>
+                            <hr class="mt-0 mb-4">
+
+                            <!-- =========== LOGIN FORM =========== -->
+                            <div id="loginFormSection" class="auth-form">
+                                <h5 class="fw-bold mb-1">Welcome Back <span class="text-magenta">👋</span></h5>
+                                <p class="text-muted small mb-4">Login as Landlord or Tenant – same form for both.</p>
+
+                                <form id="mockLoginForm" novalidate>
+                                    <div class="mb-3">
+                                        <label class="form-label">Email Address *</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fa fa-envelope text-magenta"></i></span>
+                                            <input type="email" class="form-control" placeholder="Enter your registered email" required>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Password *</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fa fa-lock text-magenta"></i></span>
+                                            <input type="password" class="form-control" id="loginPassInput" placeholder="Enter your password" required>
+                                            <button class="btn btn-outline-secondary" type="button" onclick="togglePass('loginPassInput', this)"><i class="fa fa-eye"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center mb-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="rememberMe">
+                                            <label class="form-check-label small" for="rememberMe">Remember me</label>
+                                        </div>
+                                        <a href="#" class="forgot-link">Forgot Password?</a>
+                                    </div>
+                                    <button type="submit" class="btn-auth">
+                                        <i class="fa fa-sign-in-alt me-2"></i>Login to Account
+                                    </button>
+                                    <div class="divider"><span>or continue with</span></div>
+                                    <div class="social-login-btns">
+                                        <button type="button"><i class="fab fa-google" style="color:#ea4335;"></i> Google</button>
+                                        <button type="button" class="fb-btn"><i class="fab fa-facebook-f" style="color:#1877f2;"></i> Facebook</button>
+                                    </div>
+                                    <p class="text-center mt-4 mb-0 small text-muted">
+                                        Don't have an account?
+                                        <a href="#" class="text-magenta fw-semibold" id="switchToRegister">Register here</a>
+                                    </p>
+                                </form>
+                            </div>
+
+                            <!-- =========== REGISTER SECTION =========== -->
+                            <div id="registerFormSection" class="d-none">
+
+                                <!-- STEP 1: Choose Role -->
+                                <div class="reg-step active" id="stepChooseRole">
+                                    <h5 class="fw-bold mb-1">Create Account <span class="text-magenta">🏠</span></h5>
+                                    <p class="text-muted small mb-4">Choose your role to get started with the right experience.</p>
+
+                                    <div class="user-type-selector">
+                                        <h6>I am a...</h6>
+                                        <div class="user-type-cards">
+                                            <div class="user-type-card landlord-card" id="selectLandlord" onclick="selectRole('landlord')">
+                                                <div class="check-badge"><i class="fa fa-check"></i></div>
+                                                <div class="type-icon"><i class="fa fa-building"></i></div>
+                                                <h6>Landlord</h6>
+                                                <p>I have a property and want to list it for sale or rent</p>
+                                            </div>
+                                            <div class="user-type-card tenant-card" id="selectTenant" onclick="selectRole('tenant')">
+                                                <div class="check-badge"><i class="fa fa-check"></i></div>
+                                                <div class="type-icon"><i class="fa fa-user"></i></div>
+                                                <h6>Tenant / Buyer</h6>
+                                                <p>I'm looking for a property to buy, rent or lease</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button type="button" class="btn-auth" id="proceedToForm" onclick="goToRegisterForm()" disabled
+                                        style="opacity:.5;cursor:not-allowed;">
+                                        Continue <i class="fa fa-arrow-right ms-2"></i>
+                                    </button>
+                                    <p class="text-center mt-3 mb-0 small text-muted">
+                                        Already have an account? <a href="#" class="text-magenta fw-semibold" id="switchToLogin">Login here</a>
+                                    </p>
+                                </div>
+
+                                <!-- STEP 2A: Landlord Registration Form -->
+                                <div class="reg-step auth-form" id="stepLandlordForm">
+                                    <div class="role-badge landlord">
+                                        <i class="fa fa-building"></i> Registering as Landlord
+                                        <span class="back-link" onclick="goBackToRoleSelect()">← Change</span>
+                                    </div>
+                                    <h5 class="fw-bold mb-4">Landlord Registration</h5>
+                                    <form id="landlordRegForm" novalidate>
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <label class="form-label">Full Name *</label>
+                                                <input type="text" class="form-control" placeholder="Your full name" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label">Phone Number *</label>
+                                                <input type="tel" class="form-control" maxlength="10" placeholder="10-digit mobile number" required>
+                                            </div>
+                                            <div class="col-12">
+                                                <label class="form-label">Email Address *</label>
+                                                <input type="email" class="form-control" placeholder="Enter your email address" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label">Property Type *</label>
+                                                <select class="form-control" required>
+                                                    <option value="">Select property type</option>
+                                                    <option>Residential Apartment</option>
+                                                    <option>Commercial Space</option>
+                                                    <option>Commercial Shop</option>
+                                                    <option>Bungalow</option>
+                                                    <option>Open Plot / Land</option>
+                                                    <option>Multiple Types</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label">Number of Properties *</label>
+                                                <select class="form-control" required>
+                                                    <option value="">How many properties?</option>
+                                                    <option>1</option>
+                                                    <option>2 – 5</option>
+                                                    <option>6 – 10</option>
+                                                    <option>10+</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label">Property Location *</label>
+                                                <select class="form-control" required>
+                                                    <option value="">Select location</option>
+                                                    <option>Lohegaon</option>
+                                                    <option>Kharadi</option>
+                                                    <option>Dhanori</option>
+                                                    <option>Wagholi</option>
+                                                    <option>Viman Nagar</option>
+                                                    <option>Hadapsar</option>
+                                                    <option>Hinjewadi</option>
+                                                    <option>Kalyani Nagar</option>
+                                                    <option>Other</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label">Purpose *</label>
+                                                <select class="form-control" required>
+                                                    <option value="">Sell / Rent / Both</option>
+                                                    <option>Sell Only</option>
+                                                    <option>Rent Only</option>
+                                                    <option>Both Sell &amp; Rent</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label">Password *</label>
+                                                <input type="password" class="form-control" id="lPassInput" placeholder="Min 6 characters" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label">Confirm Password *</label>
+                                                <input type="password" class="form-control" id="lConfInput" placeholder="Repeat password" required>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="lTerms" required>
+                                                    <label class="form-check-label small" for="lTerms">
+                                                        I agree to the <a href="#" class="text-magenta">Terms &amp; Conditions</a> and confirm all my property details are genuine.
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <button type="submit" class="btn-auth" style="background:var(--magenta);">
+                                                    <i class="fa fa-building me-2"></i>Register as Landlord
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <!-- STEP 2B: Tenant Registration Form -->
+                                <div class="reg-step auth-form" id="stepTenantForm">
+                                    <div class="role-badge tenant">
+                                        <i class="fa fa-user"></i> Registering as Tenant / Buyer
+                                        <span class="back-link" onclick="goBackToRoleSelect()">← Change</span>
+                                    </div>
+                                    <h5 class="fw-bold mb-4">Tenant / Buyer Registration</h5>
+                                    <form id="tenantRegForm" novalidate>
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <label class="form-label">Full Name *</label>
+                                                <input type="text" class="form-control" placeholder="Your full name" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label">Phone Number *</label>
+                                                <input type="tel" class="form-control" maxlength="10" placeholder="10-digit mobile number" required>
+                                            </div>
+                                            <div class="col-12">
+                                                <label class="form-label">Email Address *</label>
+                                                <input type="email" class="form-control" placeholder="Enter your email address" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label">Looking For *</label>
+                                                <select class="form-control" required>
+                                                    <option value="">Buy / Rent / Lease</option>
+                                                    <option>Buy</option>
+                                                    <option>Rent</option>
+                                                    <option>Lease</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label">Property Type *</label>
+                                                <select class="form-control" required>
+                                                    <option value="">Select type</option>
+                                                    <option>1 BHK Apartment</option>
+                                                    <option>2 BHK Apartment</option>
+                                                    <option>3 BHK Apartment</option>
+                                                    <option>4 BHK Apartment</option>
+                                                    <option>Commercial Space</option>
+                                                    <option>Shop / Showroom</option>
+                                                    <option>Bungalow</option>
+                                                    <option>Plot / Land</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label">Preferred Location *</label>
+                                                <select class="form-control" required>
+                                                    <option value="">Select location</option>
+                                                    <option>Lohegaon</option>
+                                                    <option>Kharadi</option>
+                                                    <option>Dhanori</option>
+                                                    <option>Wagholi</option>
+                                                    <option>Viman Nagar</option>
+                                                    <option>Hadapsar</option>
+                                                    <option>Hinjewadi</option>
+                                                    <option>Kalyani Nagar</option>
+                                                    <option>Any Location</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label">Budget (₹) *</label>
+                                                <select class="form-control" required>
+                                                    <option value="">Select budget</option>
+                                                    <option>Below ₹10,000/mo</option>
+                                                    <option>₹10,000 – ₹20,000/mo</option>
+                                                    <option>₹20,000 – ₹40,000/mo</option>
+                                                    <option>₹40,000 – ₹70,000/mo</option>
+                                                    <option>Above ₹70,000/mo</option>
+                                                    <option>Below ₹30 Lakhs</option>
+                                                    <option>₹30 – ₹60 Lakhs</option>
+                                                    <option>₹60 L – ₹1 Cr</option>
+                                                    <option>Above ₹1 Cr</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label">Password *</label>
+                                                <input type="password" class="form-control" id="tPassInput" placeholder="Min 6 characters" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label">Confirm Password *</label>
+                                                <input type="password" class="form-control" id="tConfInput" placeholder="Repeat password" required>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="tTerms" required>
+                                                    <label class="form-check-label small" for="tTerms">
+                                                        I agree to the <a href="#" class="text-magenta">Terms &amp; Conditions</a>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <button type="submit" class="btn-auth" style="background:#dc3545;">
+                                                    <i class="fa fa-user me-2"></i>Register as Tenant / Buyer
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div><!-- end registerFormSection -->
+
+                        </div><!-- end auth-right -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6">
+                <div class="footer-brand"><span>Certified</span> Properties</div>
+                <p>Your trusted real estate partner in Pune.</p>
+            </div>
+            <div class="col-lg-2 col-md-6">
+                <h5>Quick Links</h5>
+                <ul class="footer-links">
+                    <li><a href="index.html"><i class="fa fa-angle-right"></i> Home</a></li>
+                    <li><a href="properties.html"><i class="fa fa-angle-right"></i> Properties</a></li>
+                    <li><a href="services.html"><i class="fa fa-angle-right"></i> Services</a></li>
+                    <li><a href="about.html"><i class="fa fa-angle-right"></i> About Us</a></li>
+                    <li><a href="contact.html"><i class="fa fa-angle-right"></i> Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <h5>Contact Info</h5>
+                <ul class="contact-list">
+                    <li><i class="fa fa-map-marker-alt"></i> <span>Lohegaon, Pune, Maharashtra</span></li>
+                    <li><i class="fa fa-phone-alt"></i> <span>+91 9222445513</span></li>
+                    <li><i class="fa fa-envelope"></i> <span>support@certifiedproperties.in</span></li>
+                </ul>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <h5>Newsletter</h5>
+                <p>Subscribe to get latest property updates.</p>
+                <div class="newsletter-input">
+                    <input type="email" placeholder="Your email address">
+                    <button>Subscribe</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p class="mb-0">&copy; 2024 Certified Properties. All Rights Reserved.</p>
+    </div>
+</footer>
+
+<button id="backToTop"><i class="fa fa-chevron-up"></i></button>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/main.js"></script>
+<script>
+/* ====================================================
+   Login Page – inline controller
+==================================================== */
+
+let selectedRole = null; // 'landlord' | 'tenant'
+
+/* ---- Tab Toggle ---- */
+document.getElementById('loginTab').addEventListener('click', showLogin);
+document.getElementById('registerTab').addEventListener('click', showRegister);
+document.getElementById('switchToRegister')?.addEventListener('click', function(e){ e.preventDefault(); showRegister(); });
+document.getElementById('switchToLogin')?.addEventListener('click', function(e){ e.preventDefault(); showLogin(); });
+
+function showLogin() {
+    document.getElementById('loginFormSection').classList.remove('d-none');
+    document.getElementById('registerFormSection').classList.add('d-none');
+    document.getElementById('loginTab').classList.add('active');
+    document.getElementById('registerTab').classList.remove('active');
+    updateLeftPanel('default');
+}
+
+function showRegister() {
+    document.getElementById('loginFormSection').classList.add('d-none');
+    document.getElementById('registerFormSection').classList.remove('d-none');
+    document.getElementById('loginTab').classList.remove('active');
+    document.getElementById('registerTab').classList.add('active');
+    // Always start from role selection
+    showStep('stepChooseRole');
+    updateLeftPanel('choose');
+}
+
+/* ---- Role Selection ---- */
+function selectRole(role) {
+    selectedRole = role;
+    document.querySelectorAll('.user-type-card').forEach(c => c.classList.remove('selected'));
+
+    if (role === 'landlord') {
+        document.getElementById('selectLandlord').classList.add('selected');
+        updateLeftPanel('landlord');
+    } else {
+        document.getElementById('selectTenant').classList.add('selected');
+        updateLeftPanel('tenant');
+    }
+
+    const btn = document.getElementById('proceedToForm');
+    btn.disabled = false;
+    btn.style.opacity = '1';
+    btn.style.cursor = 'pointer';
+}
+
+function goToRegisterForm() {
+    if (!selectedRole) return;
+    if (selectedRole === 'landlord') {
+        showStep('stepLandlordForm');
+        updateLeftPanel('landlord');
+    } else {
+        showStep('stepTenantForm');
+        updateLeftPanel('tenant');
+    }
+}
+
+function goBackToRoleSelect() {
+    showStep('stepChooseRole');
+    updateLeftPanel('choose');
+}
+
+function showStep(id) {
+    document.querySelectorAll('.reg-step').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+
+/* ---- Left panel dynamic content ---- */
+const panels = {
+    default: {
+        title: 'Welcome to<br>Sai Reality',
+        desc: 'Your trusted real estate partner in Pune. Join thousands of landlords and tenants already using our platform.',
+        benefits: ['Browse 1000+ verified properties','No brokerage fee','Free site visits','100% loan assistance','Secure & trusted platform']
+    },
+    choose: {
+        title: 'Join Our Platform',
+        desc: 'Choose your role to get a personalized experience. Whether you own a property or looking for one — we\'ve got you covered.',
+        benefits: ['Landlord: List & manage your properties','Tenant: Find the perfect home','Buyer: Explore investment options','Free registration','24/7 support']
+    },
+    landlord: {
+        title: '🏢 Landlord Benefits',
+        desc: 'List your property and reach thousands of verified buyers and tenants across Pune — for free.',
+        benefits: ['Free property listing','Reach 10,000+ active seekers','No commission on deals','Professional photo support','Dedicated relationship manager']
+    },
+    tenant: {
+        title: '🔑 Tenant / Buyer Benefits',
+        desc: 'Find your dream home with zero brokerage and get free site visits arranged by our team.',
+        benefits: ['Zero brokerage — always','1000+ verified listings','Free site visits arranged','100% home loan assistance','Instant callback support']
+    }
+};
+
+function updateLeftPanel(type) {
+    const p = panels[type] || panels.default;
+    document.getElementById('leftTitle').innerHTML = p.title;
+    document.getElementById('leftDesc').textContent = p.desc;
+    const ul = document.getElementById('leftBenefits');
+    ul.innerHTML = p.benefits.map(b => `<li><i class="fa fa-check-circle"></i> ${b}</li>`).join('');
+}
+
+/* ---- Password Toggle ---- */
+function togglePass(inputId, btn) {
+    const inp = document.getElementById(inputId);
+    if (inp.type === 'password') {
+        inp.type = 'text';
+        btn.innerHTML = '<i class="fa fa-eye-slash"></i>';
+    } else {
+        inp.type = 'password';
+        btn.innerHTML = '<i class="fa fa-eye"></i>';
+    }
+}
+
+/* ---- Landlord Form Submit ---- */
+document.getElementById('landlordRegForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const name  = this.querySelector('input[type="text"]').value.trim();
+    const email = this.querySelector('input[type="email"]').value.trim();
+    const pass  = document.getElementById('lPassInput').value;
+    const conf  = document.getElementById('lConfInput').value;
+    if (!name || !email) { showFormAlert(this, 'Please fill in all required fields.', 'danger'); return; }
+    if (pass.length < 6) { showFormAlert(this, 'Password must be at least 6 characters.', 'warning'); return; }
+    if (pass !== conf)   { showFormAlert(this, 'Passwords do not match.', 'danger'); return; }
+    localStorage.setItem('cp_user', JSON.stringify({ name, email, role: 'Landlord' }));
+    showFormAlert(this, '✅ Landlord account created! Redirecting...', 'success');
+    setTimeout(() => window.location.href = 'index.html', 1500);
+});
+
+/* ---- Tenant Form Submit ---- */
+document.getElementById('tenantRegForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const name  = this.querySelector('input[type="text"]').value.trim();
+    const email = this.querySelector('input[type="email"]').value.trim();
+    const pass  = document.getElementById('tPassInput').value;
+    const conf  = document.getElementById('tConfInput').value;
+    if (!name || !email) { showFormAlert(this, 'Please fill in all required fields.', 'danger'); return; }
+    if (pass.length < 6) { showFormAlert(this, 'Password must be at least 6 characters.', 'warning'); return; }
+    if (pass !== conf)   { showFormAlert(this, 'Passwords do not match.', 'danger'); return; }
+    localStorage.setItem('cp_user', JSON.stringify({ name, email, role: 'Tenant' }));
+    showFormAlert(this, '✅ Account created successfully! Redirecting...', 'success');
+    setTimeout(() => window.location.href = 'index.html', 1500);
+});
+
+/* ---- Login Form Submit ---- */
+document.getElementById('mockLoginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const email = this.querySelector('input[type="email"]').value.trim();
+    const pass  = document.getElementById('loginPassInput').value;
+    if (!email || !pass) { showFormAlert(this, 'Please enter your email and password.', 'danger'); return; }
+    const name = email.split('@')[0];
+    localStorage.setItem('cp_user', JSON.stringify({ name, email, role: 'User' }));
+    showFormAlert(this, '✅ Login successful! Redirecting...', 'success');
+    setTimeout(() => window.location.href = 'index.html', 1400);
+});
+
+function showFormAlert(form, msg, type) {
+    let el = form.querySelector('.form-alert');
+    if (el) el.remove();
+    el = document.createElement('div');
+    el.className = `alert alert-${type} form-alert mt-3 py-2 px-3`;
+    el.style.fontSize = '14px';
+    el.textContent = msg;
+    form.appendChild(el);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+/* HeroSection.module.css — Royal Blue & Gold Theme */
+.hero {
+  position: relative;
+  background: linear-gradient(135deg, #0D1B2A 0%, #1E3A8A 60%, #152d6e 100%);
+  min-height: 540px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* Gold geometric glow overlay */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 75% 40%, rgba(212,175,55,0.15) 0%, transparent 55%),
+    radial-gradient(ellipse at 15% 85%, rgba(30,58,138,0.3) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 20px;
+  position: relative;
+  z-index: 1;
+}
+.content { max-width: 680px; }
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(212,175,55,0.18);
+  border: 1px solid rgba(212,175,55,0.5);
+  color: #D4AF37;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 16px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+
+.title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 3.2rem;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.15;
+  margin: 0 0 10px;
+}
+.subtitle {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #D4AF37;
+  margin: 0 0 18px;
+}
+.desc {
+  font-size: 15px;
+  color: rgba(255,255,255,0.78);
+  line-height: 1.8;
+  margin: 0 0 32px;
+}
+
+.ctaGroup { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 28px; }
+
+.ctaPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #D4AF37;
+  color: #0D1B2A;
+  padding: 13px 28px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 15px;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.15s;
+}
+.ctaPrimary:hover { background: #b8960c; color: #0D1B2A; transform: translateY(-2px); }
+
+.ctaSecondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: #fff;
+  border: 2px solid rgba(255,255,255,0.45);
+  padding: 13px 28px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 15px;
+  text-decoration: none;
+  transition: border-color 0.2s, color 0.2s, transform 0.15s;
+}
+.ctaSecondary:hover { border-color: #D4AF37; color: #D4AF37; transform: translateY(-2px); }
+
+.contactPills { display: flex; flex-wrap: wrap; gap: 12px; }
+.pill { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; color: rgba(255,255,255,0.65); }
+.pill i { color: #D4AF37; }
+
+@media (max-width: 768px) { .title { font-size: 2.2rem; } .subtitle { font-size: 1rem; } .container { padding: 60px 20px; } }
+@media (max-width: 480px) { .title { font-size: 1.8rem; } .ctaGroup { flex-direction: column; } .ctaPrimary, .ctaSecondary { width: 100%; justify-content: center; } }

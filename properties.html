@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Properties – Certified Properties</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar d-none d-lg-block">
+    <div class="container-fluid px-4">
+        <div class="row align-items-center">
+            <div class="col-lg-4">
+                <a href="index.html" class="top-logo-link d-flex align-items-center">
+                    <img src="images/logo.png" alt="Sai Reality Logo" style="height: 85px;">
+                </a>
+            </div>
+            <div class="col-lg-8">
+                <div class="d-flex justify-content-end gap-4 align-items-center">
+                    <div class="top-info-item">
+                        <i class="bi bi-telephone-inbound text-theme"></i>
+                        <div>
+                            <small>Free Contact</small>
+                            <div><a href="tel:919222445513">+91 9222445513</a> | <a href="tel:919320072003">+91 9320072003</a></div>
+                        </div>
+                    </div>
+                    <div class="top-info-item">
+                        <i class="bi bi-envelope-open text-theme"></i>
+                        <div>
+                            <small>Online Support</small>
+                            <div><a href="mailto:support@saireality.in">support@saireality.in</a></div>
+                        </div>
+                    </div>
+                    <div class="top-info-item">
+                        <i class="bi bi-geo-alt text-theme"></i>
+                        <div>
+                            <small>Our Location</small>
+                            <div><a href="https://goo.gl/maps/6SbWMzuEHDD4YmdV7" target="_blank">Lohegaon, Pune</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg main-navbar sticky-top">
+    <div class="container-fluid px-4">
+        <a class="navbar-brand d-flex align-items-center" href="index.html">
+            <img src="images/logo.png" alt="Sai Reality Logo" style="height: 70px;">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item"><a class="nav-link" href="index.html"><i class="fa fa-home me-1"></i>Home</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Projects</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="properties.html?type=Residential">Residentials</a></li>
+                        <li><a class="dropdown-item" href="properties.html?type=Commercial">Commercials</a></li>
+                        <li><a class="dropdown-item" href="properties.html?type=Plot">Plot</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Properties</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="properties.html?type=Flat">Residential Appt</a></li>
+                        <li><a class="dropdown-item" href="properties.html?type=Commercial">Commercial Space</a></li>
+                        <li><a class="dropdown-item" href="properties.html?type=Shop">Commercial Shop</a></li>
+                        <li><a class="dropdown-item" href="properties.html?type=Bungalow">Bungalow</a></li>
+                        <li><a class="dropdown-item" href="properties.html?type=Plot">Open Plot</a></li>
+                        <li><a class="dropdown-item" href="properties.html">All Properties</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="properties.html?type=Plot">Plot</a></li>
+                <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+                <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+                <li class="nav-item"><a class="nav-link" href="contact.html">Contact Us</a></li>
+            </ul>
+            <div class="d-flex align-items-center gap-2 mt-2 mt-lg-0">
+                <a href="login.html" class="btn-login nav-login-link"><i class="fa fa-user me-1"></i> Login / Register</a>
+                <div class="nav-user-wrap d-none dropdown">
+                    <a href="#" class="btn-login dropdown-toggle" data-bs-toggle="dropdown">
+                        <i class="fa fa-user-circle me-1"></i> <span class="nav-user-name">User</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item logout-btn" href="#"><i class="fa fa-sign-out-alt me-2"></i>Logout</a></li>
+                    </ul>
+                </div>
+                <a href="#" class="btn-submit" data-bs-toggle="modal" data-bs-target="#callbackModal">
+                    <i class="fa fa-plus me-1"></i> Submit Property
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- MARQUEE -->
+<div class="marquee-bar">
+    <marquee>No Brokerage &nbsp;|&nbsp; Bottom Rate Policy &nbsp;|&nbsp; Free Site Visit &nbsp;|&nbsp; 100% Loan Offer Available &nbsp;|&nbsp; Contact: +91 9222445513</marquee>
+</div>
+
+<!-- PAGE BANNER -->
+<div class="page-banner">
+    <div class="container">
+        <h1><i class="fa fa-building text-magenta me-2"></i>All Properties</h1>
+        <nav aria-label="breadcrumb" class="mt-2">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="index.html" class="text-light-50">Home</a></li>
+                <li class="breadcrumb-item active">Properties</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<!-- PROPERTIES LISTING -->
+<section class="section-pad bg-light">
+    <div class="container">
+        <div class="row g-4">
+
+            <!-- FILTER SIDEBAR -->
+            <div class="col-lg-3">
+                <div class="filter-sidebar">
+                    <h5><i class="fa fa-sliders-h me-2 text-magenta"></i>Filter Properties</h5>
+                    <form id="propertyFilterForm">
+                        <div class="mb-3">
+                            <label class="form-label">For Sale / Rent</label>
+                            <select class="form-select form-select-sm">
+                                <option value="">All</option>
+                                <option>For Sale</option>
+                                <option>For Rent</option>
+                                <option>For Lease</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Category</label>
+                            <select class="form-select form-select-sm">
+                                <option value="">All Categories</option>
+                                <option>Residential Apartment</option>
+                                <option>Commercial Space</option>
+                                <option>Commercial Shop</option>
+                                <option>Bungalow</option>
+                                <option>Open Plot</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">City</label>
+                            <select class="form-select form-select-sm">
+                                <option value="">All Cities</option>
+                                <option>Pune</option>
+                                <option>Pimpri-Chinchwad</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Location</label>
+                            <select class="form-select form-select-sm">
+                                <option value="">All Locations</option>
+                                <option>Dhanori</option>
+                                <option>Kharadi</option>
+                                <option>Lohegaon</option>
+                                <option>Wagholi</option>
+                                <option>Viman Nagar</option>
+                                <option>Hadapsar</option>
+                                <option>Hinjewadi</option>
+                                <option>Kalyani Nagar</option>
+                                <option>Yerawada</option>
+                                <option>Tingre Nagar</option>
+                                <option>Vishrantwadi</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">BHK</label>
+                            <div class="d-flex flex-wrap gap-2">
+                                <div class="form-check"><input class="form-check-input" type="checkbox" id="bhk1"><label class="form-check-label small" for="bhk1">1 BHK</label></div>
+                                <div class="form-check"><input class="form-check-input" type="checkbox" id="bhk2"><label class="form-check-label small" for="bhk2">2 BHK</label></div>
+                                <div class="form-check"><input class="form-check-input" type="checkbox" id="bhk3"><label class="form-check-label small" for="bhk3">3 BHK</label></div>
+                                <div class="form-check"><input class="form-check-input" type="checkbox" id="bhk4"><label class="form-check-label small" for="bhk4">4 BHK</label></div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Furnishing</label>
+                            <select class="form-select form-select-sm">
+                                <option value="">Any</option>
+                                <option>Fully Furnished</option>
+                                <option>Semi Furnished</option>
+                                <option>Unfurnished</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Min Price (₹)</label>
+                            <input type="number" class="form-control form-control-sm" placeholder="e.g. 500000">
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">Max Price (₹)</label>
+                            <input type="number" class="form-control form-control-sm" placeholder="e.g. 10000000">
+                        </div>
+                        <button type="submit" class="btn-filter btn">
+                            <i class="fa fa-search me-2"></i>Search Properties
+                        </button>
+                        <button type="button" class="btn-reset btn" id="resetFilters">
+                            <i class="fa fa-redo me-2"></i>Reset Filters
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- PROPERTY CARDS GRID -->
+            <div class="col-lg-9">
+                <!-- Result count + Sort -->
+                <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+                    <p class="mb-0 text-muted">Showing <strong>12</strong> properties</p>
+                    <select class="form-select form-select-sm w-auto">
+                        <option>Sort by: Latest</option>
+                        <option>Price: Low to High</option>
+                        <option>Price: High to Low</option>
+                        <option>Most Popular</option>
+                    </select>
+                </div>
+
+                <div class="row g-4">
+
+                    <!-- Prop 1 -->
+                    <div class="col-md-6 col-xl-4 prop-col">
+                        <div class="card prop-card h-100">
+                            <div class="card-img-wrap">
+                                <img src="https://placehold.co/400x260/dc3545/fff?text=2BHK+Rent" alt="Prop 1">
+                                <span class="badge-status" style="background:rgb(230,50,50);color:#fff;">Rent</span>
+                                <span class="badge-price">₹30,000/mo</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="prop-title"><a href="#">Fully Furnished 2BHK – Pride World City</a></div>
+                                <div class="prop-location"><i class="fa fa-map-marker-alt"></i> Lohegaon, Pune</div>
+                                <div class="facilities">
+                                    <span><i class="fa fa-bed"></i> 2</span>
+                                    <span><i class="fa fa-bath"></i> 2</span>
+                                    <span><i class="fa fa-vector-square"></i> 750 Sqft</span>
+                                    <span><i class="fa fa-couch"></i> Fully Furnished</span>
+                                </div>
+                                <a href="#" class="btn-details">SEE DETAILS</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Prop 2 -->
+                    <div class="col-md-6 col-xl-4 prop-col">
+                        <div class="card prop-card h-100">
+                            <div class="card-img-wrap">
+                                <img src="https://placehold.co/400x260/ffc107/333?text=3BHK+Sale" alt="Prop 2">
+                                <span class="badge-status" style="background:rgb(245,196,62);color:#fff;">Sale</span>
+                                <span class="badge-price">₹1,10,00,000</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="prop-title"><a href="#">3 BHK Bungalow – Kharadi Near Airport</a></div>
+                                <div class="prop-location"><i class="fa fa-map-marker-alt"></i> Kharadi, Pune</div>
+                                <div class="facilities">
+                                    <span><i class="fa fa-bed"></i> 3</span>
+                                    <span><i class="fa fa-bath"></i> 3</span>
+                                    <span><i class="fa fa-vector-square"></i> 1400 Sqft</span>
+                                    <span><i class="fa fa-couch"></i> Semi Furnished</span>
+                                </div>
+                                <a href="#" class="btn-details">SEE DETAILS</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Prop 3 -->
+                    <div class="col-md-6 col-xl-4 prop-col">
+                        <div class="card prop-card h-100">
+                            <div class="card-img-wrap">
+                                <img src="https://placehold.co/400x260/dc3545/fff?text=1BHK+Rent" alt="Prop 3">
+                                <span class="badge-status" style="background:rgb(230,50,50);color:#fff;">Rent</span>
+                                <span class="badge-price">₹13,000/mo</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="prop-title"><a href="#">1BHK Flat on Rent – Tingre Nagar</a></div>
+                                <div class="prop-location"><i class="fa fa-map-marker-alt"></i> Tingre Nagar, Pune</div>
+                                <div class="facilities">
+                                    <span><i class="fa fa-bed"></i> 1</span>
+                                    <span><i class="fa fa-bath"></i> 1</span>
+                                    <span><i class="fa fa-vector-square"></i> 500 Sqft</span>
+                                    <span><i class="fa fa-couch"></i> Unfurnished</span>
+                                </div>
+                                <a href="#" class="btn-details">SEE DETAILS</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Prop 4 -->
+                    <div class="col-md-6 col-xl-4 prop-col">
+                        <div class="card prop-card h-100">
+                            <div class="card-img-wrap">
+                                <img src="https://placehold.co/400x260/ffc107/333?text=Plot+Sale" alt="Prop 4">
+                                <span class="badge-status" style="background:rgb(245,196,62);color:#fff;">Sale</span>
+                                <span class="badge-price">₹50,00,000</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="prop-title"><a href="#">2000 Sqft NA Plot – Lohegaon</a></div>
+                                <div class="prop-location"><i class="fa fa-map-marker-alt"></i> Lohegaon, Pune</div>
+                                <div class="facilities">
+                                    <span><i class="fa fa-vector-square"></i> 2000 Sqft</span>
+                                    <span><i class="fa fa-check-circle text-success"></i> NA Approved</span>
+                                </div>
+                                <a href="#" class="btn-details">SEE DETAILS</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Prop 5 -->
+                    <div class="col-md-6 col-xl-4 prop-col">
+                        <div class="card prop-card h-100">
+                            <div class="card-img-wrap">
+                                <img src="https://placehold.co/400x260/dc3545/fff?text=2BHK+Rent" alt="Prop 5">
+                                <span class="badge-status" style="background:rgb(230,50,50);color:#fff;">Rent</span>
+                                <span class="badge-price">₹25,000/mo</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="prop-title"><a href="#">Semi Furnished 2BHK – Keshav Nagar</a></div>
+                                <div class="prop-location"><i class="fa fa-map-marker-alt"></i> Keshav Nagar, Pune</div>
+                                <div class="facilities">
+                                    <span><i class="fa fa-bed"></i> 2</span>
+                                    <span><i class="fa fa-bath"></i> 2</span>
+                                    <span><i class="fa fa-vector-square"></i> 766 Sqft</span>
+                                    <span><i class="fa fa-couch"></i> Semi Furnished</span>
+                                </div>
+                                <a href="#" class="btn-details">SEE DETAILS</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Prop 6 -->
+                    <div class="col-md-6 col-xl-4 prop-col">
+                        <div class="card prop-card h-100">
+                            <div class="card-img-wrap">
+                                <img src="https://placehold.co/400x260/ffc107/333?text=House+Sale" alt="Prop 6">
+                                <span class="badge-status" style="background:rgb(245,196,62);color:#fff;">Sale</span>
+                                <span class="badge-price">₹1,00,00,000</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="prop-title"><a href="#">Independent House – Dhanori</a></div>
+                                <div class="prop-location"><i class="fa fa-map-marker-alt"></i> Dhanori, Pune</div>
+                                <div class="facilities">
+                                    <span><i class="fa fa-bed"></i> 2</span>
+                                    <span><i class="fa fa-bath"></i> 1</span>
+                                    <span><i class="fa fa-vector-square"></i> 950 Sqft</span>
+                                    <span><i class="fa fa-couch"></i> Unfurnished</span>
+                                </div>
+                                <a href="#" class="btn-details">SEE DETAILS</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Prop 7 -->
+                    <div class="col-md-6 col-xl-4 prop-col">
+                        <div class="card prop-card h-100">
+                            <div class="card-img-wrap">
+                                <img src="https://placehold.co/400x260/dc3545/fff?text=Shop+Rent" alt="Prop 7">
+                                <span class="badge-status" style="background:rgb(230,50,50);color:#fff;">Rent</span>
+                                <span class="badge-price">₹15,000/mo</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="prop-title"><a href="#">Shop on Rent – Wagholi Complex</a></div>
+                                <div class="prop-location"><i class="fa fa-map-marker-alt"></i> Wagholi, Pune</div>
+                                <div class="facilities">
+                                    <span><i class="fa fa-vector-square"></i> 315 Sqft</span>
+                                    <span><i class="fa fa-store"></i> Commercial</span>
+                                </div>
+                                <a href="#" class="btn-details">SEE DETAILS</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Prop 8 -->
+                    <div class="col-md-6 col-xl-4 prop-col">
+                        <div class="card prop-card h-100">
+                            <div class="card-img-wrap">
+                                <img src="https://placehold.co/400x260/dc3545/fff?text=3BHK+Rent" alt="Prop 8">
+                                <span class="badge-status" style="background:rgb(230,50,50);color:#fff;">Rent</span>
+                                <span class="badge-price">₹25,000/mo</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="prop-title"><a href="#">3 BHK Flat on Rent – Dhanori</a></div>
+                                <div class="prop-location"><i class="fa fa-map-marker-alt"></i> Dhanori, Pune</div>
+                                <div class="facilities">
+                                    <span><i class="fa fa-bed"></i> 3</span>
+                                    <span><i class="fa fa-bath"></i> 2</span>
+                                    <span><i class="fa fa-vector-square"></i> 1140 Sqft</span>
+                                    <span><i class="fa fa-couch"></i> Semi Furnished</span>
+                                </div>
+                                <a href="#" class="btn-details">SEE DETAILS</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Prop 9 -->
+                    <div class="col-md-6 col-xl-4 prop-col">
+                        <div class="card prop-card h-100">
+                            <div class="card-img-wrap">
+                                <img src="https://placehold.co/400x260/ffc107/333?text=Bungalow+Sale" alt="Prop 9">
+                                <span class="badge-status" style="background:rgb(245,196,62);color:#fff;">Sale</span>
+                                <span class="badge-price">₹4,00,00,000</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="prop-title"><a href="#">Luxurious Bungalow – Near Viman Nagar</a></div>
+                                <div class="prop-location"><i class="fa fa-map-marker-alt"></i> Lohegaon, Pune</div>
+                                <div class="facilities">
+                                    <span><i class="fa fa-vector-square"></i> 3700 Sqft</span>
+                                    <span><i class="fa fa-couch"></i> Fully Furnished</span>
+                                </div>
+                                <a href="#" class="btn-details">SEE DETAILS</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Prop 10 -->
+                    <div class="col-md-6 col-xl-4 prop-col">
+                        <div class="card prop-card h-100">
+                            <div class="card-img-wrap">
+                                <img src="https://placehold.co/400x260/dc3545/fff?text=2BHK+Rent" alt="Prop 10">
+                                <span class="badge-status" style="background:rgb(230,50,50);color:#fff;">Rent</span>
+                                <span class="badge-price">₹19,000/mo</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="prop-title"><a href="#">2 BHK Flat on Rent – Dhanori</a></div>
+                                <div class="prop-location"><i class="fa fa-map-marker-alt"></i> Dhanori, Pune</div>
+                                <div class="facilities">
+                                    <span><i class="fa fa-bed"></i> 2</span>
+                                    <span><i class="fa fa-bath"></i> 1</span>
+                                    <span><i class="fa fa-vector-square"></i> 670 Sqft</span>
+                                    <span><i class="fa fa-couch"></i> Semi Furnished</span>
+                                </div>
+                                <a href="#" class="btn-details">SEE DETAILS</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Prop 11 -->
+                    <div class="col-md-6 col-xl-4 prop-col">
+                        <div class="card prop-card h-100">
+                            <div class="card-img-wrap">
+                                <img src="https://placehold.co/400x260/dc3545/fff?text=4BHK+Rent" alt="Prop 11">
+                                <span class="badge-status" style="background:rgb(230,50,50);color:#fff;">Rent</span>
+                                <span class="badge-price">₹40,000/mo</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="prop-title"><a href="#">Semi Furnished 4BHK – Wagholi</a></div>
+                                <div class="prop-location"><i class="fa fa-map-marker-alt"></i> Wagholi, Pune</div>
+                                <div class="facilities">
+                                    <span><i class="fa fa-bed"></i> 4</span>
+                                    <span><i class="fa fa-bath"></i> 4</span>
+                                    <span><i class="fa fa-vector-square"></i> 2500 Sqft</span>
+                                    <span><i class="fa fa-couch"></i> Semi Furnished</span>
+                                </div>
+                                <a href="#" class="btn-details">SEE DETAILS</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Prop 12 -->
+                    <div class="col-md-6 col-xl-4 prop-col">
+                        <div class="card prop-card h-100">
+                            <div class="card-img-wrap">
+                                <img src="https://placehold.co/400x260/ffc107/333?text=2BHK+Sale" alt="Prop 12">
+                                <span class="badge-status" style="background:rgb(245,196,62);color:#fff;">Sale</span>
+                                <span class="badge-price">₹61,00,000</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="prop-title"><a href="#">2BHK Society Flat – Lohgaon near Airport</a></div>
+                                <div class="prop-location"><i class="fa fa-map-marker-alt"></i> Lohgaon, Pune</div>
+                                <div class="facilities">
+                                    <span><i class="fa fa-bed"></i> 2</span>
+                                    <span><i class="fa fa-bath"></i> 2</span>
+                                    <span><i class="fa fa-vector-square"></i> 800 Sqft</span>
+                                    <span><i class="fa fa-couch"></i> Unfurnished</span>
+                                </div>
+                                <a href="#" class="btn-details">SEE DETAILS</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!-- end row -->
+
+                <!-- Pagination -->
+                <div class="d-flex justify-content-center mt-5">
+                    <nav>
+                        <ul class="pagination">
+                            <li class="page-item disabled"><a class="page-link" href="#">&laquo; Prev</a></li>
+                            <li class="page-item active"><a class="page-link" href="#" style="background:var(--magenta);border-color:var(--magenta);">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#">Next &raquo;</a></li>
+                        </ul>
+                    </nav>
+                </div>
+
+            </div><!-- end col-lg-9 -->
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6">
+                <div class="footer-brand"><span>Certified</span> Properties</div>
+                <p>Your trusted real estate partner in Pune, offering a wide range of residential and commercial properties.</p>
+                <div class="social-icons mt-3">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://wa.me/919222445513" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6">
+                <h5>Quick Links</h5>
+                <ul class="footer-links">
+                    <li><a href="index.html"><i class="fa fa-angle-right"></i> Home</a></li>
+                    <li><a href="properties.html"><i class="fa fa-angle-right"></i> Properties</a></li>
+                    <li><a href="services.html"><i class="fa fa-angle-right"></i> Services</a></li>
+                    <li><a href="about.html"><i class="fa fa-angle-right"></i> About Us</a></li>
+                    <li><a href="contact.html"><i class="fa fa-angle-right"></i> Contact Us</a></li>
+                    <li><a href="login.html"><i class="fa fa-angle-right"></i> Login / Register</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <h5>Contact Info</h5>
+                <ul class="contact-list">
+                    <li><i class="fa fa-map-marker-alt"></i> <span>Lohegaon, Pune, Maharashtra</span></li>
+                    <li><i class="fa fa-phone-alt"></i> <span>+91 9222445513</span></li>
+                    <li><i class="fa fa-phone-alt"></i> <span>+91 9320072003</span></li>
+                    <li><i class="fa fa-envelope"></i> <span>support@certifiedproperties.in</span></li>
+                </ul>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <h5>Newsletter</h5>
+                <p>Subscribe to get latest property updates.</p>
+                <div class="newsletter-input">
+                    <input type="email" placeholder="Your email address">
+                    <button>Subscribe</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p class="mb-0">&copy; 2024 Certified Properties. All Rights Reserved.</p>
+    </div>
+</footer>
+
+<div class="floating-btns">
+    <a href="https://wa.me/919222445513" target="_blank" class="wa-btn"><i class="fab fa-whatsapp"></i></a>
+    <a href="tel:+919222445513" class="ph-btn"><i class="fa fa-phone-alt"></i></a>
+</div>
+<button id="backToTop"><i class="fa fa-chevron-up"></i></button>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

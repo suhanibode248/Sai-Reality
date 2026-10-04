@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us – Certified Properties</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar d-none d-lg-block">
+    <div class="container-fluid px-4">
+        <div class="row align-items-center">
+            <div class="col-lg-4">
+                <a href="index.html" class="top-logo-link d-flex align-items-center">
+                    <img src="images/logo.png" alt="Sai Reality Logo" style="height: 85px;">
+                </a>
+            </div>
+            <div class="col-lg-8">
+                <div class="d-flex justify-content-end gap-4 align-items-center">
+                    <div class="top-info-item">
+                        <i class="bi bi-telephone-inbound text-theme"></i>
+                        <div>
+                            <small>Free Contact</small>
+                            <div><a href="tel:919222445513">+91 9222445513</a> | <a href="tel:919320072003">+91 9320072003</a></div>
+                        </div>
+                    </div>
+                    <div class="top-info-item">
+                        <i class="bi bi-envelope-open text-theme"></i>
+                        <div>
+                            <small>Online Support</small>
+                            <div><a href="mailto:support@saireality.in">support@saireality.in</a></div>
+                        </div>
+                    </div>
+                    <div class="top-info-item">
+                        <i class="bi bi-geo-alt text-theme"></i>
+                        <div>
+                            <small>Our Location</small>
+                            <div><a href="https://goo.gl/maps/6SbWMzuEHDD4YmdV7" target="_blank">Lohegaon, Pune</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg main-navbar sticky-top">
+    <div class="container-fluid px-4">
+        <a class="navbar-brand d-flex align-items-center" href="index.html">
+            <img src="images/logo.png" alt="Sai Reality Logo" style="height: 70px;">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item"><a class="nav-link" href="index.html"><i class="fa fa-home me-1"></i>Home</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Projects</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="properties.html?type=Residential">Residentials</a></li>
+                        <li><a class="dropdown-item" href="properties.html?type=Commercial">Commercials</a></li>
+                        <li><a class="dropdown-item" href="properties.html?type=Plot">Plot</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Properties</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="properties.html?type=Flat">Residential Appt</a></li>
+                        <li><a class="dropdown-item" href="properties.html?type=Commercial">Commercial Space</a></li>
+                        <li><a class="dropdown-item" href="properties.html?type=Shop">Commercial Shop</a></li>
+                        <li><a class="dropdown-item" href="properties.html?type=Bungalow">Bungalow</a></li>
+                        <li><a class="dropdown-item" href="properties.html?type=Plot">Open Plot</a></li>
+                        <li><a class="dropdown-item" href="properties.html">All Properties</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="properties.html?type=Plot">Plot</a></li>
+                <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+                <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+                <li class="nav-item"><a class="nav-link" href="contact.html">Contact Us</a></li>
+            </ul>
+            <div class="d-flex align-items-center gap-2 mt-2 mt-lg-0">
+                <a href="login.html" class="btn-login nav-login-link"><i class="fa fa-user me-1"></i> Login / Register</a>
+                <div class="nav-user-wrap d-none dropdown">
+                    <a href="#" class="btn-login dropdown-toggle" data-bs-toggle="dropdown">
+                        <i class="fa fa-user-circle me-1"></i> <span class="nav-user-name">User</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item logout-btn" href="#"><i class="fa fa-sign-out-alt me-2"></i>Logout</a></li>
+                    </ul>
+                </div>
+                <a href="#" class="btn-submit" data-bs-toggle="modal" data-bs-target="#callbackModal">
+                    <i class="fa fa-plus me-1"></i> Submit Property
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- MARQUEE -->
+<div class="marquee-bar">
+    <marquee>No Brokerage &nbsp;|&nbsp; Bottom Rate Policy &nbsp;|&nbsp; Free Site Visit &nbsp;|&nbsp; 100% Loan Offer Available &nbsp;|&nbsp; Contact: +91 9222445513</marquee>
+</div>
+
+<!-- PAGE BANNER -->
+<div class="page-banner">
+    <div class="container">
+        <h1><i class="fa fa-info-circle text-magenta me-2"></i>About Us</h1>
+        <nav aria-label="breadcrumb" class="mt-2">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="index.html" class="text-light-50">Home</a></li>
+                <li class="breadcrumb-item active">About Us</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<!-- ABOUT INTRO -->
+<section class="section-pad">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <div class="about-img-wrap">
+                    <img src="https://placehold.co/600x450/e244ee/fff?text=Certified+Properties+Office" alt="About Us" class="w-100">
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <span class="text-magenta fw-semibold">Who We Are</span>
+                <h2 class="section-title mt-1 mb-3">Pune's Most <span>Trusted</span><br>Real Estate Company</h2>
+                <p class="text-muted mb-3">With 7+ years of experience in developing and building plots, flats and commercial properties in Pune, <strong>Certified Properties</strong> is a trusted name in the real estate industry. We operate with a strict No Brokerage and Bottom Rate Policy.</p>
+                <p class="text-muted mb-4">We specialize in residential apartments, commercial spaces, shops, bungalows, and open plots across prime locations in Pune such as Lohegaon, Kharadi, Dhanori, Wagholi, Viman Nagar, and more.</p>
+                <div class="row g-3 mb-4">
+                    <div class="col-6">
+                        <div class="d-flex align-items-center gap-3 p-3 bg-light rounded">
+                            <i class="fa fa-shield-alt fa-2x text-magenta"></i>
+                            <div><h6 class="mb-0 fw-bold">100% Verified</h6><small class="text-muted">Listings</small></div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="d-flex align-items-center gap-3 p-3 bg-light rounded">
+                            <i class="fa fa-handshake fa-2x text-magenta"></i>
+                            <div><h6 class="mb-0 fw-bold">No Brokerage</h6><small class="text-muted">Zero Commission</small></div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="d-flex align-items-center gap-3 p-3 bg-light rounded">
+                            <i class="fa fa-map-marked-alt fa-2x text-magenta"></i>
+                            <div><h6 class="mb-0 fw-bold">Free Site Visit</h6><small class="text-muted">At Your Convenience</small></div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="d-flex align-items-center gap-3 p-3 bg-light rounded">
+                            <i class="fa fa-percentage fa-2x text-magenta"></i>
+                            <div><h6 class="mb-0 fw-bold">Loan Assistance</h6><small class="text-muted">100% Loans</small></div>
+                        </div>
+                    </div>
+                </div>
+                <a href="contact.html" class="btn btn-danger px-4 me-2">Contact Us</a>
+                <a href="properties.html" class="btn btn-outline-secondary px-4">View Properties</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- MISSION & VISION -->
+<section class="section-pad bg-light">
+    <div class="container">
+        <div class="section-head text-center">
+            <h2 class="section-title">Our Mission &amp; <span>Vision</span></h2>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="service-card">
+                    <div class="icon-wrap"><i class="fa fa-bullseye"></i></div>
+                    <h5>Our Mission</h5>
+                    <p>To provide transparent, affordable and trustworthy real estate services to our clients by offering a wide range of properties without any hidden charges or brokerage fees. We aim to make property buying, selling and renting a stress-free experience.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="service-card">
+                    <div class="icon-wrap"><i class="fa fa-eye"></i></div>
+                    <h5>Our Vision</h5>
+                    <p>To become the most trusted and preferred real estate company in Pune, known for our integrity, professionalism, and commitment to delivering the best value to every customer. We envision a Pune where finding a home is simple, fair, and joyful.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="service-card">
+                    <div class="icon-wrap"><i class="fa fa-gem"></i></div>
+                    <h5>Our Values</h5>
+                    <p>Transparency, integrity and customer satisfaction are at the core of everything we do. We believe in honest communication and fair pricing for all our properties across Pune.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="service-card">
+                    <div class="icon-wrap"><i class="fa fa-users"></i></div>
+                    <h5>Our Promise</h5>
+                    <p>We promise to offer only verified properties, with complete legal documentation support, free site visits, 100% loan assistance, and zero brokerage — always.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- STATS -->
+<section class="stats-section">
+    <div class="container">
+        <div class="row text-center gy-4">
+            <div class="col-6 col-md-3 stat-item">
+                <h2><span class="counter-num" data-target="150">0</span>+</h2>
+                <p>Completed Projects</p>
+            </div>
+            <div class="col-6 col-md-3 stat-item">
+                <h2><span class="counter-num" data-target="820">0</span>+</h2>
+                <p>Properties Listed</p>
+            </div>
+            <div class="col-6 col-md-3 stat-item">
+                <h2><span class="counter-num" data-target="500">0</span>+</h2>
+                <p>Happy Customers</p>
+            </div>
+            <div class="col-6 col-md-3 stat-item">
+                <h2><span class="counter-num" data-target="7">0</span>+</h2>
+                <p>Years Experience</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- TEAM -->
+<section class="section-pad">
+    <div class="container">
+        <div class="section-head text-center">
+            <h2 class="section-title">Meet Our <span>Expert Team</span></h2>
+            <p class="section-sub">Experienced professionals dedicated to finding you the perfect property</p>
+        </div>
+        <div class="row g-4 justify-content-center">
+            <div class="col-lg-3 col-md-4 col-6">
+                <div class="team-card">
+                    <img src="https://placehold.co/120x120/e244ee/fff?text=AK" alt="Anil Kumar">
+                    <h6>Anil Kumar</h6>
+                    <small>Managing Director</small>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-6">
+                <div class="team-card">
+                    <img src="https://placehold.co/120x120/c429d0/fff?text=PM" alt="Priya More">
+                    <h6>Priya More</h6>
+                    <small>Senior Sales Executive</small>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-6">
+                <div class="team-card">
+                    <img src="https://placehold.co/120x120/9b22a0/fff?text=RS" alt="Rahul Sawant">
+                    <h6>Rahul Sawant</h6>
+                    <small>Property Consultant</small>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-6">
+                <div class="team-card">
+                    <img src="https://placehold.co/120x120/7a1080/fff?text=SP" alt="Sneha Pawar">
+                    <h6>Sneha Pawar</h6>
+                    <small>Legal & Documentation</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6">
+                <div class="footer-brand"><span>Certified</span> Properties</div>
+                <p>Your trusted real estate partner in Pune, offering a wide range of residential and commercial properties.</p>
+                <div class="social-icons mt-3">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://wa.me/919222445513"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6">
+                <h5>Quick Links</h5>
+                <ul class="footer-links">
+                    <li><a href="index.html"><i class="fa fa-angle-right"></i> Home</a></li>
+                    <li><a href="properties.html"><i class="fa fa-angle-right"></i> Properties</a></li>
+                    <li><a href="services.html"><i class="fa fa-angle-right"></i> Services</a></li>
+                    <li><a href="about.html"><i class="fa fa-angle-right"></i> About Us</a></li>
+                    <li><a href="contact.html"><i class="fa fa-angle-right"></i> Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <h5>Contact Info</h5>
+                <ul class="contact-list">
+                    <li><i class="fa fa-map-marker-alt"></i> <span>Lohegaon, Pune, Maharashtra</span></li>
+                    <li><i class="fa fa-phone-alt"></i> <span>+91 9222445513</span></li>
+                    <li><i class="fa fa-phone-alt"></i> <span>+91 9320072003</span></li>
+                    <li><i class="fa fa-envelope"></i> <span>support@certifiedproperties.in</span></li>
+                </ul>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <h5>Newsletter</h5>
+                <p>Subscribe to get latest property updates.</p>
+                <div class="newsletter-input">
+                    <input type="email" placeholder="Your email address">
+                    <button>Subscribe</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p class="mb-0">&copy; 2024 Certified Properties. All Rights Reserved.</p>
+    </div>
+</footer>
+
+<div class="floating-btns">
+    <a href="https://wa.me/919222445513" target="_blank" class="wa-btn"><i class="fab fa-whatsapp"></i></a>
+    <a href="tel:+919222445513" class="ph-btn"><i class="fa fa-phone-alt"></i></a>
+</div>
+<button id="backToTop"><i class="fa fa-chevron-up"></i></button>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

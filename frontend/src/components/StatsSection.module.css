@@ -1,0 +1,35 @@
+/* StatsSection.module.css — Royal Blue & Gold Theme */
+.section {
+  background: linear-gradient(135deg, #1E3A8A 0%, #0D1B2A 100%);
+  padding: 64px 20px;
+  position: relative;
+  overflow: hidden;
+}
+/* Gold shimmer line at top */
+.section::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #D4AF37, transparent);
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 24px;
+  text-align: center;
+}
+.card { color: #fff; }
+.number {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2.8rem;
+  font-weight: 800;
+  margin: 0 0 6px;
+  letter-spacing: -1px;
+  color: #D4AF37;
+}
+.label { font-size: 14px; opacity: 0.85; margin: 0; font-weight: 500; color: #fff; }
+
+@media (max-width: 480px) { .number { font-size: 2.2rem; } }

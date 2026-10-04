@@ -1,0 +1,98 @@
+/* FeaturedProjects.module.css — Royal Blue & Gold Theme */
+.section { padding: 80px 20px; background: #fff; }
+.container { max-width: 1200px; margin: 0 auto; }
+.sectionHead { text-align: center; margin-bottom: 48px; }
+.sectionTitle { font-family: 'Poppins', sans-serif; font-size: 2rem; font-weight: 700; color: #0D1B2A; margin: 0 0 8px; }
+.sectionTitle span { color: #1E3A8A; }
+.sectionSub { font-size: 15px; color: #777; margin: 0; }
+
+.scrollWrapper {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  padding-bottom: 12px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+.scrollWrapper::-webkit-scrollbar { height: 5px; }
+.scrollWrapper::-webkit-scrollbar-track { background: #f0f0f0; border-radius: 4px; }
+.scrollWrapper::-webkit-scrollbar-thumb { background: #D4AF37; border-radius: 4px; }
+
+.card {
+  flex: 0 0 300px;
+  scroll-snap-align: start;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.09);
+  background: #fff;
+  border: 1px solid #f0f0f0;
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 32px rgba(30,58,138,0.15);
+}
+
+.imgBlock {
+  position: relative;
+  height: 190px;
+  background: linear-gradient(135deg, #0D1B2A, #1E3A8A);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.imgPlaceholder { font-size: 3rem; color: rgba(212,175,55,0.45); }
+
+.badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+.badgeFeatured { background: #D4AF37; color: #0D1B2A; }
+.badgeReady    { background: #28a745; color: #fff; }
+.badgeUnder    { background: #1E3A8A; color: #fff; }
+.badgeDefault  { background: #6c757d; color: #fff; }
+
+.priceBadge {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  background: rgba(0,0,0,0.72);
+  color: #D4AF37;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 4px;
+}
+
+.cardBody { padding: 20px; }
+.projTitle    { font-family: 'Poppins', sans-serif; font-size: 15px; font-weight: 700; color: #0D1B2A; margin: 0 0 6px; }
+.projLocation { font-size: 13px; color: #888; margin: 0 0 10px; }
+.projLocation i { color: #D4AF37; margin-right: 4px; }
+
+.meta { border-top: 1px solid #f0f0f0; padding-top: 10px; font-size: 13px; color: #666; margin-bottom: 14px; }
+.meta i { color: #1E3A8A; margin-right: 4px; }
+
+.detailBtn {
+  background: #1E3A8A;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 9px 0;
+  width: 100%;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background 0.2s, color 0.2s;
+}
+.detailBtn:hover { background: #D4AF37; color: #0D1B2A; }
+
+@media (max-width: 480px) { .card { flex: 0 0 260px; } }

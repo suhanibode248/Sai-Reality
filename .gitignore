@@ -1,0 +1,27 @@
+# Node
+node_modules/
+dist/
+.npm/
+
+# Large Media Assets
+frontend/public/media/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+.env
+
+# Database
+*.db
+*.sqlite3
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

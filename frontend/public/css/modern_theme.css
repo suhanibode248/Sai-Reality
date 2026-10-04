@@ -1,0 +1,361 @@
+/* MODERN THEME UPGRADE - SITE-WIDE */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+/* Typography Update */
+body, h1, h2, h3, h4, h5, h6, p, a, span, div {
+    font-family: 'Outfit', sans-serif !important;
+}
+
+/* Glassmorphism Navigation Bar */
+.main-header {
+    background: rgba(255, 255, 255, 0.85) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3) !important;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05) !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 9999 !important;
+    transition: all 0.3s ease-in-out !important;
+}
+
+.main-header .navbar-brand img {
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)) !important;
+}
+
+.main-header .nav-link {
+    font-weight: 500 !important;
+    letter-spacing: 0.5px !important;
+    color: #333 !important;
+    transition: color 0.3s ease !important;
+}
+.main-header .nav-link:hover {
+    color: #e63946 !important; /* Accent color */
+}
+
+/* Floating Property Cards */
+.property-box {
+    background: #ffffff !important;
+    border-radius: 20px !important;
+    border: none !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06) !important;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
+    overflow: hidden !important;
+    margin-bottom: 30px !important;
+}
+
+.property-box:hover {
+    transform: translateY(-8px) !important;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12) !important;
+}
+
+.property-box .property-thumbnail img {
+    border-radius: 20px 20px 0 0 !important;
+    transition: transform 0.5s ease !important;
+}
+
+.property-box:hover .property-thumbnail img {
+    transform: scale(1.05) !important;
+}
+
+.property-box .detail {
+    padding: 25px 20px !important;
+}
+
+.property-box .title a {
+    font-size: 1.15rem !important;
+    font-weight: 600 !important;
+    color: #1a1a1a !important;
+}
+
+.property-box .location {
+    color: #666 !important;
+    font-weight: 400 !important;
+    margin-top: 8px !important;
+    margin-bottom: 15px !important;
+}
+
+.property-box .facilities-list {
+    border-top: 1px solid rgba(0,0,0,0.05) !important;
+    padding-top: 15px !important;
+    margin-top: 15px !important;
+}
+
+.property-box .facilities-list li {
+    font-size: 0.9rem !important;
+    color: #555 !important;
+    font-weight: 500 !important;
+}
+
+.property-box .facilities-list i {
+    color: #e63946 !important;
+}
+
+/* Price Tag Floating Bubble */
+.price-ratings-box {
+    background: rgba(230, 57, 70, 0.9) !important;
+    backdrop-filter: blur(5px) !important;
+    border-radius: 30px !important;
+    padding: 8px 16px !important;
+    box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3) !important;
+    bottom: 15px !important;
+    left: 15px !important;
+    top: auto !important;
+    right: auto !important;
+}
+
+.price-ratings-box .price {
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+    margin: 0 !important;
+    color: #ffffff !important;
+}
+
+/* Modern Pill Buttons */
+.btn, .button, .btn-2 {
+    border-radius: 50px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.5px !important;
+    padding: 10px 24px !important;
+    text-transform: none !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+    transition: all 0.3s ease !important;
+}
+
+.btn:hover, .button:hover, .btn-2:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
+}
+
+/* Modern Inputs / Search Boxes */
+.form-control, .search-fields {
+    border-radius: 30px !important;
+    border: 1px solid rgba(0,0,0,0.1) !important;
+    padding: 12px 20px !important;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02) !important;
+    transition: all 0.3s ease !important;
+}
+
+.form-control:focus, .search-fields:focus {
+    box-shadow: 0 0 0 4px rgba(230, 57, 70, 0.15) !important;
+    border-color: #e63946 !important;
+}
+
+/* Carousel/Banner Text Update */
+.banner-info2 h3 {
+    font-weight: 700 !important;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.4) !important;
+}
+.banner-info2 p {
+    font-weight: 400 !important;
+    font-size: 1.2rem !important;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.4) !important;
+}
+
+/* Premium Glassmorphic Sub-Banner Design */
+.sub-banner {
+    padding: 160px 0 120px !important;
+    min-height: 380px !important;
+    display: flex !important;
+    align-items: center !important;
+    background-size: cover !important;
+    background-position: center center !important;
+    position: relative !important;
+    overflow: hidden !important;
+    box-shadow: inset 0 -30px 40px -20px rgba(0,0,0,0.6) !important;
+}
+
+/* Subtle, clear gradient to replace dull dark purple overlay */
+.sub-banner:before {
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.45) 0%, rgba(15, 23, 42, 0.15) 50%, rgba(15, 23, 42, 0.55) 100%) !important;
+    opacity: 1 !important;
+    z-index: 1 !important;
+    backdrop-filter: blur(1px) !important;
+}
+
+.sub-banner .container {
+    position: relative !important;
+    z-index: 2 !important;
+}
+
+/* Floating Glassmorphic Title Card for Inner Pages */
+.sub-banner .breadcrumb-area,
+.sub-banner h1, 
+.sub-banner h2 {
+    position: relative !important;
+    z-index: 2 !important;
+}
+
+.sub-banner h1 {
+    font-size: 2.75rem !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.5px !important;
+    color: #ffffff !important;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.6) !important;
+    margin-bottom: 12px !important;
+}
+
+.sub-banner .breadcrumb-area ul {
+    background: rgba(255, 255, 255, 0.15) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    padding: 10px 24px !important;
+    border-radius: 50px !important;
+    border: 1px solid rgba(255, 255, 255, 0.25) !important;
+    display: inline-flex !important;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2) !important;
+}
+
+.sub-banner .breadcrumb-area ul li a, 
+.sub-banner .breadcrumb-area ul li span,
+.sub-banner .breadcrumb-area ul li {
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    font-size: 0.95rem !important;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5) !important;
+}
+
+.sub-banner .breadcrumb-area ul li a:hover {
+    color: #e63946 !important;
+}
+
+/* =========================================================
+   Homepage Sections Row Layout Controls
+   ========================================================= */
+
+/* 1. Featured Projects: Single Horizontal Row Slider */
+.section-featured-projects .slide-container,
+.section-featured-projects .custom-slider {
+    padding: 20px 30px 35px !important;
+    /* Let Slick slider handle its own block layout */
+}
+
+/* Add margin to wrapper to create gap without overriding slick widths */
+.section-featured-projects .slide-container .wrapper {
+    margin: 0 15px !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+}
+
+.section-featured-projects .slide-container::-webkit-scrollbar {
+    height: 6px;
+}
+.section-featured-projects .slide-container::-webkit-scrollbar-thumb {
+    background: rgba(230, 57, 70, 0.4);
+    border-radius: 10px;
+}
+
+.section-featured-projects .cardImage {
+    padding: 0 !important;
+}
+
+/* 2. Featured Properties: Exactly 1 Horizontal Line (Max 4 items visible in 4x1 grid) */
+.section-featured-properties .row {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0 !important; /* Keep gap 0 because columns have padding */
+}
+
+.section-featured-properties .row > [class*="col-"] {
+    flex: 0 0 25% !important;
+    max-width: 25% !important;
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+    margin-bottom: 20px !important; /* Added margin for spacing */
+}
+
+@media (max-width: 1200px) {
+    .section-featured-properties .row > [class*="col-"] {
+        flex: 0 0 33.333% !important;
+        max-width: 33.333% !important;
+    }
+}
+@media (max-width: 768px) {
+    .section-featured-properties .row > [class*="col-"] {
+        flex: 0 0 50% !important;
+        max-width: 50% !important;
+    }
+}
+@media (max-width: 576px) {
+    .section-featured-properties .row > [class*="col-"] {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
+}
+
+/* Hide extra items after index 4 in Featured Properties to make it a SINGLE horizontal line */
+.section-featured-properties .row > [class*="col-"]:nth-child(n+5) {
+    display: none !important;
+}
+
+/* 3. Recent Properties: Single Horizontal Line Slider */
+.section-recent-properties .recent-properties-slider,
+.section-recent-properties .slide-container {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    scroll-behavior: smooth !important;
+    padding: 20px 30px 35px !important;
+    gap: 30px !important; /* Spacing between items */
+    justify-content: flex-start !important;
+    -webkit-overflow-scrolling: touch !important;
+}
+
+/* For native flex slider, wrapper defines item width */
+.section-recent-properties .slide-container .wrapper {
+    flex: 0 0 auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+}
+
+.section-recent-properties .recent-properties-slider::-webkit-scrollbar {
+    height: 6px;
+}
+.section-recent-properties .recent-properties-slider::-webkit-scrollbar-thumb {
+    background: rgba(230, 57, 70, 0.4);
+    border-radius: 10px;
+}
+
+
+
+.section-recent-properties .cardImage {
+    padding: 0 !important;
+}
+
+.section-recent-properties .property-box {
+    width: 100% !important;
+}
+
+/* Stylish View All Buttons below each section */
+.pagination-box {
+    margin-top: 25px !important;
+    margin-bottom: 40px !important;
+}
+
+.pagination-box .btn-warning,
+.pagination-box .btn {
+    background: linear-gradient(135deg, #e63946 0%, #d62839 100%) !important;
+    color: #ffffff !important;
+    border: none !important;
+    padding: 12px 32px !important;
+    border-radius: 50px !important;
+    font-weight: 700 !important;
+    font-size: 0.95rem !important;
+    letter-spacing: 0.5px !important;
+    box-shadow: 0 6px 20px rgba(230, 57, 70, 0.35) !important;
+    transition: all 0.3s ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+.pagination-box .btn-warning:hover,
+.pagination-box .btn:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 10px 28px rgba(230, 57, 70, 0.5) !important;
+    background: linear-gradient(135deg, #f04352 0%, #e63946 100%) !important;
+    color: #ffffff !important;
+}
+

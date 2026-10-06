@@ -2,29 +2,86 @@ import React from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Login from './pages/Login.jsx'
 import Home from './pages/Home.jsx'
+import LeadsDashboard from './pages/LeadsDashboard.jsx'
+import DashboardOverview from './pages/DashboardOverview.jsx'
+import DashboardAnalytics from './pages/DashboardAnalytics.jsx'
+import DashboardProperties from './pages/DashboardProperties.jsx'
+import {
+  DashboardProjects,
+  DashboardDailyReport,
+  DashboardFinance,
+  DashboardTransactions,
+  DashboardMyAccount,
+  DashboardUsers,
+  DashboardAttendance,
+  DashboardJobs,
+  DashboardApplications,
+  DashboardMedia,
+  DashboardSliders,
+  DashboardOffers,
+  DashboardReviews,
+  DashboardContact,
+  DashboardUsersSequence,
+  DashboardFAQ,
+  DashboardHelp
+} from './pages/DashboardSubPages.jsx'
 
 /**
- * App.jsx — root component.
- * Defines React Router routes:
- *   /login  → Login page
- *   /home   → Home page (protected: redirects to /login if not authenticated)
- *   /       → redirects to /login
+ * App.jsx — Complete application routing.
  */
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Default route → Login */}
-        <Route path="/" element={<Navigate to="/login" replace />} />
+        {/* Default route → Login Page */}
+        <Route path="/" element={<Login />} />
 
-        {/* Login page */}
+        {/* Sai Reality Login & Register */}
         <Route path="/login" element={<Login />} />
 
-        {/* Home page — guarded: must be logged in */}
-        <Route
-          path="/home"
-          element={<PrivateRoute><Home /></PrivateRoute>}
-        />
+        {/* Sai Reality Home Website */}
+        <Route path="/home" element={<Home />} />
+
+        {/* CRM Dashboard: Dashboards */}
+        <Route path="/dashboard" element={<DashboardOverview />} />
+        <Route path="/dashboard/leads/all" element={<LeadsDashboard />} />
+        <Route path="/dashboard/leads" element={<Navigate to="/dashboard/leads/all" replace />} />
+        <Route path="/leads-dashboard" element={<Navigate to="/dashboard/leads/all" replace />} />
+        <Route path="/dashboard/properties" element={<DashboardProperties />} />
+        <Route path="/dashboard/projects" element={<DashboardProjects />} />
+        <Route path="/dashboard/daily-report" element={<DashboardDailyReport />} />
+
+        {/* CRM Dashboard: Finance & Accounting */}
+        <Route path="/dashboard/finance-overview" element={<DashboardFinance />} />
+        <Route path="/dashboard/transactions" element={<DashboardTransactions filter="All" />} />
+        <Route path="/dashboard/transactions/income" element={<DashboardTransactions filter="Income" />} />
+        <Route path="/dashboard/transactions/expenses" element={<DashboardTransactions filter="Expenses" />} />
+
+        {/* CRM Dashboard: Master */}
+        <Route path="/dashboard/my-account" element={<DashboardMyAccount />} />
+        <Route path="/dashboard/users" element={<DashboardUsers />} />
+        <Route path="/dashboard/users/attendance" element={<DashboardAttendance />} />
+        <Route path="/dashboard/jobs" element={<DashboardJobs />} />
+        <Route path="/dashboard/jobs/applications" element={<DashboardApplications />} />
+
+        {/* CRM Dashboard: Others */}
+        <Route path="/dashboard/media-gallery" element={<DashboardMedia />} />
+        <Route path="/dashboard/website-slider" element={<DashboardSliders />} />
+        <Route path="/dashboard/website-offer" element={<DashboardOffers />} />
+        <Route path="/dashboard/reviews" element={<DashboardReviews />} />
+        <Route path="/dashboard/contact" element={<DashboardContact />} />
+        <Route path="/dashboard/users-sequence" element={<DashboardUsersSequence />} />
+        <Route path="/dashboard/gcode" element={<DashboardAnalytics />} />
+        <Route path="/dashboard/analytics" element={<DashboardAnalytics />} />
+
+        {/* CRM Dashboard: Support */}
+        <Route path="/dashboard/faq" element={<DashboardFAQ />} />
+        <Route path="/dashboard/help" element={<DashboardHelp />} />
+
+        {/* Auth & Logout Routes */}
+        <Route path="/dashboard/user-login" element={<Navigate to="/login" replace />} />
+        <Route path="/dashboard/user-login/*" element={<Navigate to="/login" replace />} />
+        <Route path="/dashboard/user-logout" element={<Logout />} />
 
         {/* Catch-all → Login */}
         <Route path="*" element={<Navigate to="/login" replace />} />
@@ -34,12 +91,14 @@ function App() {
 }
 
 /**
- * PrivateRoute — wraps a component and redirects to /login
- * if the user is not authenticated (no sessionStorage flag set).
+ * Logout component — clears session storage and redirects to /login
  */
-function PrivateRoute({ children }) {
-  const isLoggedIn = sessionStorage.getItem('cp_logged_in') === 'true'
-  return isLoggedIn ? children : <Navigate to="/login" replace />
+function Logout() {
+  React.useEffect(() => {
+    sessionStorage.removeItem('cp_logged_in');
+    sessionStorage.removeItem('cp_user');
+  }, []);
+  return <Navigate to="/login" replace />;
 }
 
 export default App

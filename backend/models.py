@@ -24,3 +24,19 @@ class User(Base):
     budget = Column(String(100), nullable=True)
 
     created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+
+class Lead(Base):
+    __tablename__ = "leads"
+
+    id = Column(Integer, primary_key=True, index=True)
+    full_name = Column(String(150), nullable=False)
+    phone = Column(String(30), nullable=False)
+    email = Column(String(150), nullable=True)
+    visit_date = Column(String(50), nullable=True)
+    property_name = Column(String(200), nullable=False)
+    budget = Column(String(100), nullable=True)
+    status = Column(String(50), default="New")  # 'New', 'Contacted', 'Converted', 'Closed'
+    notes = Column(String(500), nullable=True)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+

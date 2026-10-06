@@ -1,0 +1,189 @@
+.launcherBtn {
+  position: fixed;
+  bottom: 25px;
+  left: 25px;
+  z-index: 999;
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  box-shadow: 0 4px 15px rgba(30, 60, 114, 0.4);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.launcherBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(30, 60, 114, 0.6);
+}
+
+.icon {
+  font-size: 18px;
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 10000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalCard {
+  background: #ffffff;
+  width: 90%;
+  max-width: 480px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.modalHeader {
+  background: #1e3c72;
+  color: #fff;
+  padding: 18px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modalHeader h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.closeBtn {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.modalBody {
+  padding: 24px;
+}
+
+.inputGroup {
+  margin-bottom: 20px;
+}
+
+.labelRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.valueDisplay {
+  color: #1e3c72;
+  font-weight: 700;
+}
+
+input[type="range"] {
+  width: 100%;
+  accent-color: #1e3c72;
+  cursor: pointer;
+}
+
+.rangeLabels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #888;
+  margin-top: 4px;
+}
+
+.resultsCard {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 24px;
+}
+
+.mainEMI {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.emiTitle {
+  font-size: 13px;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.emiAmount {
+  font-size: 26px;
+  font-weight: 800;
+  color: #1e3c72;
+  margin-top: 4px;
+}
+
+.progressBar {
+  height: 10px;
+  background: #e2e8f0;
+  border-radius: 5px;
+  display: flex;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.principalFill {
+  background: #1e3c72;
+}
+
+.interestFill {
+  background: #f59e0b;
+}
+
+.breakdownDetails {
+  display: flex;
+  justify-content: space-around;
+  font-size: 13px;
+  color: #475569;
+}
+
+.detailItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.principalDot {
+  background: #1e3c72;
+}
+
+.interestDot {
+  background: #f59e0b;
+}

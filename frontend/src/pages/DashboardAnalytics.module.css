@@ -1,0 +1,127 @@
+.analyticsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.pageTitle {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0 0 10px 0;
+  color: #212529;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 25px;
+}
+
+.card {
+  background: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+}
+
+.fullWidth {
+  grid-column: 1 / -1;
+}
+
+.cardTitle {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #343a40;
+  margin: 0;
+  border-bottom: 1px solid #f8f9fa;
+  padding-bottom: 15px;
+}
+
+/* Funnel CSS */
+.funnelContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 0;
+}
+
+.funnelStep {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 25px;
+  background: var(--bg-color);
+  color: white;
+  font-weight: 700;
+  border-radius: 4px;
+}
+
+.funnelStep:nth-child(1) { width: 100%; --bg-color: #007bff; }
+.funnelStep:nth-child(2) { width: 80%; --bg-color: #17a2b8; }
+.funnelStep:nth-child(3) { width: 60%; --bg-color: #28a745; }
+.funnelStep:nth-child(4) { width: 40%; --bg-color: #dc3545; }
+
+.stepLabel {
+  font-size: 1rem;
+}
+
+.stepValue {
+  font-size: 1.2rem;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+/* Horizontal Bars */
+.barChart {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.barRow {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.barLabel {
+  width: 100px;
+  color: #495057;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.barTrack {
+  flex: 1;
+  height: 20px;
+  background: #e9ecef;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.barFill {
+  height: 100%;
+  border-radius: 10px;
+  background: var(--bar-color);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 10px;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

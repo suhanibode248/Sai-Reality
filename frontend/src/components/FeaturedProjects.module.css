@@ -1,98 +1,348 @@
-/* FeaturedProjects.module.css — Royal Blue & Gold Theme */
-.section { padding: 80px 20px; background: #fff; }
-.container { max-width: 1200px; margin: 0 auto; }
-.sectionHead { text-align: center; margin-bottom: 48px; }
-.sectionTitle { font-family: 'Poppins', sans-serif; font-size: 2rem; font-weight: 700; color: #0D1B2A; margin: 0 0 8px; }
-.sectionTitle span { color: #1E3A8A; }
-.sectionSub { font-size: 15px; color: #777; margin: 0; }
-
-.scrollWrapper {
-  display: flex;
-  gap: 24px;
-  overflow-x: auto;
-  padding-bottom: 12px;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
+.section {
+  padding: 40px 20px;
+  background: #f8fafc;
+  font-family: 'Open Sans', sans-serif;
 }
-.scrollWrapper::-webkit-scrollbar { height: 5px; }
-.scrollWrapper::-webkit-scrollbar-track { background: #f0f0f0; border-radius: 4px; }
-.scrollWrapper::-webkit-scrollbar-thumb { background: #D4AF37; border-radius: 4px; }
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.sectionHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 20px;
+}
+
+.sectionTitle {
+  font-size: 26px;
+  font-weight: 800;
+  color: #234e70;
+  margin: 0 0 6px 0;
+}
+
+.sectionTitle span {
+  color: #0e8744;
+}
+
+.sectionSub {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0;
+}
+
+.mapToggleBtn {
+  background: #e5eaf1;
+  color: #234e70;
+  border: 1px solid #234e70;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mapToggleBtn:hover, .activeMap {
+  background: #234e70;
+  color: #fff;
+}
+
+/* Filter Bar */
+.filterBar {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  background: #ffffff;
+  padding: 14px 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.toggleLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #334155;
+  cursor: pointer;
+  user-select: none;
+}
+
+.toggleLabel input[type="checkbox"] {
+  accent-color: #0e8744;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+/* Cards Grid */
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 24px;
+}
 
 .card {
-  flex: 0 0 300px;
-  scroll-snap-align: start;
-  border-radius: 14px;
+  background: #ffffff;
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.09);
-  background: #fff;
-  border: 1px solid #f0f0f0;
-  transition: transform 0.25s, box-shadow 0.25s;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e2e8f0;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
 .card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 32px rgba(30,58,138,0.15);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
 }
 
 .imgBlock {
+  height: 160px;
+  background: linear-gradient(135deg, #234e70 0%, #0e8744 100%);
   position: relative;
-  height: 190px;
-  background: linear-gradient(135deg, #0D1B2A, #1E3A8A);
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
-.imgPlaceholder { font-size: 3rem; color: rgba(212,175,55,0.45); }
 
-.badge {
+.buildingIcon {
+  font-size: 54px;
+}
+
+.reelBadge {
   position: absolute;
   top: 12px;
   left: 12px;
-  font-size: 11px;
-  font-weight: 700;
-  padding: 4px 10px;
-  border-radius: 20px;
-}
-.badgeFeatured { background: #D4AF37; color: #0D1B2A; }
-.badgeReady    { background: #28a745; color: #fff; }
-.badgeUnder    { background: #1E3A8A; color: #fff; }
-.badgeDefault  { background: #6c757d; color: #fff; }
-
-.priceBadge {
-  position: absolute;
-  bottom: 12px;
-  left: 12px;
-  background: rgba(0,0,0,0.72);
-  color: #D4AF37;
-  font-size: 13px;
-  font-weight: 700;
-  padding: 4px 12px;
-  border-radius: 4px;
-}
-
-.cardBody { padding: 20px; }
-.projTitle    { font-family: 'Poppins', sans-serif; font-size: 15px; font-weight: 700; color: #0D1B2A; margin: 0 0 6px; }
-.projLocation { font-size: 13px; color: #888; margin: 0 0 10px; }
-.projLocation i { color: #D4AF37; margin-right: 4px; }
-
-.meta { border-top: 1px solid #f0f0f0; padding-top: 10px; font-size: 13px; color: #666; margin-bottom: 14px; }
-.meta i { color: #1E3A8A; margin-right: 4px; }
-
-.detailBtn {
-  background: #1E3A8A;
+  background: linear-gradient(90deg, #ff007f, #7928ca);
   color: #fff;
   border: none;
-  border-radius: 6px;
-  padding: 9px 0;
-  width: 100%;
-  font-size: 13px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
   font-weight: 700;
   cursor: pointer;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
-  transition: background 0.2s, color 0.2s;
+  gap: 4px;
 }
-.detailBtn:hover { background: #D4AF37; color: #0D1B2A; }
 
-@media (max-width: 480px) { .card { flex: 0 0 260px; } }
+.pulseDot {
+  width: 6px;
+  height: 6px;
+  background: #fff;
+  border-radius: 50%;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.4; }
+  50% { opacity: 1; }
+  100% { opacity: 0.4; }
+}
+
+.possessionBadge {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background: #e7f3ec;
+  color: #0e8744;
+  border: 1px solid #4caf50;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+.cardBody {
+  padding: 18px;
+}
+
+.cardHeaderRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 6px;
+}
+
+.projTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #234e70;
+  margin: 0;
+}
+
+.builderName {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.priceBox {
+  text-align: right;
+}
+
+.priceVal {
+  display: block;
+  font-size: 16px;
+  font-weight: 800;
+  color: #234e70;
+}
+
+.priceTag {
+  font-size: 10px;
+  color: #64748b;
+}
+
+.projLocation {
+  font-size: 13px;
+  color: #475569;
+  margin: 6px 0 12px 0;
+}
+
+.areaText {
+  font-weight: 600;
+  color: #234e70;
+}
+
+/* Config Table */
+.configTableBox {
+  background: #ecf1f8;
+  border-radius: 8px;
+  padding: 8px;
+  margin-bottom: 16px;
+}
+
+.tableScroll {
+  max-height: 80px;
+  overflow-y: auto;
+}
+
+.configRow {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 6px;
+  font-size: 12px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  font-weight: 600;
+  color: #234e70;
+}
+
+.configRow:last-child {
+  border-bottom: none;
+}
+
+.cfgBhk { width: 35%; }
+.cfgSize { width: 35%; color: #475569; }
+.cfgPrice { width: 30%; text-align: right; font-weight: 700; }
+
+/* Dual Action Buttons */
+.actionRow {
+  display: flex;
+  gap: 10px;
+}
+
+.tourBtn {
+  flex: 1;
+  background: #234e70;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.tourBtn:hover {
+  background: #183852;
+}
+
+.chatBtn {
+  flex: 1;
+  background: #0e8744;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 13px;
+  text-decoration: none;
+  text-align: center;
+  transition: background 0.2s;
+}
+
+.chatBtn:hover {
+  background: #096130;
+}
+
+/* Map Container Placeholder */
+.mapContainer {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 60px 20px;
+  text-align: center;
+  border: 2px dashed #cbd5e1;
+}
+
+.mapPlaceholder h3 {
+  color: #234e70;
+  margin: 10px 0 6px 0;
+}
+
+.mapPlaceholder p {
+  color: #64748b;
+  font-size: 14px;
+}
+
+/* Reel Modal */
+.reelOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 10000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.reelModal {
+  background: #0f172a;
+  color: #fff;
+  padding: 24px;
+  border-radius: 16px;
+  width: 320px;
+  text-align: center;
+  position: relative;
+}
+
+.closeReel {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.reelVideoBox {
+  background: #1e293b;
+  height: 380px;
+  margin-top: 14px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 700;
+}

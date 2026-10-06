@@ -1,0 +1,49 @@
+/* Minimal CSS overrides for Velzon-styled dashboard elements */
+
+.iconCirclePrimary {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  background-color: rgba(64, 81, 137, 0.1);
+  color: #405189;
+}
+
+.iconCircleInfo {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  background-color: rgba(41, 156, 219, 0.1);
+  color: #299cdb;
+}
+
+.iconCircleWarning {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  background-color: rgba(247, 184, 75, 0.1);
+  color: #f7b84b;
+}
+
+.iconCircleSuccess {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  background-color: rgba(10, 179, 156, 0.1);
+  color: #0ab39c;
+}

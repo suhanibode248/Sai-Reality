@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AIAgentWidget from '../components/AIAgentWidget';
+import EMICalculatorModal from '../components/EMICalculatorModal';
+import BookVisitModal from '../components/BookVisitModal';
+import VirtualTourModal from '../components/VirtualTourModal';
 
 function Home() {
   const navigate = useNavigate();
@@ -16,6 +19,8 @@ function Home() {
             sessionStorage.removeItem('cp_logged_in');
             sessionStorage.removeItem('cp_user');
             navigate('/login');
+        } else if (e.data === 'go_to_dashboard') {
+            navigate('/dashboard/leads/all');
         }
     };
     window.addEventListener('message', handleMessage);
@@ -34,6 +39,9 @@ function Home() {
           title="Sai Reality Homepage"
       />
       <AIAgentWidget />
+      <EMICalculatorModal />
+      <BookVisitModal />
+      <VirtualTourModal />
     </div>
   );
 }

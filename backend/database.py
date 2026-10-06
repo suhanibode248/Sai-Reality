@@ -79,6 +79,22 @@ def init_db():
         Base.metadata.create_all(bind=engine)
         logger.info("Database tables initialized successfully.")
 
+        # Ensure SQLite columns exist for leads table
+        with engine.connect() as conn:
+            try:
+                from sqlalchemy import text
+                # Try selecting new columns; if error occurs, add missing columns
+                conn.execute(text("SELECT email FROM leads LIMIT 1"))
+            except Exception:
+                try:
+                    conn.execute(text("ALTER TABLE leads ADD COLUMN email VARCHAR(150)"))
+                    conn.execute(text("ALTER TABLE leads ADD COLUMN budget VARCHAR(100)"))
+                    conn.execute(text("ALTER TABLE leads ADD COLUMN status VARCHAR(50) DEFAULT 'New'"))
+                    conn.execute(text("ALTER TABLE leads ADD COLUMN notes VARCHAR(500)"))
+                    conn.commit()
+                except Exception as ex:
+                    logger.warning(f"Column alter notice: {ex}")
+
         # Seed default admin user
         db = SessionLocal()
         try:

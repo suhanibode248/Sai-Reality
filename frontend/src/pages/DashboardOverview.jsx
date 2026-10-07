@@ -771,13 +771,17 @@ const DashboardOverview = () => {
                 </div>
                 <div className="row g-2 mb-3">
                   <div className="col-6">
-                    <label className="form-label fw-bold" style={{ fontSize: '12.5px' }}>Phone Number *</label>
+                    <label className="form-label fw-bold" style={{ fontSize: '12.5px' }}>Primary Phone *</label>
                     <input required name="phone" type="text" className="form-control form-control-sm" defaultValue={editingLead.phone} />
                   </div>
                   <div className="col-6">
-                    <label className="form-label fw-bold" style={{ fontSize: '12.5px' }}>Email Address</label>
-                    <input name="email" type="email" className="form-control form-control-sm" defaultValue={editingLead.email} />
+                    <label className="form-label fw-bold" style={{ fontSize: '12.5px' }}>Secondary Phone *</label>
+                    <input required name="phone2" type="text" className="form-control form-control-sm" defaultValue={editingLead.phone2 || ''} />
                   </div>
+                </div>
+                <div className="mb-3">
+                  <label className="form-label fw-bold" style={{ fontSize: '12.5px' }}>Email Address</label>
+                  <input name="email" type="email" className="form-control form-control-sm" defaultValue={editingLead.email} />
                 </div>
                 <div className="row g-2 mb-3">
                   <div className="col-6">

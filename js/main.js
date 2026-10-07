@@ -7,14 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
     /* -------------------------------------------------------
        1. Popup Callback Modal – shows after 4s (once per session)
     ------------------------------------------------------- */
-    const callbackModal = document.getElementById('callbackModal');
-    if (callbackModal && !sessionStorage.getItem('modalShown')) {
-        setTimeout(function () {
-            const bsModal = new bootstrap.Modal(callbackModal);
-            bsModal.show();
-            sessionStorage.setItem('modalShown', '1');
-        }, 4000);
-    }
+    // callbackModal auto popup removed
 
     /* -------------------------------------------------------
        2. Login / Register Toggle  (login.html)

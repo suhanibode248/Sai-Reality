@@ -365,7 +365,7 @@ function RegisterSection({ setMessage, setLeftKey, switchToLogin, navigate }) {
 ═══════════════════════════════════════════════════════════ */
 function LandlordForm({ setMessage, goBack, switchToLogin, navigate }) {
   const [form, setForm] = useState({
-    fullName: '', phone: '', email: '',
+    fullName: '', phone: '', phone2: '', email: '',
     propertyType: '', numProperties: '', location: '', purpose: '',
     password: '', confirmPassword: '', terms: false,
   })
@@ -377,7 +377,7 @@ function LandlordForm({ setMessage, goBack, switchToLogin, navigate }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    if (!form.fullName || !form.phone || !form.email || !form.propertyType || !form.password) {
+    if (!form.fullName || !form.phone || !form.phone2 || !form.email || !form.propertyType || !form.password) {
       setMessage({ type: 'error', text: 'Please fill in all required fields.' }); return
     }
     if (form.password.length < 6) {
@@ -395,7 +395,7 @@ function LandlordForm({ setMessage, goBack, switchToLogin, navigate }) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          full_name: form.fullName, phone: form.phone, email: form.email,
+          full_name: form.fullName, phone: form.phone, phone2: form.phone2, email: form.email,
           role: 'Landlord', property_type: form.propertyType,
           num_properties: form.numProperties, location: form.location,
           purpose: form.purpose, password: form.password,
@@ -428,14 +428,19 @@ function LandlordForm({ setMessage, goBack, switchToLogin, navigate }) {
           <FormField label="Full Name *" icon="fa-user">
             <input type="text" className={styles.input} placeholder="Your full name" value={form.fullName} onChange={set('fullName')} disabled={loading} />
           </FormField>
-          <FormField label="Phone Number *" icon="fa-phone">
-            <input type="tel" className={styles.input} placeholder="10-digit mobile number" maxLength={10} value={form.phone} onChange={set('phone')} disabled={loading} />
+          <FormField label="Primary Phone *" icon="fa-phone">
+            <input type="tel" className={styles.input} placeholder="10-digit primary phone" maxLength={10} value={form.phone} onChange={set('phone')} disabled={loading} />
           </FormField>
         </div>
 
-        <FormField label="Email Address *" icon="fa-envelope">
-          <input type="email" className={styles.input} placeholder="Enter your email address" value={form.email} onChange={set('email')} disabled={loading} />
-        </FormField>
+        <div className={styles.row2}>
+          <FormField label="Secondary Phone *" icon="fa-phone">
+            <input type="tel" className={styles.input} placeholder="10-digit secondary phone" maxLength={10} value={form.phone2} onChange={set('phone2')} disabled={loading} />
+          </FormField>
+          <FormField label="Email Address *" icon="fa-envelope">
+            <input type="email" className={styles.input} placeholder="Enter your email address" value={form.email} onChange={set('email')} disabled={loading} />
+          </FormField>
+        </div>
 
         <div className={styles.row2}>
           <FormField label="Property Type *" icon="fa-home">
@@ -509,7 +514,7 @@ function LandlordForm({ setMessage, goBack, switchToLogin, navigate }) {
 ═══════════════════════════════════════════════════════════ */
 function TenantForm({ setMessage, goBack, switchToLogin, navigate }) {
   const [form, setForm] = useState({
-    fullName: '', phone: '', email: '',
+    fullName: '', phone: '', phone2: '', email: '',
     lookingFor: '', propertyType: '', location: '', budget: '',
     password: '', confirmPassword: '', terms: false,
   })
@@ -521,7 +526,7 @@ function TenantForm({ setMessage, goBack, switchToLogin, navigate }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    if (!form.fullName || !form.phone || !form.email || !form.password) {
+    if (!form.fullName || !form.phone || !form.phone2 || !form.email || !form.password) {
       setMessage({ type: 'error', text: 'Please fill in all required fields.' }); return
     }
     if (form.password.length < 6) {
@@ -539,7 +544,7 @@ function TenantForm({ setMessage, goBack, switchToLogin, navigate }) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          full_name: form.fullName, phone: form.phone, email: form.email,
+          full_name: form.fullName, phone: form.phone, phone2: form.phone2, email: form.email,
           role: 'Tenant', looking_for: form.lookingFor,
           property_type: form.propertyType, location: form.location,
           budget: form.budget, password: form.password,
@@ -572,14 +577,19 @@ function TenantForm({ setMessage, goBack, switchToLogin, navigate }) {
           <FormField label="Full Name *" icon="fa-user">
             <input type="text" className={styles.input} placeholder="Your full name" value={form.fullName} onChange={set('fullName')} disabled={loading} />
           </FormField>
-          <FormField label="Phone Number *" icon="fa-phone">
-            <input type="tel" className={styles.input} placeholder="10-digit mobile number" maxLength={10} value={form.phone} onChange={set('phone')} disabled={loading} />
+          <FormField label="Primary Phone *" icon="fa-phone">
+            <input type="tel" className={styles.input} placeholder="10-digit primary phone" maxLength={10} value={form.phone} onChange={set('phone')} disabled={loading} />
           </FormField>
         </div>
 
-        <FormField label="Email Address *" icon="fa-envelope">
-          <input type="email" className={styles.input} placeholder="Enter your email address" value={form.email} onChange={set('email')} disabled={loading} />
-        </FormField>
+        <div className={styles.row2}>
+          <FormField label="Secondary Phone *" icon="fa-phone">
+            <input type="tel" className={styles.input} placeholder="10-digit secondary phone" maxLength={10} value={form.phone2} onChange={set('phone2')} disabled={loading} />
+          </FormField>
+          <FormField label="Email Address *" icon="fa-envelope">
+            <input type="email" className={styles.input} placeholder="Enter your email address" value={form.email} onChange={set('email')} disabled={loading} />
+          </FormField>
+        </div>
 
         <div className={styles.row2}>
           <FormField label="Looking For *" icon="fa-search">

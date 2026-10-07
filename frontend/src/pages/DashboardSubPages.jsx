@@ -692,7 +692,7 @@ export function DashboardFinance() {
         <div className="col-xl-3 col-md-6">
           <div className="card border-0 shadow-sm p-3 bg-white" style={{ borderRadius: '8px', borderLeft: '4px solid #ef4444' }}>
             <small className="text-muted fw-bold" style={{ fontSize: '11px' }}>TOTAL EXPENSES</small>
-            <h3 className="fw-bold my-1 text-danger">₹ 14,20,000</h3>
+            <h3 className="fw-bold my-1" style={{ color: '#0B1F4B' }}>₹ 14,20,000</h3>
             <small className="text-muted">Marketing &amp; Office</small>
           </div>
         </div>
@@ -1138,9 +1138,15 @@ export function DashboardUsers() {
                 <label className="form-label small fw-bold mb-1">Email Address*</label>
                 <input type="email" required className="form-control form-control-sm" placeholder="vikas@sairealty.in" value={newUser.email} onChange={e => setNewUser({...newUser, email: e.target.value})} />
               </div>
-              <div className="mb-2">
-                <label className="form-label small fw-bold mb-1">Phone Number*</label>
-                <input type="text" required className="form-control form-control-sm" placeholder="+91 9876543210" value={newUser.phone} onChange={e => setNewUser({...newUser, phone: e.target.value})} />
+              <div className="row g-2 mb-2">
+                <div className="col-6">
+                  <label className="form-label small fw-bold mb-1">Primary Phone*</label>
+                  <input type="text" required className="form-control form-control-sm" placeholder="+91 9876543210" value={newUser.phone} onChange={e => setNewUser({...newUser, phone: e.target.value})} />
+                </div>
+                <div className="col-6">
+                  <label className="form-label small fw-bold mb-1">Secondary Phone*</label>
+                  <input type="text" required className="form-control form-control-sm" placeholder="+91 9876543211" value={newUser.phone2 || ''} onChange={e => setNewUser({...newUser, phone2: e.target.value})} />
+                </div>
               </div>
               <div className="row g-2 mb-3">
                 <div className="col-6">
@@ -1188,9 +1194,15 @@ export function DashboardUsers() {
                 <label className="form-label small fw-bold mb-1">Email Address*</label>
                 <input type="email" required className="form-control form-control-sm" value={editingUser.email} onChange={e => setEditingUser({...editingUser, email: e.target.value})} />
               </div>
-              <div className="mb-2">
-                <label className="form-label small fw-bold mb-1">Phone Number*</label>
-                <input type="text" required className="form-control form-control-sm" value={editingUser.phone} onChange={e => setEditingUser({...editingUser, phone: e.target.value})} />
+              <div className="row g-2 mb-2">
+                <div className="col-6">
+                  <label className="form-label small fw-bold mb-1">Primary Phone*</label>
+                  <input type="text" required className="form-control form-control-sm" value={editingUser.phone} onChange={e => setEditingUser({...editingUser, phone: e.target.value})} />
+                </div>
+                <div className="col-6">
+                  <label className="form-label small fw-bold mb-1">Secondary Phone*</label>
+                  <input type="text" required className="form-control form-control-sm" value={editingUser.phone2 || ''} onChange={e => setEditingUser({...editingUser, phone2: e.target.value})} />
+                </div>
               </div>
               <div className="row g-2 mb-2">
                 <div className="col-6">
@@ -2412,8 +2424,12 @@ export function DashboardContact() {
               <input type="text" required className="form-control form-control-sm" value={contactData.whatsapp} onChange={e => setContactData({...contactData, whatsapp: e.target.value})} />
             </div>
             <div className="col-md-6">
-              <label className="form-label small fw-bold mb-1">Phone Number*</label>
+              <label className="form-label small fw-bold mb-1">Primary Phone Number*</label>
               <input type="text" required className="form-control form-control-sm" value={contactData.phone} onChange={e => setContactData({...contactData, phone: e.target.value})} />
+            </div>
+            <div className="col-md-6">
+              <label className="form-label small fw-bold mb-1">Secondary Phone Number*</label>
+              <input type="text" required className="form-control form-control-sm" value={contactData.phone2 || ''} onChange={e => setContactData({...contactData, phone2: e.target.value})} />
             </div>
             <div className="col-md-6">
               <label className="form-label small fw-bold mb-1">Email Address*</label>

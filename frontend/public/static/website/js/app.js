@@ -422,7 +422,7 @@ $(function () {
 
     //slide-container
     (function() {
-        var slideContainer = $('.slide-container');
+        var slideContainer = $('.slide-container').not('.section-featured-projects *').not('.section-recent-properties *');
         slideContainer.slick({
             arrows: false,
             initialSlide:0,

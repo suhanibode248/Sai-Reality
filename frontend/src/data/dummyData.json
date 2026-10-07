@@ -1,0 +1,41 @@
+[
+  {
+    "id": 1,
+    "title": "Luxury 3 BHK Villa in Wagholi",
+    "price": "₹ 1.2 Cr",
+    "location": "Wagholi, Pune",
+    "type": "Villa",
+    "status": "Ready to Move",
+    "bedrooms": 3,
+    "bathrooms": 3,
+    "area_sqft": 2500,
+    "image": "/images/dummy_villa.jpg",
+    "description": "A beautiful 3 BHK luxury villa with modern amenities and a private garden."
+  },
+  {
+    "id": 2,
+    "title": "Spacious 2 BHK Apartment",
+    "price": "₹ 65 Lacs",
+    "location": "Kharadi, Pune",
+    "type": "Apartment",
+    "status": "Under Construction",
+    "bedrooms": 2,
+    "bathrooms": 2,
+    "area_sqft": 1200,
+    "image": "/images/dummy_apt.jpg",
+    "description": "Premium 2 BHK apartment in the heart of Kharadi IT Park with world-class facilities."
+  },
+  {
+    "id": 3,
+    "title": "Commercial Office Space",
+    "price": "₹ 2.5 Cr",
+    "location": "Viman Nagar, Pune",
+    "type": "Commercial",
+    "status": "Ready to Move",
+    "bedrooms": 0,
+    "bathrooms": 2,
+    "area_sqft": 3000,
+    "image": "/images/dummy_office.jpg",
+    "description": "Fully furnished office space suitable for IT startups and corporate branches."
+  }
+]

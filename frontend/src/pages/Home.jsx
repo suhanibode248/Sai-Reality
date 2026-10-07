@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import AIAgentWidget from '../components/AIAgentWidget';
 import EMICalculatorModal from '../components/EMICalculatorModal';
 import BookVisitModal from '../components/BookVisitModal';
-import VirtualTourModal from '../components/VirtualTourModal';
 
 function Home() {
   const navigate = useNavigate();
@@ -41,7 +40,6 @@ function Home() {
       <AIAgentWidget />
       <EMICalculatorModal />
       <BookVisitModal />
-      <VirtualTourModal />
     </div>
   );
 }

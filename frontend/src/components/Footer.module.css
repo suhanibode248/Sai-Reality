@@ -55,3 +55,51 @@
 
 @media (max-width: 900px) { .grid { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
+
+
+/* SEE DETAILS Button Styling */
+.btn-details,
+a.btn-details,
+button.btn-details,
+.btn-details:hover,
+.btn-details:focus,
+.btn-details:active,
+a.btn-details:hover,
+a.btn-details:focus,
+a.btn-details:active,
+button.btn-details:hover,
+button.btn-details:focus,
+button.btn-details:active {
+    background-color: #5C4033 !important;
+    background: #5C4033 !important;
+    border-color: #5C4033 !important;
+    color: #ffffff !important;
+}
+
+
+/* Navy Blue (#0B1F4B) Money & Price Amounts */
+.badge-price {
+    color: #0B1F4B !important;
+    font-weight: 700 !important;
+}
+
+.price-ratings-box {
+    background: #0B1F4B !important;
+    box-shadow: 0 4px 15px rgba(11, 31, 75, 0.35) !important;
+}
+
+.price-ratings-box .price,
+.price-ratings-box .price span {
+    color: #ffffff !important;
+}
+
+.property-price,
+.project-price,
+.slide-price,
+.plan-price,
+.price-tag,
+.priceVal,
+.price-amount,
+.price {
+    color: #0B1F4B !important;
+}

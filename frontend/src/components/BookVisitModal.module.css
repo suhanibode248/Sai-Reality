@@ -144,3 +144,132 @@
   font-size: 14px;
   line-height: 1.5;
 }
+
+.otpContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.otpInput {
+  width: 100%;
+  padding: 14px;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 8px;
+  text-align: center;
+  border: 2px solid #cbd5e1;
+  border-radius: 10px;
+  outline: none;
+  transition: all 0.2s;
+  box-sizing: border-box;
+}
+
+.otpInput:focus {
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+}
+
+.demoBadge {
+  background-color: #ecfdf5;
+  color: #047857;
+  border: 1px dashed #10b981;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.errorText {
+  color: #dc2626;
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.resendRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.secondaryBtn {
+  background: none;
+  border: none;
+  color: #0284c7;
+  font-size: 13px;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 4px;
+}
+
+.secondaryBtn:hover {
+  text-decoration: underline;
+}
+
+.refBadge {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-family: monospace;
+  font-weight: 700;
+  font-size: 14px;
+  color: #0f172a;
+  display: inline-block;
+  margin: 10px 0;
+}
+
+
+/* SEE DETAILS Button Styling */
+.btn-details,
+a.btn-details,
+button.btn-details,
+.btn-details:hover,
+.btn-details:focus,
+.btn-details:active,
+a.btn-details:hover,
+a.btn-details:focus,
+a.btn-details:active,
+button.btn-details:hover,
+button.btn-details:focus,
+button.btn-details:active {
+    background-color: #5C4033 !important;
+    background: #5C4033 !important;
+    border-color: #5C4033 !important;
+    color: #ffffff !important;
+}
+
+
+/* Navy Blue (#0B1F4B) Money & Price Amounts */
+.badge-price {
+    color: #0B1F4B !important;
+    font-weight: 700 !important;
+}
+
+.price-ratings-box {
+    background: #0B1F4B !important;
+    box-shadow: 0 4px 15px rgba(11, 31, 75, 0.35) !important;
+}
+
+.price-ratings-box .price,
+.price-ratings-box .price span {
+    color: #ffffff !important;
+}
+
+.property-price,
+.project-price,
+.slide-price,
+.plan-price,
+.price-tag,
+.priceVal,
+.price-amount,
+.price {
+    color: #0B1F4B !important;
+}

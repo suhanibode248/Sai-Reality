@@ -1,0 +1,1086 @@
+<!doctype html>
+
+<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg"
+    data-sidebar-image="none">
+
+
+<head>
+
+    <meta charset="utf-8" />
+    <title>Leads Management </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+    <meta content="Themesbrand" name="author" />
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="/static/dashboard/assets/images/logo-sm.png"
+        style="width: 160px; border-radius: 5px;">
+
+    <!-- jsvectormap css -->
+    <link href="/static/dashboard/assets/libs/jsvectormap/css/jsvectormap.min.css" rel="stylesheet"
+        type="text/css" />
+
+    <!--Swiper slider css-->
+    <link href="/static/dashboard/assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- Layout config Js -->
+    <script src="/static/dashboard/assets/js/layout.js"></script>
+    <!-- Bootstrap Css -->
+    <link href="/static/dashboard/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <!-- Icons Css -->
+    <link href="/static/dashboard/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <!-- App Css-->
+    <link href="/static/dashboard/assets/css/app.min.css" rel="stylesheet" type="text/css" />
+    <!-- custom Css-->
+    <link href="/static/dashboard/assets/css/custom.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- Sweet Alert css-->
+    <link href="/static/dashboard/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet"
+        type="text/css" />
+
+
+    <!-- Plugins css -->
+    <link href="/static/dashboard/assets/libs/dropzone/dropzone.css" rel="stylesheet" type="text/css" />
+
+
+    <!-- nouisliderribute css -->
+    <link rel="stylesheet" href="/static/dashboard/assets/libs/nouislider/nouislider.min.css">
+    <!-- nouisliderribute css -->
+
+    <!-- gridjs css -->
+    <link rel="stylesheet" href="/static/dashboard/assets/libs/gridjs/theme/mermaid.min.css">
+
+    <!--Swiper slider css-->
+    <link href="/static/dashboard/assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- profile-setting init js -->
+    <script src="/static/dashboard/assets/js/pages/profile-setting.init.js"></script>
+
+    <!-- glightbox css -->
+    <link rel="stylesheet" href="/static/dashboard/assets/libs/glightbox/css/glightbox.min.css">
+
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Poppins" />
+
+
+
+    <style>
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+
+
+        .select2-container .select2-selection--multiple .select2-selection__choice {
+            background-color: #f0f3fe;
+            border: none;
+            color: rgb(8, 9, 8);
+            border-radius: 3px;
+            padding: 3px;
+            margin-top: 6px;
+        }
+    </style>
+
+    
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+
+
+ 
+
+        form {
+            margin: 20px;
+        }
+        button {
+            margin-top: 10px;
+        }
+
+
+        
+        .form-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    
+
+
+        input[type=date] {
+        width: 100px; 
+        padding: 0.300rem 0.70rem; 
+        font-size: 0.700rem; 
+    }
+    select[id=period]{
+        width: 100px; 
+        padding: 0.300rem 0.75rem; 
+        font-size: 0.700rem; 
+    }
+
+    select[id=staff]{
+        width: 100px; 
+        padding: 0.300rem 0.70rem; 
+        font-size: 0.700rem; 
+    }
+
+    .form-group.row .col-sm-custom {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+
+ 
+    .icon-label {
+        width: 13px;
+        height: 13px;
+    }
+
+    .icon-container {
+        display: flex;
+        align-items: center;
+        padding-right: 0px;
+    }
+    .select-container {
+        padding-left: 0;
+    }
+    .inline-label-input {
+        display: flex;
+        align-items: center;
+    }
+    .inline-label-input label {
+        margin-right: 5px; /* Adjust as needed */
+        margin-bottom: 0;
+    }
+
+
+
+     .icon-label {
+        width: 20px;
+        height: 20px;
+    }
+    .icon-container {
+        display: flex;
+        align-items: center;
+        padding-right: 8px;
+    }
+    .select-container {
+        display: flex;
+        align-items: center;
+    } 
+  
+
+
+
+label[id=one]{
+  margin-right: 10px; 
+  margin-top: 8px;
+}  
+
+</style>
+</head>
+
+
+</head>
+
+<body>
+
+    <!-- Begin page -->
+    <div id="layout-wrapper">
+
+        <header id="page-topbar">
+            <div class="layout-width">
+                <div class="navbar-header">
+                    <div class="d-flex">
+                        <!-- LOGO -->
+                        <div class="navbar-brand-box horizontal-logo">
+                            <a href="/" class="logo logo-dark">
+                                <span class="logo-sm">
+                                    <img src="/static/dashboard/assets/images/logo-sm.png" alt="" height="22">
+                                </span>
+                                <span class="logo-lg">
+                                    <img src="/static/dashboard/assets/images/newLogo.png" alt="" height="17">
+                                </span>
+                            </a>
+
+                            <a href="/" class="logo logo-light">
+                                <span class="logo-sm">
+                                    <img src="/static/dashboard/assets/images/logo-sm.png" alt="" height="22">
+                                </span>
+                                <span class="logo-lg">
+                                    <img src="/static/dashboard/assets/images/newLogo.png" alt="" height="17">
+                                </span>
+                            </a>
+                        </div>
+
+                        <button type="button"
+                            class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger"
+                            id="topnav-hamburger-icon">
+                            <span class="hamburger-icon">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </span>
+                        </button>
+
+                        <!-- App Search-->
+                        <form class="app-search d-none d-md-block">
+                            <div class="position-relative">
+                                <input type="text" class="form-control" placeholder="Search..." autocomplete="off"
+                                    id="search-options" value="">
+                                <span class="mdi mdi-magnify search-widget-icon"></span>
+                                <span class="mdi mdi-close-circle search-widget-icon search-widget-icon-close d-none"
+                                    id="search-close-options"></span>
+                            </div>
+                            
+                        </form>
+                    </div>
+
+                    <div class="d-flex align-items-center">
+
+                        <div class="dropdown d-md-none topbar-head-dropdown header-item">
+                            <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
+                                id="page-header-search-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                <i class="bx bx-search fs-22"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
+                                aria-labelledby="page-header-search-dropdown">
+                                <form class="p-3">
+                                    <div class="form-group m-0">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Search ..."
+                                                aria-label="Recipient's username">
+                                            <button class="btn btn-primary" type="submit"><i
+                                                    class="mdi mdi-magnify"></i></button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+
+                        <div class="dropdown topbar-head-dropdown ms-1 header-item">
+                            <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class=' bx bx-plus fs-22'></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-lg p-0 dropdown-menu-end">
+                                <div class="p-3 border-top-0 border-start-0 border-end-0 border-dashed border">
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <h6 class="m-0 fw-semibold fs-15"> Shortcuts to add new </h6>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="p-2">
+                                    <div class="row g-0">
+                                        <div class="col">
+                                            <a class="dropdown-icon-item" href="/dashboard/leads/all/">
+                                                <i class="ri-file-list-2-line align-bottom fs-22"></i>
+                                                <span>Leads</span>
+                                            </a>
+                                        </div>
+
+                                        <div class="col">
+                                            <a class="dropdown-icon-item" href="/dashboard/create-new-project/">
+                                                <i class=" ri-briefcase-line align-bottom fs-22"></i>
+                                                <span>Project</span>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="row g-0">
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ms-1 header-item d-none d-sm-flex">
+                            <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
+                                data-toggle="fullscreen">
+                                <i class='bx bx-fullscreen fs-22'></i>
+                            </button>
+                        </div>
+
+
+
+                        <div class="ms-1 header-item d-none d-sm-flex">
+                            <a href="/dashboard/media-gallery/"
+                                class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle ">
+                                <i class=' bx bx-images fs-22'></i>
+                            </a>
+                        </div>
+
+                        <div class="ms-1 header-item d-none d-sm-flex">
+                            <a href="#" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle ">
+                                <i class=' ri-question-line fs-22'></i>
+                            </a>
+                        </div>
+                        <!-- <div class="ms-1 header-item d-none d-sm-flex">
+                            <a href="/dashboard/pricing-plan/"
+                                class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle ">
+                                <i class=' ri-price-tag-3-line fs-22'></i>
+                            </a>
+                        </div> -->
+
+
+                        <div class="dropdown ms-sm-3 header-item topbar-user">
+                            <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                <span class="d-flex align-items-center">
+                                    <img class="rounded-circle header-profile-user"
+                                        src="/static/dashboard/assets/images/userAvatar.png" alt="Header Avatar">
+                                    <span class="text-start ms-xl-2">
+                                        
+                                        <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">
+                                            Admin </span>
+                                        <span class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">
+                                            admin@email.com</span>
+                                        
+                                    </span>
+                                </span>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <!-- item-->
+                                <h6 class="dropdown-header">Welcome Anna!</h6>
+
+                                
+                                <a class="dropdown-item" href="/dashboard/my-account/"><i
+                                        class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span
+                                        class="align-middle">Profile</span></a>
+                                
+
+
+                                <a class="dropdown-item" href="#"><i
+                                        class="mdi mdi-lifebuoy text-muted fs-16 align-middle me-1"></i> <span
+                                        class="align-middle">Help</span></a>
+                                <div class="dropdown-divider"></div>
+                                <!-- <a class="dropdown-item" href="pages-profile.html"><i
+                                        class="mdi mdi-wallet text-muted fs-16 align-middle me-1"></i> <span
+                                        class="align-middle">Balance : <b>$5971.67</b></span></a> -->
+                                
+                                        
+                                <a class="dropdown-item"
+                                    href="/dashboard/edit-my-account/?redirectUrl=/dashboard/daily-report/"><span
+                                        class="badge bg-soft-success text-success mt-1 float-end">New</span><i
+                                        class="mdi mdi-cog-outline text-muted fs-16 align-middle me-1"></i> <span
+                                        class="align-middle">Settings</span></a>
+                                    
+                                <!-- <a class="dropdown-item" href="auth-lockscreen-basic.html"><i
+                                        class="mdi mdi-lock text-muted fs-16 align-middle me-1"></i> <span
+                                        class="align-middle">Lock screen</span></a> -->
+                                <a class="dropdown-item" href="/dashboard/user-logout"><i
+                                        class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span
+                                        class="align-middle" data-key="t-logout">Logout</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- ========== App Menu ========== -->
+        <div class="app-menu navbar-menu">
+            <!-- LOGO -->
+            <div class="navbar-brand-box">
+                <!-- Dark Logo-->
+                <a href="#!" class="logo logo-dark">
+                    <span class="logo-sm">
+                        <h4></h4>
+                        <img src="/static/dashboard/assets/images/logo-sm.png" alt="" height="30">
+                    </span>
+                    <span class="logo-lg">
+                        <img src="/static/dashboard/assets/images/newLogo.png" alt=""
+                            style="width: 160px; border-radius: 5px;">
+                    </span>
+                </a>
+                <!-- Light Logo-->
+                <a href="#!" class="logo logo-light">
+                    <span class="logo-sm">
+                        <img src="/static/dashboard/assets/images/logo-sm.png" alt=""
+                            style="width: 35px; border-radius: 5px;">
+                    </span>
+                    <span class="logo-lg">
+                        <img src="/static/dashboard/assets/images/newLogo.png" alt=""
+                            style="width: 160px; border-radius: 5px;">
+                    </span>
+                </a>
+                <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"
+                    id="vertical-hover">
+                    <i class="ri-record-circle-line"></i>
+                </button>
+            </div>
+
+            <div id="scrollbar">
+                <div class="container-fluid">
+
+                    <div id="two-column-menu">
+                    </div>
+                    <ul class="navbar-nav" id="navbar-nav">
+                        <!-- <li class="menu-title"><span data-key="t-menu">Menu</span></li> -->
+                        
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="/dashboard/">
+                                <i class="ri-dashboard-2-line"></i> <span data-key="t-dashboards">Dashboards</span>
+                            </a>
+                        </li> <!-- end Dashboard Menu -->
+                        
+
+                        <li class="menu-title"><span data-key="t-menu">CRM</span></li>
+                        
+                        
+                        <li class="nav-item">
+                            
+                                <a class="nav-link menu-link" href="/dashboard/leads/all">
+                                    
+                                    <i class="ri-file-list-2-line"></i> <span data-key="t-dashboards">Leads</span>
+                                    <span
+                                        class="badge badge-soft-success align-middle rounded-pill ms-1"></span>
+                                </a>
+                        </li>
+                        
+                        <li class="nav-item">
+                            
+                                <a class="nav-link menu-link" href="/dashboard/properties">
+                                    
+                                    <i class=" ri-community-line"></i> <span data-key="t-dashboards">Properties</span>
+                                    <span
+                                        class="badge badge-soft-success align-middle rounded-pill ms-1"></span>
+                                </a>
+                        </li>
+
+                        <li class="nav-item">
+                            
+                                <a class="nav-link menu-link" href="/dashboard/projects/">
+                                    
+                                    <i class=" ri-building-line"></i> <span data-key="t-dashboards">Projects</span>
+                                    <span
+                                        class="badge badge-soft-success align-middle rounded-pill ms-1"></span>
+                                </a>
+                        </li>
+
+
+                        <li class="nav-item">
+                            
+                            <a class="nav-link menu-link active" href="/dashboard/daily-report/">
+                                
+                                    <i class="ri-time-line"></i> <span data-key="t-dashboards">Daily Report</span>
+                                </a>
+                        </li>
+
+                        
+                        <li class="menu-title"><span data-key="t-menu">Finance & Accounting</span></li>
+                        <li class="nav-item">
+                            
+                                <a class="nav-link menu-link" href="/dashboard/finance-overview/">
+                                    
+                                    <i class="ri-exchange-funds-line"></i> <span data-key="t-dashboards">Overview</span>
+                                </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#accountSidebar" data-bs-toggle="collapse" role="button"
+                                aria-expanded="false" aria-controls="accountSidebar">
+                                <i class="ri-swap-line"></i> <span data-key="t-dashboards">Transactions</span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="accountSidebar">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        
+                                        <a href="/dashboard/transaction/income/" class="nav-link"
+                                            data-key="t-analytics">
+                                            Income </a>
+                                        
+                                    </li>
+                                    <li class="nav-item">
+                                        
+                                        <a href="/dashboard/transaction/expenses/" class="nav-link" data-key="t-crm">
+                                            Expenses </a>
+                                        
+                                    </li>
+                                    <li class="nav-item">
+                                        
+                                        <a href="/dashboard/transaction/all/" class="nav-link" data-key="t-crm"> All
+                                        </a>
+                                        
+                                    </li>
+
+
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="menu-title"><span data-key="t-menu">Master</span></li>
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="/dashboard/my-account">
+                                <i class="ri-account-circle-line"></i> <span data-key="t-dashboards">My Account</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#leadsSidebar" data-bs-toggle="collapse" role="button"
+                                aria-expanded="false" aria-controls="leadsSidebar">
+                                <i class=" ri-group-line"></i> <span data-key="t-dashboards">Users</span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="leadsSidebar">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="/dashboard/users" class="nav-link" data-key="t-analytics">
+                                            Users </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/dashboard/user-attendance" class="nav-link" data-key="t-crm">
+                                            Attendance </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#leadsSidebar11" data-bs-toggle="collapse" role="button"
+                                aria-expanded="false" aria-controls="leadsSidebar11">
+                                <!-- https://feathericons.dev/?search=codesandbox&iconset=feather -->
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="main-grid-item-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                                    <polyline points="7.5 4.21 12 6.81 16.5 4.21" />
+                                    <polyline points="7.5 19.79 7.5 14.6 3 12" />
+                                    <polyline points="21 12 16.5 14.6 16.5 19.79" />
+                                    <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                                    <line x1="12" x2="12" y1="22.08" y2="12" />
+                              </svg>
+                            <span data-key="t-dashboards">Jobs & Applications</span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="leadsSidebar11">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="/dashboard/jobs" class="nav-link" data-key="t-analytics">
+                                            Jobs </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/dashboard/user-attendance" class="nav-link" data-key="t-crm">
+                                            Applications </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        
+                        
+
+                        <li class="menu-title"><span data-key="t-menu">Others</span></li>
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="/dashboard/media-gallery">
+                                <i class="ri-landscape-line"></i> <span data-key="t-dashboards">Media / Gallery</span>
+                            </a>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="/dashboard/website-slider">
+                                <i class=" ri-image-line"></i> <span data-key="t-dashboards">Website Sliders</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="/dashboard/website-offer">
+                                <!-- https://feathericons.dev/?search=gift&iconset=feather -->
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="main-grid-item-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                    <polyline points="20 12 20 22 4 22 4 12" />
+                                    <rect height="5" width="20" x="2" y="7" />
+                                    <line x1="12" x2="12" y1="22" y2="7" />
+                                    <line x1="12" x2="12" y1="22" y2="7" />
+                                    <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z" />
+                                    <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z" />
+                                </svg>
+   <span data-key="t-dashboards">Website Offer</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="/dashboard/reviews">
+                                <i class="ri-chat-smile-2-line"></i> <span data-key="t-dashboards">Reviews</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="/dashboard/contact">
+                                <!-- https://feathericons.dev/?search=mail&iconset=feather -->
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="main-grid-item-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                                    <polyline points="22,6 12,13 2,6" />
+                                </svg>
+                                <span data-key="t-dashboards">Contact Details</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="/dashboard/users-sequence">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="main-grid-item-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                    <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                                    <polyline points="2 17 12 22 22 17" />
+                                    <polyline points="2 12 12 17 22 12" />
+                                </svg>
+  
+                                <span data-key="t-dashboards">Users Sequence</span>
+                            </a>
+                        </li>
+			<li class="nav-item">
+                             <a class="nav-link menu-link" href="/dashboard/gcode">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 301112 333331" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd"><path d="M301110 291619c124 22886-18333 41521-41206 41644-1700 14-3415-82-5101-288-21227-3140-36776-21611-36256-43057V43342c-507-21474 15084-39944 36324-43057 22721-2660 43304 13602 45964 36324 192 1673 288 3346 274 5032v249977z" fill="#f9ab00"/><path d="M41288 250756c22804 0 41288 18484 41288 41288s-18484 41288-41288 41288S0 314848 0 292044s18484-41288 41288-41288zm108630-125126c-22913 1261-40685 20472-40150 43413v110892c0 30099 13246 48364 32649 52258 22393 4539 44209-9928 48748-32320 562-2743 836-5526 822-8323V167124c41-22886-18470-41467-41356-41507-233 0-480 0-713 14z" fill="#e37400"/></svg> 
+                                 <span data-key="t-dashboards">Google Analytics</span>
+                             </a>
+                         </li>
+                        
+                        <!-- <li class="nav-item">
+                            <a class="nav-link menu-link" href="/dashboard/inbox">
+                                <i class=" ri-mail-send-fill"></i> <span data-key="t-dashboards">Website's
+                                    Messages</span>
+                            </a>
+                        </li> -->
+
+                        <li class="menu-title"><span data-key="t-menu">Support</span></li>
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="/dashboard/faq">
+                                <i class="ri-questionnaire-line"></i> <span data-key="t-dashboards">FAQ's</span>
+                            </a>
+                        </li>
+                        <!-- <li class="nav-item">
+                            <a class="nav-link menu-link" href="/dashboard/support-ticket/all/">
+                                <i class="ri-ticket-line"></i> <span data-key="t-dashboards">Support Tickets</span>
+                            </a>
+                        </li> -->
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#">
+                                <i class="ri-question-line"></i> <span data-key="t-dashboards">Help</span>
+                            </a>
+                        </li>
+
+                        <hr style="color: white;">
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="/dashboard/user-logout">
+                                <i class=" ri-logout-box-r-line"></i> <span data-key="t-dashboards">Logout</span>
+                            </a>
+                        </li>
+
+
+
+                    </ul>
+                </div>
+                <!-- Sidebar -->
+            </div>
+
+            <div class="sidebar-background"></div>
+        </div>
+        <!-- Left Sidebar End -->
+        <!-- Vertical Overlay-->
+        <div class="vertical-overlay"></div>
+
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+            
+<br><br>
+    
+<div class="container mt-5">
+    
+    
+    <form id="reportForm" action="/dashboard/daily-report/" method='POST' class="mb-4">
+        <input type="hidden" name="csrfmiddlewaretoken" value="37oa4QjboQLCfoEfgzKYZtLWvLZIDzgXhBycoGnss4scP3GSi4cWICLFxknuqDs4">
+        <div class="form-group row align-items-center">
+            
+            <div class="col-sm-2 col-sm-custom select-container ml-1"> <!-- Added ml-2 for margin-left -->
+               <label id="one">
+                    <img src="/static/admin/img/deadline.png" alt="Period Icon" class="icon-label">
+                </label>
+                <select id="period" name="period" class="form-control" onchange="toggleDateRange()">
+                    <option value="daily">Daily</option>
+                    <option value="monthly">Monthly</option>
+                    <option value="selectDate">Select Date</option>
+                    <option value="january">January</option>
+                    <option value="february">February</option>
+                    <option value="march">March</option>
+                    <option value="april">April</option>
+                    <option value="may">May</option>
+                    <option value="june">June</option>
+                    <option value="july">July</option>
+                    <option value="august">August</option>
+                    <option value="september">September</option>
+                    <option value="october">October</option>
+                    <option value="november">November</option>
+                    <option value="december">December</option>
+                </select>
+            </div>
+        
+        
+            
+            
+            
+            <div class="col-sm-2 col-sm-custom select-container">
+                <div class="icon-container">
+                    <img src="/static/admin/img/staff.png" alt="Staff Icon" class="icon-label">
+                </div>
+                <select id="staff" name="staff" class="form-control">
+                    
+                    <option value="admin@email.com">admin@email.com</option>
+                    
+                    <option value="rajvardhansalve4377@gmail.com">rajvardhansalve4377@gmail.com</option>
+                    
+                    <option value="aartidodmani282002@gmail.com">aartidodmani282002@gmail.com</option>
+                    
+                    <option value="londheharsh074@gmail.com">londheharsh074@gmail.com</option>
+                    
+                    <option value="morerajesh065@gmail.com">morerajesh065@gmail.com</option>
+                    
+                    <option value="ayushkajagdhane@gmail.com">ayushkajagdhane@gmail.com</option>
+                    
+                    <option value="snehalm112@gmail.com">snehalm112@gmail.com</option>
+                    
+                    <option value="test@gmail.com">test@gmail.com</option>
+                    
+                    <option value="gawalwadprasad07@gmail.com">gawalwadprasad07@gmail.com</option>
+                    
+                    <option value="prajakatarathod123@gmail.com">prajakatarathod123@gmail.com</option>
+                    
+                    <option value="poojamourya205@gmail.com">poojamourya205@gmail.com</option>
+                    
+                    <option value="upasnarawal29@gmail.com">upasnarawal29@gmail.com</option>
+                    
+                    <option value="sagarabchate2004@gmail.com">sagarabchate2004@gmail.com</option>
+                    
+                    <option value="adeshgarkal646@gmail.com">adeshgarkal646@gmail.com</option>
+                    
+                    <option value="suhasbasode502@gmail.com">suhasbasode502@gmail.com</option>
+                    
+                    <option value="shwetashedmake143@gmail.com">shwetashedmake143@gmail.com</option>
+                    
+                    <option value="surveshweta09@gmail.com">surveshweta09@gmail.com</option>
+                    
+                    <option value="spachshilagade1991@gmail.com">spachshilagade1991@gmail.com</option>
+                    
+                </select>
+            </div>
+            
+            
+
+
+            <div class="col-sm-4 col-sm-custom">
+                <div class="row">
+                    <div class="col-sm-6 col-sm-custom inline-label-input">
+                        <label for="fromDate" class="col-form-label">From:</label>
+                        <input type="date" name="fromDate" class="form-control" id="fromDate" required disabled>
+                    </div>
+                    <div class="col-sm-6 col-sm-custom inline-label-input">
+                        <label for="toDate" class="col-form-label">To:</label>
+                        <input type="date" name="toDate" class="form-control" id="toDate" required disabled>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-2 col-sm-custom">
+                <button type="submit" id="searchInput" class="btn btn-primary">Specific Report</button>
+            </div>
+        </div>
+    </form>
+   
+    
+    <h5 style="color: green;"></h5>
+
+    <h5 style="color: red;"></h5>
+    <h2 class="text-center">Daily Report</h2>
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Date</th>
+                <th>Staff ID</th>
+                <th>Calls Count</th>
+                <th>CallsCount%</th>
+                <th>Site Visit Count</th>
+                <th>Note</th>
+            </tr>
+        </thead>
+        <tbody id="reportBody">
+            
+            
+
+
+            <!--start range report for admin-->
+
+            
+            <!--end range report for admin-->    
+
+
+                    
+        </tbody>
+    </table>
+    
+</div>
+
+
+
+<script>
+        function addOption() {
+            var select = document.getElementById("period");
+            var newOption = document.getElementById("newOption").value;
+            if (newOption) {
+                var option = document.createElement("option");
+                option.value = newOption.toLowerCase();
+                option.text = newOption.charAt(0).toUpperCase() + newOption.slice(1);
+                select.add(option);
+                document.getElementById("newOption").value = ""; // Clear input field
+            }
+        }
+</script>    
+
+ <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const textareas = document.querySelectorAll('.note-textarea');
+
+        textareas.forEach(textarea => {
+            adjustTextareaRows(textarea);
+            textarea.addEventListener('input', () => adjustTextareaRows(textarea));
+        });
+    });
+
+    function adjustTextareaRows(textarea) {
+        const lines = textarea.value.split('\n').length;
+        const sentences = textarea.value.split(/[.!?]\s/).length;
+        const rows = Math.max(lines, sentences, 1); // Ensure at least 3 rows
+        textarea.rows = rows;
+    }
+</script> 
+
+
+
+<script>
+    $(document).ready(function() {
+        $('.open-notepad-btn').click(function() {
+            var leadsId = $(this).data('leads-id');
+            var note = $(this).data('note');
+            var modal = $('#notepadModal' + leadsId);
+            modal.find('.note-text').val(note);
+        });
+
+        $('.save-note-btn').click(function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            var modal = $(this).closest('.modal');
+            var leadsId = modal.find('input[name="leads_id"]').val();
+            var note = modal.find('.note-text').val();
+
+            // AJAX request to send data to Django backend
+            $.ajax({
+                type: 'POST',
+                url: '/save_note/',  // Replace with your Django view URL
+                data: {
+                    'leads_id': leadsId,
+                    'note': note,
+                    'csrfmiddlewaretoken': '37oa4QjboQLCfoEfgzKYZtLWvLZIDzgXhBycoGnss4scP3GSi4cWICLFxknuqDs4'  // Include CSRF token for security
+                },
+                success: function(response) {
+                    console.log(response);  // Optional: Log response from backend
+                    modal.modal('hide');  // Hide the modal after successful save
+                    // Optionally update the UI or perform other actions after save
+                },
+                error: function(error) {
+                    console.log(error);  // Log any errors for debugging
+                    // Handle errors or display error messages
+                }
+            });
+        });
+    });
+</script>
+
+<script>
+    function toggleDateRange() {
+        const periodSelect = document.getElementById('period');
+        const fromDateInput = document.getElementById('fromDate');
+        const toDateInput = document.getElementById('toDate');
+        const selectedValue = periodSelect.value;
+
+        if (selectedValue === 'selectDate') {
+            fromDateInput.disabled = false;
+            toDateInput.disabled = false;
+        } else {
+            fromDateInput.disabled = true;
+            toDateInput.disabled = true;
+        }
+    }
+</script>
+
+
+<br><br>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <script>document.write(new Date().getFullYear())</script> © BUSINESSYOG.COM
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="text-sm-end d-none d-sm-block">
+                                Design & Develop by Phenoware Pvt Ltd
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        <!-- end main content-->
+
+    </div>
+    <!-- END layout-wrapper -->
+
+
+
+    <!--start back-to-top-->
+    <button onclick="topFunction()" class="btn btn-danger btn-icon" id="back-to-top">
+        <i class="ri-arrow-up-line"></i>
+    </button>
+    <!--end back-to-top-->
+
+
+
+
+    <!-- JAVASCRIPT -->
+    <script src="/static/dashboard/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/dashboard/assets/libs/simplebar/simplebar.min.js"></script>
+    <script src="/static/dashboard/assets/libs/node-waves/waves.min.js"></script>
+    <script src="/static/dashboard/assets/libs/feather-icons/feather.min.js"></script>
+    <script src="/static/dashboard/assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
+    <script src="/static/dashboard/assets/js/plugins.js"></script>
+
+    <!-- apexcharts -->
+    <script src="/static/dashboard/assets/libs/apexcharts/apexcharts.min.js"></script>
+
+    <!-- piecharts init -->
+    <!-- <script src="/static/dashboard/assets/js/pages/apexcharts-pie.init.js"></script> -->
+
+
+    <!-- Vector map-->
+    <script src="/static/dashboard/assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
+    <script src="/static/dashboard/assets/libs/jsvectormap/maps/world-merc.js"></script>
+
+    <!--Swiper slider js-->
+    <script src="/static/dashboard/assets/libs/swiper/swiper-bundle.min.js"></script>
+
+    <!-- Dashboard init -->
+    <script src="/static/dashboard/assets/js/pages/dashboard-ecommerce.init.js"></script>
+
+    <!-- App js -->
+    <script src="/static/dashboard/assets/js/app.js"></script>
+
+    <!-- Leads Table  -->
+    <!-- list.js min js -->
+    <script src="/static/dashboard/assets/libs/list.js/list.min.js"></script>
+    <script src="/static/dashboard/assets/libs/list.pagination.js/list.pagination.min.js"></script>
+
+    <!-- Sweet Alerts js -->
+    <script src="/static/dashboard/assets/libs/sweetalert2/sweetalert2.min.js"></script>
+    <!-- crm leads init -->
+    <script src="/static/dashboard/assets/js/pages/crm-leads.init.js"></script>
+
+    <!-- dropzone js -->
+    <script src="/static/dashboard/assets/libs/dropzone/dropzone-min.js"></script>
+    <!-- project-create init -->
+    <script src="/static/dashboard/assets/js/pages/project-create.init.js"></script>
+
+    <!-- nouisliderribute js -->
+    <script src="/static/dashboard/assets/libs/nouislider/nouislider.min.js"></script>
+    <script src="/static/dashboard/assets/libs/wnumb/wNumb.min.js"></script>
+
+    <!-- gridjs js -->
+    <script src="/static/dashboard/assets/libs/gridjs/gridjs.umd.js"></script>
+    <script src="../../../../unpkg.com/gridjs%405.1.0/plugins/selection/dist/selection.umd.js' %}"></script>
+    <!-- ecommerce product list -->
+    <script src="/static/dashboard/assets/js/pages/ecommerce-product-list.init.js"></script>
+
+    <!--Swiper slider js-->
+    <!-- <script src="/static/dashboard/assets/libs/swiper/swiper-bundle.min.js"></script> -->
+
+    <!-- ecommerce product details init -->
+    <script src="/static/dashboard/assets/js/pages/ecommerce-product-details.init.js"></script>
+
+    <!-- cleave.js -->
+    <script src="/static/dashboard/assets/libs/cleave.js/cleave.min.js"></script>
+
+   
+    <!-- profile init js -->
+    <script src="/static/dashboard/assets/js/pages/profile.init.js"></script>
+
+    <!-- team init js -->
+    <script src="/static/dashboard/assets/js/pages/team.init.js"></script>
+
+    
+
+
+
+    <!-- glightbox js -->
+    <script src="/static/dashboard/assets/libs/glightbox/js/glightbox.min.js"></script>
+
+    <!-- isotope-layout -->
+    <script src="/static/dashboard/assets/libs/isotope-layout/isotope.pkgd.min.js"></script>
+
+    <script src="/static/dashboard/assets/js/pages/gallery.init.js"></script>
+
+   
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
+    <!--select2 cdn-->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script src="/static/dashboard/assets/js/pages/select2.init.js"></script>
+
+    <!-- prismjs plugin -->
+    <script src="/static/dashboard/assets/libs/prismjs/prism.js"></script>
+
+
+    <script src="/static/dashboard/assets/js/pages/ecommerce-product-create.init.js"></script>
+
+  
+
+    
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+
+
+    
+
+    
+
+</body>
+
+
+</html>

@@ -5,6 +5,8 @@ export default function LeadsDashboard() {
   const [activeTab, setActiveTab] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
+  const [showDownloadModal, setShowDownloadModal] = useState(false);
+  const [showNotificationModal, setShowNotificationModal] = useState(false);
   const [editingLead, setEditingLead] = useState(null);
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [showLeadDetailModal, setShowLeadDetailModal] = useState(null);
@@ -36,6 +38,19 @@ export default function LeadsDashboard() {
     dead: 438,
     duplicate: 438
   };
+
+  const [projectsList, setProjectsList] = useState(() => {
+    try {
+      const stored = localStorage.getItem('cp_projects_list');
+      if (stored) return JSON.parse(stored);
+    } catch(e){}
+    return [
+      { id: 'proj-1', title: 'CODENAME FIREWORKS' },
+      { id: 'proj-2', title: 'MANTRA MIRARI' },
+      { id: 'proj-3', title: 'Atelier Greens by Adani Realty' },
+      { id: 'proj-4', title: 'CODENAME QUAD AT MAHINDRA CITADEL' }
+    ];
+  });
 
   const [leads, setLeads] = useState([
     {
@@ -461,7 +476,7 @@ export default function LeadsDashboard() {
           </button>
 
           <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-            <div style={{ width: '32px', height: '32px', borderRadius: '50%', backgroundColor: '#0f172a', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px' }}>
+            <div onClick={() => setShowNotificationModal(true)} style={{ width: '32px', height: '32px', borderRadius: '50%', backgroundColor: '#0f172a', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', cursor: 'pointer' }}>
               <i className="ri-notification-3-fill"></i>
             </div>
             <span style={{ position: 'absolute', top: '-4px', right: '-4px', backgroundColor: '#ef4444', color: '#fff', fontSize: '10px', width: '16px', height: '16px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' }}>
@@ -484,7 +499,7 @@ export default function LeadsDashboard() {
           </button>
 
           <button 
-            onClick={exportToCSV}
+            onClick={() => setShowDownloadModal(true)}
             style={{ backgroundColor: '#f59e0b', border: 'none', color: '#fff', fontSize: '13px', fontWeight: '600', padding: '6px 14px', borderRadius: '4px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px' }}
             title="Download CSV Spreadsheet"
           >
@@ -712,311 +727,332 @@ export default function LeadsDashboard() {
       </div>
 
       {/* ── Filter Drawer / Modal ── */}
+      
+      {/* ── Filter Leads Modal ── */}
       {showFilterModal && (
-        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 99999, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <div style={{ backgroundColor: '#fff', borderRadius: '8px', width: '90%', maxWidth: '520px', overflow: 'hidden', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)' }}>
-            <div style={{ padding: '14px 20px', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h6 style={{ margin: 0, fontWeight: '700', fontSize: '15px' }}>Filter Leads Pipeline</h6>
-              <button onClick={() => setShowFilterModal(false)} style={{ background: 'none', border: 'none', fontSize: '18px', cursor: 'pointer' }}>×</button>
-            </div>
-            <div style={{ padding: '20px' }}>
-              <div style={{ marginBottom: '12px' }}>
-                <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '4px' }}>Lead Source</label>
-                <select 
-                  value={filters.source}
-                  onChange={e => setFilters({ ...filters, source: e.target.value })}
-                  style={{ width: '100%', padding: '8px 12px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '13px' }}
-                >
-                  <option value="All">All Sources</option>
-                  <option value="Company Website">Company Website</option>
-                  <option value="MagicBricks">MagicBricks</option>
-                  <option value="99acres">99acres</option>
-                  <option value="Housing.com">Housing.com</option>
-                  <option value="Direct Call">Direct Call</option>
-                  <option value="Google Ads">Google Ads</option>
-                  <option value="Facebook Ads">Facebook Ads</option>
-                </select>
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 99999, display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
+          <div style={{ backgroundColor: '#fff', width: '380px', height: '100vh', display: 'flex', flexDirection: 'column', overflow: 'hidden', boxShadow: '-5px 0 25px rgba(0,0,0,0.1)' }}>
+            
+            {/* Header */}
+            <div style={{ padding: '16px 20px', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#64748b' }}>
+                <i className="ri-filter-3-line" style={{ fontSize: '18px' }}></i>
+                <h6 style={{ margin: 0, fontWeight: '600', fontSize: '14.5px', color: '#334155' }}>Apply Leads Filter</h6>
               </div>
-
-              <div style={{ marginBottom: '12px' }}>
-                <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '4px' }}>Assigned Agent</label>
-                <select 
-                  value={filters.assignedTo}
-                  onChange={e => setFilters({ ...filters, assignedTo: e.target.value })}
-                  style={{ width: '100%', padding: '8px 12px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '13px' }}
-                >
-                  <option value="All">All Agents</option>
-                  <option value="Admin">Admin</option>
-                  <option value="Sales Team">Sales Team</option>
-                  <option value="Executive">Executive</option>
-                  <option value="Manager">Manager</option>
-                </select>
-              </div>
-
-              <div style={{ marginBottom: '16px' }}>
-                <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '4px' }}>Pune Location</label>
-                <select 
-                  value={filters.location}
-                  onChange={e => setFilters({ ...filters, location: e.target.value })}
-                  style={{ width: '100%', padding: '8px 12px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '13px' }}
-                >
-                  <option value="All">All Locations</option>
-                  <option value="Wagholi">Wagholi</option>
-                  <option value="Kharadi">Kharadi</option>
-                  <option value="Dhanori">Dhanori</option>
-                  <option value="Lohegaon">Lohegaon</option>
-                  <option value="Viman Nagar">Viman Nagar</option>
-                  <option value="Hinjewadi">Hinjewadi</option>
-                </select>
-              </div>
-
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
-                <button 
-                  onClick={() => { setFilters({ source: 'All', assignedTo: 'All', budget: 'All', location: 'All', dateFrom: '', dateTo: '' }); setShowFilterModal(false); }}
-                  style={{ padding: '8px 16px', border: '1px solid #cbd5e1', background: '#fff', borderRadius: '4px', fontSize: '13px', cursor: 'pointer' }}
-                >
-                  Reset
-                </button>
-                <button 
-                  onClick={() => setShowFilterModal(false)}
-                  style={{ padding: '8px 18px', backgroundColor: '#0284c7', border: 'none', color: '#fff', borderRadius: '4px', fontSize: '13px', fontWeight: '600', cursor: 'pointer' }}
-                >
-                  Apply Filters
-                </button>
-              </div>
+              <button onClick={() => setShowFilterModal(false)} style={{ background: 'none', border: 'none', fontSize: '20px', cursor: 'pointer', color: '#64748b' }}>✕</button>
             </div>
-          </div>
-        </div>
-      )}
 
-      {/* ── Follow-up History Modal ── */}
-      {showFollowupModal && (
-        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 99999, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <div style={{ backgroundColor: '#fff', borderRadius: '8px', width: '90%', maxWidth: '560px', overflow: 'hidden', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)' }}>
-            <div style={{ padding: '14px 20px', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h6 style={{ margin: 0, fontWeight: '700', fontSize: '15px' }}>Follow-up Timeline: {showFollowupModal.id}</h6>
-              <button onClick={() => setShowFollowupModal(null)} style={{ background: 'none', border: 'none', fontSize: '18px', cursor: 'pointer' }}>×</button>
-            </div>
-            <div style={{ padding: '20px', maxHeight: '420px', overflowY: 'auto' }}>
-              <p style={{ fontWeight: '600', fontSize: '13px', color: '#1e293b', marginBottom: '12px' }}>
-                {showFollowupModal.name}
-              </p>
-
-              {/* Add Note Form */}
-              <form onSubmit={handleAddFollowup} style={{ marginBottom: '18px', display: 'flex', gap: '8px' }}>
-                <input 
-                  type="text" 
-                  placeholder="Type new follow-up call note..."
-                  value={newFollowupText}
-                  onChange={e => setNewFollowupText(e.target.value)}
-                  style={{ flex: 1, padding: '8px 12px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '13px' }}
-                />
-                <button type="submit" style={{ padding: '8px 16px', backgroundColor: '#0ea5e9', color: '#fff', border: 'none', borderRadius: '4px', fontWeight: '600', fontSize: '13px', cursor: 'pointer' }}>
-                  Add Note
-                </button>
-              </form>
-
-              <h6 style={{ fontSize: '12px', textTransform: 'uppercase', color: '#64748b', marginBottom: '8px' }}>Activity Log:</h6>
-              {showFollowupModal.followups && showFollowupModal.followups.length > 0 ? (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                  {showFollowupModal.followups.map((f, i) => (
-                    <div key={i} style={{ backgroundColor: '#f8fafc', borderLeft: '3px solid #0ea5e9', padding: '8px 12px', borderRadius: '0 4px 4px 0' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', color: '#64748b', marginBottom: '3px' }}>
-                        <strong>{f.executive}</strong>
-                        <span>{f.date}</span>
-                      </div>
-                      <div style={{ fontSize: '12.5px', color: '#334155' }}>{f.note}</div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p style={{ color: '#94a3b8', fontSize: '12px' }}>No previous follow-ups logged yet. Add one above.</p>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* ── Lead Detail Modal ── */}
-      {showLeadDetailModal && (
-        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 99999, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <div style={{ backgroundColor: '#fff', borderRadius: '8px', width: '90%', maxWidth: '580px', overflow: 'hidden', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)' }}>
-            <div style={{ padding: '14px 20px', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h6 style={{ margin: 0, fontWeight: '700', fontSize: '15px' }}>Lead Details: #{showLeadDetailModal.id}</h6>
-              <button onClick={() => setShowLeadDetailModal(null)} style={{ background: 'none', border: 'none', fontSize: '18px', cursor: 'pointer' }}>×</button>
-            </div>
-            <div style={{ padding: '20px' }}>
-              <h6 style={{ color: '#1e3a8a', fontWeight: '700', fontSize: '14px', marginBottom: '8px' }}>{showLeadDetailModal.name}</h6>
+            {/* Body */}
+            <div style={{ padding: '16px 24px', overflowY: 'auto', flex: 1, fontSize: '12.5px', color: '#334155' }}>
               
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', backgroundColor: '#f8fafc', padding: '12px', borderRadius: '6px', marginBottom: '14px' }}>
-                <div>
-                  <small style={{ color: '#64748b', display: 'block' }}>Phone Number</small>
-                  <strong>{showLeadDetailModal.phone}</strong>
-                </div>
-                <div>
-                  <small style={{ color: '#64748b', display: 'block' }}>Email Address</small>
-                  <strong>{showLeadDetailModal.email}</strong>
-                </div>
-                <div>
-                  <small style={{ color: '#64748b', display: 'block' }}>Property Requirement</small>
-                  <strong>{showLeadDetailModal.lookingFor}</strong>
-                </div>
-                <div>
-                  <small style={{ color: '#64748b', display: 'block' }}>Budget Range</small>
-                  <strong style={{ color: '#16a34a' }}>{showLeadDetailModal.budget}</strong>
-                </div>
-                <div>
-                  <small style={{ color: '#64748b', display: 'block' }}>Source Channel</small>
-                  <strong>{showLeadDetailModal.source}</strong>
-                </div>
-                <div>
-                  <small style={{ color: '#64748b', display: 'block' }}>Assigned Executive</small>
-                  <strong>{showLeadDetailModal.assignedTo}</strong>
+              {/* STATUS */}
+              <div style={{ marginBottom: '20px' }}>
+                <div style={{ fontWeight: '700', color: '#94a3b8', fontSize: '11px', marginBottom: '10px' }}>STATUS</div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> New Leads</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" /> Not Connected</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" /> In Progress</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" /> SV Scheduled</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" /> EOI Completed</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" /> Bookings In Progress</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" /> Booking Completed</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" /> Dead Lead</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" /> SV Completed</label>
                 </div>
               </div>
 
-              <div style={{ marginBottom: '14px' }}>
-                <small style={{ color: '#64748b', display: 'block', marginBottom: '2px' }}>Client Note</small>
-                <div style={{ fontSize: '13px', color: '#334155', backgroundColor: '#fff', border: '1px solid #e2e8f0', padding: '8px 12px', borderRadius: '4px' }}>
-                  {showLeadDetailModal.note}
+              {/* SELECT INTENT */}
+              <div style={{ marginBottom: '20px' }}>
+                <div style={{ fontWeight: '700', color: '#94a3b8', fontSize: '11px', marginBottom: '10px' }}>SELECT INTENT</div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> New</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" /> Cold</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" /> Warm</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" /> Hot</label>
                 </div>
               </div>
 
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <button 
-                  onClick={() => {
-                    setEditingLead(showLeadDetailModal);
-                    setShowLeadDetailModal(null);
-                  }}
-                  style={{ padding: '6px 14px', backgroundColor: '#0284c7', color: '#fff', border: 'none', borderRadius: '4px', fontWeight: '600', fontSize: '13px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}
-                >
-                  <i className="ri-edit-line"></i> Edit This Lead
-                </button>
-                <button onClick={() => setShowLeadDetailModal(null)} style={{ padding: '6px 16px', backgroundColor: '#64748b', color: '#fff', border: 'none', borderRadius: '4px', fontWeight: '600', fontSize: '13px', cursor: 'pointer' }}>
-                  Close
-                </button>
+              {/* SELECT LOOKING FOR */}
+              <div style={{ marginBottom: '20px' }}>
+                <div style={{ fontWeight: '700', color: '#94a3b8', fontSize: '11px', marginBottom: '10px' }}>SELECT LOOKING FOR</div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> Property on Rent</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> Buy New Property</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> Property on Loan</label>
+                </div>
               </div>
+
+              {/* SELECT FOLLOWUP DATE */}
+              <div style={{ marginBottom: '20px' }}>
+                <div style={{ fontWeight: '700', color: '#94a3b8', fontSize: '11px', marginBottom: '10px' }}>SELECT FOLLOWUP DATE</div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px', marginBottom: '10px' }}>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><input type="radio" name="fd" defaultChecked /> All Dates</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><input type="radio" name="fd" /> Today</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><input type="radio" name="fd" /> Yesterday</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><input type="radio" name="fd" /> Tomorrow</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '6px', gridColumn: 'span 2' }}><input type="radio" name="fd" /> Select Date</label>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
+                  <span style={{ width: '40px' }}>From</span>
+                  <input type="text" placeholder="mm/dd/yyyy" style={{ flex: 1, padding: '6px 10px', border: '1px solid #cbd5e1', borderRadius: '4px', backgroundColor: '#f8fafc', outline: 'none' }} />
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <span style={{ width: '40px' }}>To</span>
+                  <input type="text" placeholder="mm/dd/yyyy" style={{ flex: 1, padding: '6px 10px', border: '1px solid #cbd5e1', borderRadius: '4px', backgroundColor: '#f8fafc', outline: 'none' }} />
+                </div>
+              </div>
+
+              {/* LEADS SOURCE */}
+              <div style={{ marginBottom: '20px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
+                  <div style={{ fontWeight: '700', color: '#94a3b8', fontSize: '11px' }}>LEADS SOURCE</div>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '6px', fontWeight: '600' }}><input type="checkbox" defaultChecked /> Select All</label>
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> Facebook Ads</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> Google Ads</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> Landing Page</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> Magicbricks</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> Makaan</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> Company Website</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> Just dial</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> Youtube</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> OLX</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> Referance</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> 99 Acres</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> Common Floor</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> Housing</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> Whatsapp</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> Tele Calling</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> Other</label>
+                </div>
+              </div>
+
+            </div>
+
+            {/* Footer */}
+            <div style={{ padding: '16px 20px', borderTop: '1px solid #e2e8f0', display: 'flex', gap: '10px' }}>
+              <button type="button" onClick={() => setShowFilterModal(false)} style={{ flex: 1, padding: '10px 0', backgroundColor: '#f1f5f9', color: '#475569', border: 'none', borderRadius: '4px', fontSize: '13px', fontWeight: '500', cursor: 'pointer' }}>Clear Filter</button>
+              <button type="button" onClick={() => setShowFilterModal(false)} style={{ flex: 1, padding: '10px 0', backgroundColor: '#0ab39c', border: 'none', color: '#fff', borderRadius: '4px', fontSize: '13px', fontWeight: '500', cursor: 'pointer' }}>Filters</button>
             </div>
           </div>
         </div>
       )}
 
-      {/* ── Edit Lead Modal ── */}
-      {editingLead && (
+      {/* ── Download Leads Modal ── */}
+      {showDownloadModal && (
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 99999, display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
+          <div style={{ backgroundColor: '#fff', width: '420px', height: '100vh', display: 'flex', flexDirection: 'column', overflow: 'hidden', boxShadow: '-5px 0 25px rgba(0,0,0,0.1)' }}>
+            
+            {/* Header */}
+            <div style={{ padding: '16px 20px', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#64748b' }}>
+                <i className="ri-filter-3-line" style={{ fontSize: '18px' }}></i>
+                <h6 style={{ margin: 0, fontWeight: '600', fontSize: '14.5px', color: '#334155' }}>Filter Leads Report</h6>
+              </div>
+              <button onClick={() => setShowDownloadModal(false)} style={{ background: 'none', border: 'none', fontSize: '20px', cursor: 'pointer', color: '#64748b' }}>✕</button>
+            </div>
+
+            {/* Body */}
+            <div style={{ padding: '16px 24px', overflowY: 'auto', flex: 1, fontSize: '12.5px', color: '#334155' }}>
+              
+              {/* STATUS */}
+              <div style={{ marginBottom: '20px' }}>
+                <div style={{ fontWeight: '700', color: '#94a3b8', fontSize: '11px', marginBottom: '10px' }}>STATUS</div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> New Leads</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" /> Not Connected</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" /> In Progress</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" /> SV Scheduled</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" /> EOI Completed</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" /> Bookings In Progress</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" /> Booking Completed</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" /> Dead Lead</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" /> SV Completed</label>
+                </div>
+              </div>
+
+              {/* SELECT INTENT */}
+              <div style={{ marginBottom: '20px' }}>
+                <div style={{ fontWeight: '700', color: '#94a3b8', fontSize: '11px', marginBottom: '10px' }}>SELECT INTENT</div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> New</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> Cold</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" /> Warm</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" /> Hot</label>
+                </div>
+              </div>
+
+              {/* SELECT LOOKING FOR */}
+              <div style={{ marginBottom: '20px' }}>
+                <div style={{ fontWeight: '700', color: '#94a3b8', fontSize: '11px', marginBottom: '10px' }}>SELECT LOOKING FOR</div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> Property on Rent</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> Buy New Property</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> Property on Loan</label>
+                </div>
+              </div>
+
+              {/* SELECT FOLLOWUP DATE */}
+              <div style={{ marginBottom: '20px' }}>
+                <div style={{ fontWeight: '700', color: '#94a3b8', fontSize: '11px', marginBottom: '10px' }}>SELECT FOLLOWUP DATE</div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px', marginBottom: '10px' }}>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><input type="radio" name="fd2" defaultChecked /> All Dates</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><input type="radio" name="fd2" /> Today</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><input type="radio" name="fd2" /> Yesterday</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><input type="radio" name="fd2" /> Tomorrow</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '6px', gridColumn: 'span 2' }}><input type="radio" name="fd2" /> Select Date</label>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
+                  <span style={{ width: '40px' }}>From</span>
+                  <input type="text" placeholder="mm/dd/yyyy" style={{ flex: 1, padding: '6px 10px', border: '1px solid #cbd5e1', borderRadius: '4px', backgroundColor: '#f8fafc', outline: 'none' }} />
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <span style={{ width: '40px' }}>To</span>
+                  <input type="text" placeholder="mm/dd/yyyy" style={{ flex: 1, padding: '6px 10px', border: '1px solid #cbd5e1', borderRadius: '4px', backgroundColor: '#f8fafc', outline: 'none' }} />
+                </div>
+              </div>
+
+              {/* LEADS SOURCE */}
+              <div style={{ marginBottom: '20px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
+                  <div style={{ fontWeight: '700', color: '#94a3b8', fontSize: '11px' }}>LEADS SOURCE</div>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '6px', fontWeight: '600' }}><input type="checkbox" defaultChecked /> Select All</label>
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> Facebook Ads</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> Google Ads</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> Referance</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> Landing Page</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> 99 Acres</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> OLX</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> Magicbricks</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> Common Floor</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> Makaan</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> Housing</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> Company Website</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> Whatsapp</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> Just dial</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> Tele Calling</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> Youtube</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> Other</label>
+                </div>
+              </div>
+
+              {/* CONTENT */}
+              <div style={{ marginBottom: '20px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
+                  <div style={{ fontWeight: '700', color: '#94a3b8', fontSize: '11px' }}>CONTENT</div>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '6px', fontWeight: '600' }}><input type="checkbox" defaultChecked /> Select All</label>
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> CreatedDate</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> Status</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> Name</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> Phone</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> Intent</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> Comment</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> LookingFor</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> Source</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><input type="checkbox" defaultChecked /> Date</label>
+                </div>
+              </div>
+
+            </div>
+
+            {/* Footer */}
+            <div style={{ padding: '16px 20px', borderTop: '1px solid #e2e8f0', display: 'flex', gap: '10px' }}>
+              <button type="button" onClick={() => setShowDownloadModal(false)} style={{ flex: 1, padding: '10px 0', backgroundColor: '#f1f5f9', color: '#475569', border: 'none', borderRadius: '4px', fontSize: '13px', fontWeight: '500', cursor: 'pointer' }}>Clear Filter</button>
+              <button type="button" onClick={() => { exportToCSV(); setShowDownloadModal(false); }} style={{ flex: 1, padding: '10px 0', backgroundColor: '#0ab39c', border: 'none', color: '#fff', borderRadius: '4px', fontSize: '13px', fontWeight: '500', cursor: 'pointer' }}>Download</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── Notification Section Modal ── */}
+      {showNotificationModal && (
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 99999, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <div style={{ backgroundColor: '#fff', borderRadius: '8px', width: '90%', maxWidth: '540px', overflow: 'hidden', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)' }}>
-            <div style={{ padding: '14px 20px', backgroundColor: '#0284c7', color: '#fff', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h6 style={{ margin: 0, fontWeight: '700', fontSize: '15px' }}>✏️ Edit Lead #{editingLead.id}</h6>
-              <button onClick={() => setEditingLead(null)} style={{ background: 'none', border: 'none', color: '#fff', fontSize: '18px', cursor: 'pointer' }}>×</button>
+          <div style={{ backgroundColor: '#f8fafc', borderRadius: '8px', width: '90%', maxWidth: '1000px', maxHeight: '90vh', display: 'flex', flexDirection: 'column', overflow: 'hidden', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)' }}>
+            
+            <div style={{ padding: '24px', overflowY: 'auto' }}>
+                <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '20px' }}>
+                  <button onClick={() => setShowNotificationModal(false)} style={{ background: 'none', border: 'none', fontSize: '20px', cursor: 'pointer', color: '#64748b' }}>✕</button>
+                </div>
+
+                {/* Top Filters */}
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', alignItems: 'center', marginBottom: '40px', justifyContent: 'center' }}>
+                  
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <i className="ri-calendar-event-line" style={{ color: '#64748b', fontSize: '18px' }}></i>
+                    <input type="text" defaultValue="Daily" style={{ width: '100px', padding: '6px 12px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '13px', color: '#334155' }} />
+                  </div>
+                  
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <i className="ri-user-settings-line" style={{ color: '#64748b', fontSize: '18px' }}></i>
+                    <input type="text" defaultValue="admin@ema" style={{ width: '120px', padding: '6px 12px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '13px', color: '#334155' }} />
+                  </div>
+
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{ fontSize: '13px', color: '#334155', fontWeight: '500' }}>From:</span>
+                    <input type="text" placeholder="mm/dd/yy" style={{ width: '100px', padding: '6px 12px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '13px', backgroundColor: '#f1f5f9' }} />
+                  </div>
+
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{ fontSize: '13px', color: '#334155', fontWeight: '500' }}>To:</span>
+                    <input type="text" placeholder="mm/dd/yy" style={{ width: '100px', padding: '6px 12px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '13px', backgroundColor: '#f1f5f9' }} />
+                  </div>
+
+                  <button style={{ backgroundColor: '#405189', color: '#fff', border: 'none', padding: '8px 16px', borderRadius: '4px', fontSize: '13px', fontWeight: '500', cursor: 'pointer' }}>
+                    Notification Details
+                  </button>
+                </div>
+
+                <h4 style={{ textAlign: 'center', color: '#334155', marginBottom: '20px', fontWeight: '500' }}>Today Notification</h4>
+
+                {/* Table */}
+                <div style={{ backgroundColor: '#fff', border: '1px solid #e2e8f0', borderRadius: '4px', overflowX: 'auto' }}>
+                  <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px', color: '#334155' }}>
+                    <thead>
+                      <tr style={{ backgroundColor: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
+                        <th style={{ padding: '12px 16px', fontWeight: '600', textAlign: 'left', borderRight: '1px solid #e2e8f0' }}>Name</th>
+                        <th style={{ padding: '12px 16px', fontWeight: '600', textAlign: 'left', borderRight: '1px solid #e2e8f0' }}>Phone</th>
+                        <th style={{ padding: '12px 16px', fontWeight: '600', textAlign: 'left', borderRight: '1px solid #e2e8f0' }}>Nextfollowupdate</th>
+                        <th style={{ padding: '12px 16px', fontWeight: '600', textAlign: 'left', borderRight: '1px solid #e2e8f0' }}>Status</th>
+                        <th style={{ padding: '12px 16px', fontWeight: '600', textAlign: 'left', borderRight: '1px solid #e2e8f0' }}>Source</th>
+                        <th style={{ padding: '12px 16px', fontWeight: '600', textAlign: 'left', borderRight: '1px solid #e2e8f0' }}>Comment</th>
+                        <th style={{ padding: '12px 16px', fontWeight: '600', textAlign: 'left', borderRight: '1px solid #e2e8f0' }}>Looking_for</th>
+                        <th style={{ padding: '12px 16px', fontWeight: '600', textAlign: 'left' }}>Intent</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td colSpan="8" style={{ padding: '24px', textAlign: 'center', color: '#94a3b8' }}>No notifications for today</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
             </div>
-            <form onSubmit={(e) => {
-              e.preventDefault();
-              const fd = new FormData(e.target);
-              setLeads(prev => prev.map(l => l.id === editingLead.id ? {
-                ...l,
-                name: fd.get('name') || l.name,
-                phone: fd.get('phone') || l.phone,
-                email: fd.get('email') || l.email,
-                budget: fd.get('budget') || l.budget,
-                lookingFor: fd.get('lookingFor') || l.lookingFor,
-                status: fd.get('status') || l.status,
-                intent: fd.get('intent') || l.intent,
-                source: fd.get('source') || l.source,
-                assignedTo: fd.get('assignedTo') || l.assignedTo,
-                location: fd.get('location') || l.location,
-                note: fd.get('note') || l.note,
-              } : l));
-              setEditingLead(null);
-            }} style={{ padding: '20px', maxHeight: '80vh', overflowY: 'auto' }}>
-              <div style={{ marginBottom: '12px' }}>
-                <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '4px' }}>Client Full Name *</label>
-                <input required name="name" type="text" defaultValue={editingLead.name} style={{ width: '100%', padding: '8px 12px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '13px' }} />
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '12px' }}>
-                <div>
-                  <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '4px' }}>Primary Phone *</label>
-                  <input required name="phone" type="text" defaultValue={editingLead.phone} style={{ width: '100%', padding: '8px 12px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '13px' }} />
-                </div>
-                <div>
-                  <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '4px' }}>Secondary Phone *</label>
-                  <input required name="phone2" type="text" defaultValue={editingLead.phone2 || ''} style={{ width: '100%', padding: '8px 12px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '13px' }} />
-                </div>
-              </div>
-              <div style={{ marginBottom: '12px' }}>
-                <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '4px' }}>Email Address</label>
-                <input name="email" type="email" defaultValue={editingLead.email} style={{ width: '100%', padding: '8px 12px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '13px' }} />
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '12px' }}>
-                <div>
-                  <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '4px' }}>Requirement</label>
-                  <input name="lookingFor" type="text" defaultValue={editingLead.lookingFor} style={{ width: '100%', padding: '8px 12px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '13px' }} />
-                </div>
-                <div>
-                  <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '4px' }}>Budget Range</label>
-                  <input name="budget" type="text" defaultValue={editingLead.budget} style={{ width: '100%', padding: '8px 12px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '13px' }} />
-                </div>
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '12px' }}>
-                <div>
-                  <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '4px' }}>Status</label>
-                  <select name="status" defaultValue={editingLead.status} style={{ width: '100%', padding: '8px 12px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '13px' }}>
-                    <option value="NEW LEAD">NEW LEAD</option>
-                    <option value="IN FOLLOWUP">IN FOLLOWUP</option>
-                    <option value="SITE VISIT">SITE VISIT</option>
-                    <option value="SV COMPLETED">SV COMPLETED</option>
-                    <option value="BOOKING INPROGRESS">BOOKING INPROGRESS</option>
-                    <option value="BOOKINGS/ EOI">BOOKINGS/ EOI</option>
-                    <option value="DEAD LEAD">DEAD LEAD</option>
-                  </select>
-                </div>
-                <div>
-                  <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '4px' }}>Intent</label>
-                  <select name="intent" defaultValue={editingLead.intent} style={{ width: '100%', padding: '8px 12px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '13px' }}>
-                    <option value="HOT LEAD">HOT LEAD</option>
-                    <option value="WARM LEAD">WARM LEAD</option>
-                    <option value="NEW LEAD">NEW LEAD</option>
-                    <option value="SITE VISIT">SITE VISIT</option>
-                    <option value="FINAL DEAL">FINAL DEAL</option>
-                    <option value="CLOSED">CLOSED</option>
-                  </select>
-                </div>
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '12px' }}>
-                <div>
-                  <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '4px' }}>Assigned To</label>
-                  <select name="assignedTo" defaultValue={editingLead.assignedTo} style={{ width: '100%', padding: '8px 12px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '13px' }}>
-                    <option value="Admin">Admin</option>
-                    <option value="Sales Team">Sales Team</option>
-                    <option value="Executive">Executive</option>
-                    <option value="Manager">Manager</option>
-                  </select>
-                </div>
-                <div>
-                  <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '4px' }}>Location</label>
-                  <input name="location" type="text" defaultValue={editingLead.location} style={{ width: '100%', padding: '8px 12px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '13px' }} />
-                </div>
-              </div>
-              <div style={{ marginBottom: '16px' }}>
-                <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '4px' }}>Inquiry Note / Remarks</label>
-                <textarea name="note" rows="3" defaultValue={editingLead.note} style={{ width: '100%', padding: '8px 12px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '13px' }}></textarea>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
-                <button type="button" onClick={() => setEditingLead(null)} style={{ padding: '8px 16px', border: '1px solid #cbd5e1', background: '#fff', borderRadius: '4px', fontSize: '13px', cursor: 'pointer' }}>Cancel</button>
-                <button type="submit" style={{ padding: '8px 20px', backgroundColor: '#00b894', border: 'none', color: '#fff', borderRadius: '4px', fontSize: '13px', fontWeight: '700', cursor: 'pointer' }}>💾 Save Changes</button>
-              </div>
-            </form>
           </div>
         </div>
       )}
-
-      {/* ── Add New Lead Modal ── */}
+{/* ── Add New Lead Modal ── */}
       {showAddModal && (
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 99999, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <div style={{ backgroundColor: '#fff', borderRadius: '8px', width: '90%', maxWidth: '500px', overflow: 'hidden', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)' }}>
+          <div style={{ backgroundColor: '#fff', borderRadius: '8px', width: '90%', maxWidth: '420px', maxHeight: '90vh', display: 'flex', flexDirection: 'column', overflow: 'hidden', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)' }}>
+            
+            {/* Modal Header */}
             <div style={{ padding: '14px 20px', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h6 style={{ margin: 0, fontWeight: '700', fontSize: '15px' }}>+ Add New Lead</h6>
-              <button onClick={() => setShowAddModal(false)} style={{ background: 'none', border: 'none', fontSize: '18px', cursor: 'pointer' }}>×</button>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <i className="ri-file-add-line" style={{ color: '#475569', fontSize: '18px' }}></i>
+                <h6 style={{ margin: 0, fontWeight: '600', fontSize: '15px', color: '#1e293b' }}>Add New Lead</h6>
+              </div>
+              <button onClick={() => setShowAddModal(false)} style={{ background: 'none', border: 'none', fontSize: '20px', cursor: 'pointer', color: '#64748b', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <i className="ri-close-line"></i>
+              </button>
             </div>
+
+            {/* Modal Body (Scrollable) */}
             <form onSubmit={(e) => {
               e.preventDefault();
               const fd = new FormData(e.target);
@@ -1024,57 +1060,132 @@ export default function LeadsDashboard() {
                 id: `20220${Math.floor(10000 + Math.random() * 90000)}`,
                 name: fd.get('name') || 'New Client',
                 phone: fd.get('phone') || '+91 9000000000',
-                email: fd.get('email') || 'client@example.com',
+                email: fd.get('email') || '',
                 status: 'NEW LEAD',
                 statusDate: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true }),
-                budget: fd.get('budget') || '50 LACS',
+                budget: fd.get('budget') || '0',
                 intent: 'NEW LEAD',
-                note: fd.get('note') || 'Fresh inquiry received via admin panel ..',
-                lookingFor: fd.get('lookingFor') || '2 BHK Apartment',
-                source: 'Admin Direct',
+                note: fd.get('note') || '',
+                lookingFor: fd.get('lookingFor') || 'Buy New Property',
+                source: fd.get('source') || 'Facebook Ads',
                 assignedTo: 'Admin',
-                location: 'Wagholi',
+                location: fd.get('location') || '',
                 followups: []
               };
               setLeads([newObj, ...leads]);
               setShowAddModal(false);
-            }} style={{ padding: '20px' }}>
-              <div style={{ marginBottom: '12px' }}>
-                <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '4px' }}>Client Full Name *</label>
-                <input required name="name" type="text" placeholder="Full name" style={{ width: '100%', padding: '8px 12px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '13px' }} />
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '12px' }}>
-                <div>
-                  <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '4px' }}>Primary Phone *</label>
-                  <input required name="phone" type="text" placeholder="10-digit primary mobile" style={{ width: '100%', padding: '8px 12px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '13px' }} />
+            }} style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+              
+              <div style={{ padding: '16px 20px', overflowY: 'auto', flex: 1, display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                
+                {/* File Upload / Excel */}
+                <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start', flexDirection: 'column' }}>
+                  <input type="file" name="excelFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" style={{ width: '100%', padding: '6px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '13px' }} />
+                  <button type="button" style={{ backgroundColor: '#405189', color: '#fff', border: 'none', padding: '7px 14px', borderRadius: '4px', fontSize: '12.5px', fontWeight: '500', cursor: 'pointer' }}>
+                    Upload Excel
+                  </button>
                 </div>
+
+                {/* Full Name */}
                 <div>
-                  <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '4px' }}>Secondary Phone *</label>
-                  <input required name="phone2" type="text" placeholder="10-digit secondary mobile" style={{ width: '100%', padding: '8px 12px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '13px' }} />
+                  <label style={{ display: 'block', fontSize: '12.5px', fontWeight: '500', color: '#334155', marginBottom: '6px' }}>Full Name <span style={{color: '#ef4444'}}>*</span></label>
+                  <input required name="name" type="text" placeholder="Enter lead name" style={{ width: '100%', padding: '8px 12px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '13px', outline: 'none' }} />
                 </div>
-              </div>
-              <div style={{ marginBottom: '12px' }}>
-                <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '4px' }}>Email Address</label>
-                <input name="email" type="email" placeholder="Email address" style={{ width: '100%', padding: '8px 12px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '13px' }} />
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '12px' }}>
+
+                {/* Phone */}
                 <div>
-                  <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '4px' }}>Requirement</label>
-                  <input name="lookingFor" type="text" placeholder="e.g. 2BHK / Villa" style={{ width: '100%', padding: '8px 12px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '13px' }} />
+                  <label style={{ display: 'block', fontSize: '12.5px', fontWeight: '500', color: '#334155', marginBottom: '6px' }}>Phone <span style={{color: '#ef4444'}}>*</span></label>
+                  <input required name="phone" type="text" placeholder="Enter 10 digit number" style={{ width: '100%', padding: '8px 12px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '13px', outline: 'none' }} />
                 </div>
+
+                {/* Alternate Phone */}
                 <div>
-                  <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '4px' }}>Budget</label>
-                  <input name="budget" type="text" placeholder="e.g. 60 LACS" style={{ width: '100%', padding: '8px 12px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '13px' }} />
+                  <label style={{ display: 'block', fontSize: '12.5px', fontWeight: '500', color: '#334155', marginBottom: '6px' }}>Alternate Phone</label>
+                  <input name="altPhone" type="text" placeholder="Enter 10 digit number" style={{ width: '100%', padding: '8px 12px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '13px', outline: 'none' }} />
                 </div>
+
+                {/* Email */}
+                <div>
+                  <label style={{ display: 'block', fontSize: '12.5px', fontWeight: '500', color: '#334155', marginBottom: '6px' }}>Email (Optional)</label>
+                  <input name="email" type="email" placeholder="Enter email" style={{ width: '100%', padding: '8px 12px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '13px', outline: 'none' }} />
+                </div>
+
+                {/* City */}
+                <div>
+                  <label style={{ display: 'block', fontSize: '12.5px', fontWeight: '500', color: '#334155', marginBottom: '6px' }}>City</label>
+                  <input name="city" type="text" placeholder="Enter city" style={{ width: '100%', padding: '8px 12px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '13px', outline: 'none' }} />
+                </div>
+
+                {/* Location */}
+                <div>
+                  <label style={{ display: 'block', fontSize: '12.5px', fontWeight: '500', color: '#334155', marginBottom: '6px' }}>Location</label>
+                  <input name="location" type="text" placeholder="Location" style={{ width: '100%', padding: '8px 12px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '13px', outline: 'none' }} />
+                </div>
+
+                {/* Budget */}
+                <div>
+                  <label style={{ display: 'block', fontSize: '12.5px', fontWeight: '500', color: '#334155', marginBottom: '6px' }}>Budget <span style={{color: '#ef4444'}}>*</span></label>
+                  <input required name="budget" type="text" defaultValue="0" style={{ width: '100%', padding: '8px 12px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '13px', outline: 'none' }} />
+                </div>
+
+                {/* Looking For */}
+                <div>
+                  <label style={{ display: 'block', fontSize: '12.5px', fontWeight: '500', color: '#334155', marginBottom: '6px' }}>Looking For <span style={{color: '#ef4444'}}>*</span></label>
+                  <select required name="lookingFor" style={{ width: '100%', padding: '8px 12px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '13px', outline: 'none', backgroundColor: '#fff', color: '#334155' }}>
+                    <option value="Buy New Property">Buy New Property</option>
+                    <option value="Property on Rent">Property on Rent</option>
+                    <option value="Loan">Loan</option>
+                  </select>
+                </div>
+
+                {/* Lead Source */}
+                <div>
+                  <label style={{ display: 'block', fontSize: '12.5px', fontWeight: '500', color: '#334155', marginBottom: '6px' }}>Lead Source</label>
+                  <select name="source" style={{ width: '100%', padding: '8px 12px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '13px', outline: 'none', backgroundColor: '#fff', color: '#334155' }}>
+                    <option value="Facebook Ads">Facebook Ads</option>
+                    <option value="Google Ads">Google Ads</option>
+                    <option value="Referance">Referance</option>
+                    <option value="Landing Page">Landing Page</option>
+                    <option value="99 Acres">99 Acres</option>
+                    <option value="Magicbricks">Magicbricks</option>
+                    <option value="Common Floor">Common Floor</option>
+                    <option value="Makaan">Makaan</option>
+                    <option value="Tele Calling">Tele Calling</option>
+                    <option value="Youtube">Youtube</option>
+                    <option value="Housing">Housing</option>
+                    <option value="OLX">OLX</option>
+                    <option value="Company Website">Company Website</option>
+                    <option value="Whatsapp">Whatsapp</option>
+                    <option value="Just Dial">Just Dial</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+
+                {/* Select Project */}
+                <div>
+                  <label style={{ display: 'block', fontSize: '12.5px', fontWeight: '500', color: '#334155', marginBottom: '6px' }}>Select Project</label>
+                  <select name="project" style={{ width: '100%', padding: '8px 12px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '13px', outline: 'none', backgroundColor: '#fff', color: '#334155', appearance: 'auto' }}>
+                    <option value="">-- Select Project --</option>
+                    {projectsList.map(proj => (
+                      <option key={proj.id} value={proj.title}>{proj.title}</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Lead Note */}
+                <div>
+                  <label style={{ display: 'block', fontSize: '12.5px', fontWeight: '500', color: '#334155', marginBottom: '6px' }}>Lead Note</label>
+                  <textarea name="note" rows="3" placeholder="Enter lead details, Description, Requirements etc." style={{ width: '100%', padding: '8px 12px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '13px', outline: 'none', resize: 'vertical' }}></textarea>
+                </div>
+
               </div>
-              <div style={{ marginBottom: '16px' }}>
-                <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '4px' }}>Inquiry Note</label>
-                <textarea name="note" rows="2" placeholder="Enter inquiry details..." style={{ width: '100%', padding: '8px 12px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '13px' }}></textarea>
+              
+              {/* Modal Footer */}
+              <div style={{ padding: '14px 20px', borderTop: '1px solid #e2e8f0', display: 'flex', justifyContent: 'center', gap: '12px', backgroundColor: '#fff' }}>
+                <button type="button" onClick={() => setShowAddModal(false)} style={{ padding: '10px 28px', backgroundColor: '#f1f5f9', color: '#1e293b', border: 'none', borderRadius: '4px', fontSize: '13px', fontWeight: '500', cursor: 'pointer' }}>Close</button>
+                <button type="submit" style={{ padding: '10px 28px', backgroundColor: '#0ab39c', border: 'none', color: '#fff', borderRadius: '4px', fontSize: '13px', fontWeight: '500', cursor: 'pointer' }}>Add lead</button>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
-                <button type="button" onClick={() => setShowAddModal(false)} style={{ padding: '8px 16px', border: '1px solid #cbd5e1', background: '#fff', borderRadius: '4px', fontSize: '13px', cursor: 'pointer' }}>Cancel</button>
-                <button type="submit" style={{ padding: '8px 18px', backgroundColor: '#00b894', border: 'none', color: '#fff', borderRadius: '4px', fontSize: '13px', fontWeight: '600', cursor: 'pointer' }}>Save Lead</button>
-              </div>
+
             </form>
           </div>
         </div>

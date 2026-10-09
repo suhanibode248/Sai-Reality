@@ -1,0 +1,305 @@
+<div class="container-fluid">
+ <!-- start page title -->
+ <div class="row">
+  <div class="col-12">
+   <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+    <h4 class="mb-sm-0 text-uppercase">
+     all Transactions
+    </h4>
+    <div class="page-title-right">
+     <ol class="breadcrumb m-0">
+      <li class="breadcrumb-item">
+       <a href="javascript: void(0);">
+        Finance &amp; Account
+       </a>
+      </li>
+      <li class="breadcrumb-item active">
+       Transaction
+      </li>
+     </ol>
+    </div>
+   </div>
+  </div>
+ </div>
+ <!-- end page title -->
+ <div class="row">
+  <div class="col-lg-12">
+   <div class="card" id="leadsList">
+    <div class="card-header border-0">
+     <div class="row g-4 align-items-center">
+      <div class="col-sm-3">
+       <div class="search-box">
+        <input class="form-control search" placeholder="Search for..." type="text"/>
+        <i class="ri-search-line search-icon">
+        </i>
+       </div>
+      </div>
+      <div class="col-sm-auto ms-auto">
+       <div class="hstack gap-2">
+        <a class="btn btn-soft-primary add-btn" href="/dashboard/transaction/all/">
+         <i class="ri-restart-line me-1">
+         </i>
+         Refresh
+        </a>
+        <button class="btn btn-success add-btn" data-bs-target="#showModal" data-bs-toggle="modal" id="create-btn" type="button">
+         <i class="ri-add-line align-bottom me-1">
+         </i>
+         Add New Transaction
+        </button>
+        <button class="btn btn-info" data-bs-toggle="offcanvas" href="#offcanvasExample" type="button">
+         <i class="ri-filter-3-line align-bottom me-1">
+         </i>
+         Fliters
+        </button>
+        <a class="btn btn-warning add-btn" href="/dashboard/get-transaction-csv/" type="submit">
+         <i class="ri-download-cloud-line align-bottom me-1">
+         </i>
+         Download Statement
+                                        CSV
+        </a>
+        <a class="btn btn-soft-info add-btn" href="/dashboard/finance-overview/">
+         <i class="ri-arrow-go-back-line align-bottom me-1">
+         </i>
+         Back
+        </a>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="card-body">
+     <div>
+      <div class="table-responsive table-card" id="print-content">
+       <table class="table align-middle" id="customerTable">
+        <thead class="table-light">
+         <tr>
+          <th>
+           Tr. ID
+          </th>
+          <th class="sort" data-sort="name">
+           Category
+          </th>
+          <th class="sort" data-sort="company_name">
+           Type
+          </th>
+          <th class="sort" data-sort="leads_score">
+           Amount
+          </th>
+          <th class="sort" data-sort="phone">
+           Description
+          </th>
+          <th class="sort" data-sort="date">
+           Create Date
+          </th>
+          <th class="sort" data-sort="action">
+           Action
+          </th>
+         </tr>
+        </thead>
+       </table>
+       <div class="noresult">
+        <div class="text-center">
+         <lord-icon colors="primary:#121331,secondary:#08a88a" src="https://cdn.lordicon.com/msoeawqm.json" style="width:75px;height:75px" trigger="loop">
+         </lord-icon>
+         <h5 class="mt-2">
+          Sorry! No Data Found
+         </h5>
+         <p class="text-muted mb-0">
+          We've searched all database, But we did
+                                            not find any leads for you.
+         </p>
+        </div>
+       </div>
+      </div>
+      <div class="d-flex justify-content-end mt-3">
+       <div class="pagination-wrap hstack gap-2">
+        <label class="mt-2 text-muted" for="">
+         Avilable Leads 0
+        </label>
+        <a class="page-item pagination-prev disabled" href="#">
+         Previous
+        </a>
+        <!-- <ul class="btn btn-sm btn-primary mb-0">1</ul> -->
+        <li class="page-item active">
+         <a class="page-link" href="#">
+          1
+         </a>
+        </li>
+        <a class="page-item pagination-prev disabled" href="#">
+         Next
+        </a>
+       </div>
+      </div>
+      <div class="d-flex justify-content-end mt-3 d-none">
+       <div class="pagination-wrap hstack gap-2">
+        <a class="pagination-prev disabled" href="#">
+         Previous
+        </a>
+        <ul class="pagination mb-0">
+        </ul>
+        <a class="page-item pagination-next" href="#">
+         Next
+        </a>
+       </div>
+      </div>
+     </div>
+     <!-- transaction Delete Modal -->
+     <!-- Add New Leads Modal  -->
+     <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="showModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+       <div class="modal-content">
+        <div class="modal-header bg-light p-3">
+         <h3 class="mt-1">
+          <i class="mdi mdi-file-account-outline">
+          </i>
+          Add New
+                                            Transaction
+         </h3>
+         <h5 class="modal-title" id="exampleModalLabel">
+         </h5>
+         <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" id="close-modal" type="button">
+         </button>
+        </div>
+        <div class="card">
+         <div class="card-header align-items-center border-0 d-flex">
+          <h4 class="card-title mb-0 flex-grow-1">
+           <i class="ri-file-add-line me-1 align-bottom">
+           </i>
+           Transaction
+          </h4>
+          <div class="flex-shrink-0">
+           <ul class="nav justify-content-end nav-tabs-custom rounded card-header-tabs border-bottom-0" role="tablist">
+            <li class="nav-item">
+             <a aria-selected="false" class="nav-link active" data-bs-toggle="tab" href="#buy-tab" role="tab">
+              <i class="ri-arrow-down-line align-bottom me-1 text-success">
+              </i>
+              Income
+             </a>
+            </li>
+            <li class="nav-item">
+             <a aria-selected="true" class="nav-link" data-bs-toggle="tab" href="#sell-tab" role="tab">
+              <i class="ri-arrow-up-line align-bottom me-1 text-danger">
+              </i>
+              Expenses
+             </a>
+            </li>
+           </ul>
+           <!-- end ul -->
+          </div>
+         </div>
+         <!-- end cardheader -->
+         <div class="card-body p-0" style="height: 418px;">
+          <div class="tab-content p-0">
+           <div class="tab-pane active" id="buy-tab" role="tabpanel">
+            <form action="/dashboard/add-new-transaction/" method="post">
+             <input name="csrfmiddlewaretoken" type="hidden" value="HJskyM7AxcmqR4r21UWwo0ks8LdhbLBEzGgHJm2UlEHy8J0x94EMuveHQNoEfoMz"/>
+             <div class="p-3 mt-2">
+              <div class="row">
+               <div class="col-12">
+                <div class="mb-3">
+                 <label>
+                  Select Income Category :
+                 </label>
+                 <select class="form-select" id="incomeCategorySelect" name="category" onchange="incomeCategory()">
+                  <option value="0">
+                   -- Select Income Category
+                                                                                --
+                  </option>
+                 </select>
+                </div>
+               </div>
+               <!-- end col -->
+              </div>
+              <!-- end row -->
+              <div>
+               <div class="input-group mb-3">
+                <label class="input-group-text">
+                 Amount
+                 <span class="text-danger">
+                  *
+                 </span>
+                </label>
+                <input class="form-control" name="amount" placeholder="0" required="" type="number"/>
+               </div>
+              </div>
+              <div class="mb-3 mt-2">
+               <label>
+                Description / Remark
+               </label>
+               <textarea class="form-control" cols="30" id="" name="description" rows="4"></textarea>
+               <input class="form-control mt-3 d-none" id="" name="accountType" readonly="" type="text" value="income"/>
+               <input class="form-control mt-3 d-none" id="" name="redirectUrl" readonly="" type="text" value="/dashboard/transaction/all/"/>
+              </div>
+              <div class="mt-3 pt-2">
+               <button class="btn btn-primary w-100" id="incomeCategoryButton" type="submit">
+                Submit
+               </button>
+              </div>
+             </div>
+            </form>
+           </div>
+           <!-- end tabpane -->
+           <div class="tab-pane" id="sell-tab" role="tabpanel">
+            <form action="/dashboard/add-new-transaction/" method="post">
+             <input name="csrfmiddlewaretoken" type="hidden" value="HJskyM7AxcmqR4r21UWwo0ks8LdhbLBEzGgHJm2UlEHy8J0x94EMuveHQNoEfoMz"/>
+             <div class="p-3 mt-2">
+              <div class="row">
+               <div class="col-12">
+                <div class="mb-3">
+                 <label>
+                  Select Expenses Category :
+                 </label>
+                 <select class="form-select" id="expenseCategorySelect" name="category" onchange="expenseCategory()">
+                  <option value="0">
+                   -- Select Expenses
+                                                                                Category --
+                  </option>
+                 </select>
+                </div>
+               </div>
+               <!-- end col -->
+              </div>
+              <!-- end row -->
+              <div>
+               <div class="input-group mb-3">
+                <label class="input-group-text">
+                 Amount
+                 <span class="text-danger">
+                  *
+                 </span>
+                </label>
+                <input class="form-control" name="amount" placeholder="0" required="" type="number"/>
+               </div>
+              </div>
+              <div class="mb-3 mt-2">
+               <label>
+                Description / Remark
+               </label>
+               <textarea class="form-control" cols="30" id="" name="description" rows="4"></textarea>
+               <input class="form-control mt-3 d-none" id="" name="accountType" readonly="" type="text" value="expenses"/>
+               <input class="form-control mt-3 d-none" id="" name="redirectUrl" readonly="" type="text" value="/dashboard/transaction/all/"/>
+              </div>
+              <div class="mt-3 pt-2">
+               <button class="btn btn-primary w-100" id="expenseCategoryButton" type="submit">
+                Submit
+               </button>
+              </div>
+             </div>
+            </form>
+           </div>
+           <!-- end tab pane -->
+          </div>
+          <!-- end tab pane -->
+         </div>
+         <!-- end card body -->
+        </div>
+       </div>
+      </div>
+     </div>
+     <!--end modal-->
+    </div>
+   </div>
+  </div>
+  <!--end col-->
+ </div>
+ <!--end row-->
+</div>

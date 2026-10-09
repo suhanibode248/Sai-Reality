@@ -11230,6 +11230,72 @@ document.addEventListener('DOMContentLoaded', function() {
     // Featured Projects horizontal track allows native horizontal scrolling without blocking vertical page gestures
 });
 </script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('http://localhost:8000/api/sliders')
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success' && data.sliders.length > 0) {
+                const carouselInner = document.querySelector('#banner .carousel-inner');
+                if (carouselInner) {
+                    let newHtml = '';
+                    data.sliders.forEach((slider, index) => {
+                        const activeClass = index === 0 ? 'active' : '';
+                        const titleText = slider.title || '';
+                        
+                        newHtml += `
+                        <div class="carousel-item item-bg ${activeClass}" style="height: auto;">
+                            <img class="d-block w-100" src="${slider.image_path}" alt="${titleText}">
+                            <div class="carousel-caption banner-slider-inner d-flex h-100 text-start">
+                                <div class="carousel-content container align-self-center">
+                                    <div class="banner-info2">
+                                        <div class="text-l">
+                                            <h3>${titleText}</h3>
+                                            <a class="btn-2" href="/properties_all.html">Get Started Now</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        `;
+                    });
+                    carouselInner.innerHTML = newHtml;
+                }
+            }
+        })
+        .catch(error => console.error('Error fetching sliders:', error));
+
+    // Fetch offers dynamically
+    fetch('http://localhost:8000/api/offers')
+        .then(response => response.json())
+        .then(data => {
+            const marqueeContainer = document.querySelector('.marquee-container');
+            const marqueeElement = document.querySelector('.marquee-container marquee');
+            if (marqueeContainer && marqueeElement) {
+                if (data.status === 'success' && data.offers && data.offers.length > 0) {
+                    const offer = data.offers[0]; 
+                    marqueeContainer.style.backgroundColor = offer.background_color || '#44eee2';
+                    marqueeElement.style.color = offer.font_color || '#000000';
+                    if (offer.font_style) {
+                        marqueeElement.style.fontFamily = offer.font_style;
+                    }
+                    if (offer.duration) {
+                       marqueeElement.style.animationDuration = offer.duration + 's';
+                    }
+                    marqueeElement.innerHTML = offer.offer_text;
+                    marqueeContainer.style.display = 'block';
+                } else {
+                    // Hide if no offers
+                    marqueeContainer.style.display = 'none';
+                }
+            }
+        })
+        .catch(error => console.error('Error fetching offers:', error));
+
+});
+</script>
 </body>
+
 
 </html>

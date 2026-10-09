@@ -1,0 +1,1532 @@
+<!doctype html>
+
+<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg"
+    data-sidebar-image="none">
+
+
+<head>
+
+    <meta charset="utf-8" />
+    <title>Jobs Management </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+    <meta content="Themesbrand" name="author" />
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="/static/dashboard/assets/images/logo-sm.png"
+        style="width: 160px; border-radius: 5px;">
+
+    <!-- jsvectormap css -->
+    <link href="/static/dashboard/assets/libs/jsvectormap/css/jsvectormap.min.css" rel="stylesheet"
+        type="text/css" />
+
+    <!--Swiper slider css-->
+    <link href="/static/dashboard/assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- Layout config Js -->
+    <script src="/static/dashboard/assets/js/layout.js"></script>
+    <!-- Bootstrap Css -->
+    <link href="/static/dashboard/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <!-- Icons Css -->
+    <link href="/static/dashboard/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <!-- App Css-->
+    <link href="/static/dashboard/assets/css/app.min.css" rel="stylesheet" type="text/css" />
+    <!-- custom Css-->
+    <link href="/static/dashboard/assets/css/custom.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- Sweet Alert css-->
+    <link href="/static/dashboard/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet"
+        type="text/css" />
+
+
+    <!-- Plugins css -->
+    <link href="/static/dashboard/assets/libs/dropzone/dropzone.css" rel="stylesheet" type="text/css" />
+
+
+    <!-- nouisliderribute css -->
+    <link rel="stylesheet" href="/static/dashboard/assets/libs/nouislider/nouislider.min.css">
+    <!-- nouisliderribute css -->
+
+    <!-- gridjs css -->
+    <link rel="stylesheet" href="/static/dashboard/assets/libs/gridjs/theme/mermaid.min.css">
+
+    <!--Swiper slider css-->
+    <link href="/static/dashboard/assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- profile-setting init js -->
+    <script src="/static/dashboard/assets/js/pages/profile-setting.init.js"></script>
+
+    <!-- glightbox css -->
+    <link rel="stylesheet" href="/static/dashboard/assets/libs/glightbox/css/glightbox.min.css">
+
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Poppins" />
+
+
+
+    <style>
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+
+
+        .select2-container .select2-selection--multiple .select2-selection__choice {
+            background-color: #f0f3fe;
+            border: none;
+            color: rgb(8, 9, 8);
+            border-radius: 3px;
+            padding: 3px;
+            margin-top: 6px;
+        }
+    </style>
+
+    
+<style>
+    /* Ensure the off-canvas takes full height */
+    .offcanvas.offcanvas-top {
+        height: 100%;
+    }
+
+    .offcanvas-body {
+        overflow-y: auto; /* In case the content exceeds the screen size */
+    }
+</style>
+
+</head>
+
+<body>
+
+    <!-- Begin page -->
+    <div id="layout-wrapper">
+
+        <header id="page-topbar">
+            <div class="layout-width">
+                <div class="navbar-header">
+                    <div class="d-flex">
+                        <!-- LOGO -->
+                        <div class="navbar-brand-box horizontal-logo">
+                            <a href="/" class="logo logo-dark">
+                                <span class="logo-sm">
+                                    <img src="/static/dashboard/assets/images/logo-sm.png" alt="" height="22">
+                                </span>
+                                <span class="logo-lg">
+                                    <img src="/static/dashboard/assets/images/newLogo.png" alt="" height="17">
+                                </span>
+                            </a>
+
+                            <a href="/" class="logo logo-light">
+                                <span class="logo-sm">
+                                    <img src="/static/dashboard/assets/images/logo-sm.png" alt="" height="22">
+                                </span>
+                                <span class="logo-lg">
+                                    <img src="/static/dashboard/assets/images/newLogo.png" alt="" height="17">
+                                </span>
+                            </a>
+                        </div>
+
+                        <button type="button"
+                            class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger"
+                            id="topnav-hamburger-icon">
+                            <span class="hamburger-icon">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </span>
+                        </button>
+
+                        <!-- App Search-->
+                        <form class="app-search d-none d-md-block">
+                            <div class="position-relative">
+                                <input type="text" class="form-control" placeholder="Search..." autocomplete="off"
+                                    id="search-options" value="">
+                                <span class="mdi mdi-magnify search-widget-icon"></span>
+                                <span class="mdi mdi-close-circle search-widget-icon search-widget-icon-close d-none"
+                                    id="search-close-options"></span>
+                            </div>
+                            
+                        </form>
+                    </div>
+
+                    <div class="d-flex align-items-center">
+
+                        <div class="dropdown d-md-none topbar-head-dropdown header-item">
+                            <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
+                                id="page-header-search-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                <i class="bx bx-search fs-22"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
+                                aria-labelledby="page-header-search-dropdown">
+                                <form class="p-3">
+                                    <div class="form-group m-0">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Search ..."
+                                                aria-label="Recipient's username">
+                                            <button class="btn btn-primary" type="submit"><i
+                                                    class="mdi mdi-magnify"></i></button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+
+                        <div class="dropdown topbar-head-dropdown ms-1 header-item">
+                            <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class=' bx bx-plus fs-22'></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-lg p-0 dropdown-menu-end">
+                                <div class="p-3 border-top-0 border-start-0 border-end-0 border-dashed border">
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <h6 class="m-0 fw-semibold fs-15"> Shortcuts to add new </h6>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="p-2">
+                                    <div class="row g-0">
+                                        <div class="col">
+                                            <a class="dropdown-icon-item" href="/dashboard/leads/all/">
+                                                <i class="ri-file-list-2-line align-bottom fs-22"></i>
+                                                <span>Leads</span>
+                                            </a>
+                                        </div>
+
+                                        <div class="col">
+                                            <a class="dropdown-icon-item" href="/dashboard/create-new-project/">
+                                                <i class=" ri-briefcase-line align-bottom fs-22"></i>
+                                                <span>Project</span>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="row g-0">
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ms-1 header-item d-none d-sm-flex">
+                            <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
+                                data-toggle="fullscreen">
+                                <i class='bx bx-fullscreen fs-22'></i>
+                            </button>
+                        </div>
+
+
+
+                        <div class="ms-1 header-item d-none d-sm-flex">
+                            <a href="/dashboard/media-gallery/"
+                                class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle ">
+                                <i class=' bx bx-images fs-22'></i>
+                            </a>
+                        </div>
+
+                        <div class="ms-1 header-item d-none d-sm-flex">
+                            <a href="#" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle ">
+                                <i class=' ri-question-line fs-22'></i>
+                            </a>
+                        </div>
+                        <!-- <div class="ms-1 header-item d-none d-sm-flex">
+                            <a href="/dashboard/pricing-plan/"
+                                class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle ">
+                                <i class=' ri-price-tag-3-line fs-22'></i>
+                            </a>
+                        </div> -->
+
+
+                        <div class="dropdown ms-sm-3 header-item topbar-user">
+                            <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                <span class="d-flex align-items-center">
+                                    <img class="rounded-circle header-profile-user"
+                                        src="/static/dashboard/assets/images/userAvatar.png" alt="Header Avatar">
+                                    <span class="text-start ms-xl-2">
+                                        
+                                        <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">
+                                            Admin </span>
+                                        <span class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">
+                                            admin@email.com</span>
+                                        
+                                    </span>
+                                </span>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <!-- item-->
+                                <h6 class="dropdown-header">Welcome Anna!</h6>
+
+                                
+                                <a class="dropdown-item" href="/dashboard/my-account/"><i
+                                        class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span
+                                        class="align-middle">Profile</span></a>
+                                
+
+
+                                <a class="dropdown-item" href="#"><i
+                                        class="mdi mdi-lifebuoy text-muted fs-16 align-middle me-1"></i> <span
+                                        class="align-middle">Help</span></a>
+                                <div class="dropdown-divider"></div>
+                                <!-- <a class="dropdown-item" href="pages-profile.html"><i
+                                        class="mdi mdi-wallet text-muted fs-16 align-middle me-1"></i> <span
+                                        class="align-middle">Balance : <b>$5971.67</b></span></a> -->
+                                
+                                        
+                                <a class="dropdown-item"
+                                    href="/dashboard/edit-my-account/?redirectUrl=/dashboard/jobs/"><span
+                                        class="badge bg-soft-success text-success mt-1 float-end">New</span><i
+                                        class="mdi mdi-cog-outline text-muted fs-16 align-middle me-1"></i> <span
+                                        class="align-middle">Settings</span></a>
+                                    
+                                <!-- <a class="dropdown-item" href="auth-lockscreen-basic.html"><i
+                                        class="mdi mdi-lock text-muted fs-16 align-middle me-1"></i> <span
+                                        class="align-middle">Lock screen</span></a> -->
+                                <a class="dropdown-item" href="/dashboard/user-logout"><i
+                                        class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span
+                                        class="align-middle" data-key="t-logout">Logout</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- ========== App Menu ========== -->
+        <div class="app-menu navbar-menu">
+            <!-- LOGO -->
+            <div class="navbar-brand-box">
+                <!-- Dark Logo-->
+                <a href="#!" class="logo logo-dark">
+                    <span class="logo-sm">
+                        <h4></h4>
+                        <img src="/static/dashboard/assets/images/logo-sm.png" alt="" height="30">
+                    </span>
+                    <span class="logo-lg">
+                        <img src="/static/dashboard/assets/images/newLogo.png" alt=""
+                            style="width: 160px; border-radius: 5px;">
+                    </span>
+                </a>
+                <!-- Light Logo-->
+                <a href="#!" class="logo logo-light">
+                    <span class="logo-sm">
+                        <img src="/static/dashboard/assets/images/logo-sm.png" alt=""
+                            style="width: 35px; border-radius: 5px;">
+                    </span>
+                    <span class="logo-lg">
+                        <img src="/static/dashboard/assets/images/newLogo.png" alt=""
+                            style="width: 160px; border-radius: 5px;">
+                    </span>
+                </a>
+                <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"
+                    id="vertical-hover">
+                    <i class="ri-record-circle-line"></i>
+                </button>
+            </div>
+
+            <div id="scrollbar">
+                <div class="container-fluid">
+
+                    <div id="two-column-menu">
+                    </div>
+                    <ul class="navbar-nav" id="navbar-nav">
+                        <!-- <li class="menu-title"><span data-key="t-menu">Menu</span></li> -->
+                        
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="/dashboard/">
+                                <i class="ri-dashboard-2-line"></i> <span data-key="t-dashboards">Dashboards</span>
+                            </a>
+                        </li> <!-- end Dashboard Menu -->
+                        
+
+                        <li class="menu-title"><span data-key="t-menu">CRM</span></li>
+                        
+                        
+                        <li class="nav-item">
+                            
+                                <a class="nav-link menu-link" href="/dashboard/leads/all">
+                                    
+                                    <i class="ri-file-list-2-line"></i> <span data-key="t-dashboards">Leads</span>
+                                    <span
+                                        class="badge badge-soft-success align-middle rounded-pill ms-1"></span>
+                                </a>
+                        </li>
+                        
+                        <li class="nav-item">
+                            
+                                <a class="nav-link menu-link" href="/dashboard/properties">
+                                    
+                                    <i class=" ri-community-line"></i> <span data-key="t-dashboards">Properties</span>
+                                    <span
+                                        class="badge badge-soft-success align-middle rounded-pill ms-1"></span>
+                                </a>
+                        </li>
+
+                        <li class="nav-item">
+                            
+                                <a class="nav-link menu-link" href="/dashboard/projects/">
+                                    
+                                    <i class=" ri-building-line"></i> <span data-key="t-dashboards">Projects</span>
+                                    <span
+                                        class="badge badge-soft-success align-middle rounded-pill ms-1"></span>
+                                </a>
+                        </li>
+
+
+                        <li class="nav-item">
+                            
+                                <a class="nav-link menu-link" href="/dashboard/daily-report/">
+                                    
+                                    <i class="ri-time-line"></i> <span data-key="t-dashboards">Daily Report</span>
+                                </a>
+                        </li>
+
+                        
+                        <li class="menu-title"><span data-key="t-menu">Finance & Accounting</span></li>
+                        <li class="nav-item">
+                            
+                                <a class="nav-link menu-link" href="/dashboard/finance-overview/">
+                                    
+                                    <i class="ri-exchange-funds-line"></i> <span data-key="t-dashboards">Overview</span>
+                                </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#accountSidebar" data-bs-toggle="collapse" role="button"
+                                aria-expanded="false" aria-controls="accountSidebar">
+                                <i class="ri-swap-line"></i> <span data-key="t-dashboards">Transactions</span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="accountSidebar">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        
+                                        <a href="/dashboard/transaction/income/" class="nav-link"
+                                            data-key="t-analytics">
+                                            Income </a>
+                                        
+                                    </li>
+                                    <li class="nav-item">
+                                        
+                                        <a href="/dashboard/transaction/expenses/" class="nav-link" data-key="t-crm">
+                                            Expenses </a>
+                                        
+                                    </li>
+                                    <li class="nav-item">
+                                        
+                                        <a href="/dashboard/transaction/all/" class="nav-link" data-key="t-crm"> All
+                                        </a>
+                                        
+                                    </li>
+
+
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="menu-title"><span data-key="t-menu">Master</span></li>
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="/dashboard/my-account">
+                                <i class="ri-account-circle-line"></i> <span data-key="t-dashboards">My Account</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#leadsSidebar" data-bs-toggle="collapse" role="button"
+                                aria-expanded="false" aria-controls="leadsSidebar">
+                                <i class=" ri-group-line"></i> <span data-key="t-dashboards">Users</span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="leadsSidebar">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="/dashboard/users" class="nav-link" data-key="t-analytics">
+                                            Users </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/dashboard/user-attendance" class="nav-link" data-key="t-crm">
+                                            Attendance </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#leadsSidebar11" data-bs-toggle="collapse" role="button"
+                                aria-expanded="false" aria-controls="leadsSidebar11">
+                                <!-- https://feathericons.dev/?search=codesandbox&iconset=feather -->
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="main-grid-item-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                                    <polyline points="7.5 4.21 12 6.81 16.5 4.21" />
+                                    <polyline points="7.5 19.79 7.5 14.6 3 12" />
+                                    <polyline points="21 12 16.5 14.6 16.5 19.79" />
+                                    <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                                    <line x1="12" x2="12" y1="22.08" y2="12" />
+                              </svg>
+                            <span data-key="t-dashboards">Jobs & Applications</span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="leadsSidebar11">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="/dashboard/jobs" class="nav-link" data-key="t-analytics">
+                                            Jobs </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/dashboard/user-attendance" class="nav-link" data-key="t-crm">
+                                            Applications </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        
+                        
+
+                        <li class="menu-title"><span data-key="t-menu">Others</span></li>
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="/dashboard/media-gallery">
+                                <i class="ri-landscape-line"></i> <span data-key="t-dashboards">Media / Gallery</span>
+                            </a>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="/dashboard/website-slider">
+                                <i class=" ri-image-line"></i> <span data-key="t-dashboards">Website Sliders</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="/dashboard/website-offer">
+                                <!-- https://feathericons.dev/?search=gift&iconset=feather -->
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="main-grid-item-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                    <polyline points="20 12 20 22 4 22 4 12" />
+                                    <rect height="5" width="20" x="2" y="7" />
+                                    <line x1="12" x2="12" y1="22" y2="7" />
+                                    <line x1="12" x2="12" y1="22" y2="7" />
+                                    <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z" />
+                                    <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z" />
+                                </svg>
+   <span data-key="t-dashboards">Website Offer</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="/dashboard/reviews">
+                                <i class="ri-chat-smile-2-line"></i> <span data-key="t-dashboards">Reviews</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="/dashboard/contact">
+                                <!-- https://feathericons.dev/?search=mail&iconset=feather -->
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="main-grid-item-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                                    <polyline points="22,6 12,13 2,6" />
+                                </svg>
+                                <span data-key="t-dashboards">Contact Details</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="/dashboard/users-sequence">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="main-grid-item-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                    <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                                    <polyline points="2 17 12 22 22 17" />
+                                    <polyline points="2 12 12 17 22 12" />
+                                </svg>
+  
+                                <span data-key="t-dashboards">Users Sequence</span>
+                            </a>
+                        </li>
+			<li class="nav-item">
+                             <a class="nav-link menu-link" href="/dashboard/gcode">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 301112 333331" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd"><path d="M301110 291619c124 22886-18333 41521-41206 41644-1700 14-3415-82-5101-288-21227-3140-36776-21611-36256-43057V43342c-507-21474 15084-39944 36324-43057 22721-2660 43304 13602 45964 36324 192 1673 288 3346 274 5032v249977z" fill="#f9ab00"/><path d="M41288 250756c22804 0 41288 18484 41288 41288s-18484 41288-41288 41288S0 314848 0 292044s18484-41288 41288-41288zm108630-125126c-22913 1261-40685 20472-40150 43413v110892c0 30099 13246 48364 32649 52258 22393 4539 44209-9928 48748-32320 562-2743 836-5526 822-8323V167124c41-22886-18470-41467-41356-41507-233 0-480 0-713 14z" fill="#e37400"/></svg> 
+                                 <span data-key="t-dashboards">Google Analytics</span>
+                             </a>
+                         </li>
+                        
+                        <!-- <li class="nav-item">
+                            <a class="nav-link menu-link" href="/dashboard/inbox">
+                                <i class=" ri-mail-send-fill"></i> <span data-key="t-dashboards">Website's
+                                    Messages</span>
+                            </a>
+                        </li> -->
+
+                        <li class="menu-title"><span data-key="t-menu">Support</span></li>
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="/dashboard/faq">
+                                <i class="ri-questionnaire-line"></i> <span data-key="t-dashboards">FAQ's</span>
+                            </a>
+                        </li>
+                        <!-- <li class="nav-item">
+                            <a class="nav-link menu-link" href="/dashboard/support-ticket/all/">
+                                <i class="ri-ticket-line"></i> <span data-key="t-dashboards">Support Tickets</span>
+                            </a>
+                        </li> -->
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#">
+                                <i class="ri-question-line"></i> <span data-key="t-dashboards">Help</span>
+                            </a>
+                        </li>
+
+                        <hr style="color: white;">
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="/dashboard/user-logout">
+                                <i class=" ri-logout-box-r-line"></i> <span data-key="t-dashboards">Logout</span>
+                            </a>
+                        </li>
+
+
+
+                    </ul>
+                </div>
+                <!-- Sidebar -->
+            </div>
+
+            <div class="sidebar-background"></div>
+        </div>
+        <!-- Left Sidebar End -->
+        <!-- Vertical Overlay-->
+        <div class="vertical-overlay"></div>
+
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+            
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h4 class="mb-sm-0">Jobs</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Account</a></li>
+                            <li class="breadcrumb-item active">Jobs & Applications</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- end page title -->
+
+        
+
+
+        <div class="card">
+            <div class="card-body">
+                <div class="row g-2">
+                    <div class="col-sm-4">
+                        <div class="search-box">
+                            <input type="text" class="form-control"
+                                placeholder="Search for name, tasks, projects or something...">
+                            <i class="ri-search-line search-icon"></i>
+                        </div>
+                    </div>
+                    <!--end col-->
+                    <div class="col-sm-auto ms-auto">
+                        <div class="list-grid-nav hstack gap-1">
+                            <a href="/dashboard/jobs/" class="btn btn-soft-primary add-btn"><i
+                                    class=" ri-restart-line me-1"></i>Refresh </a>
+                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addmembers"><i
+                                    class="ri-add-fill me-1 align-bottom"></i> Add New Job</button>
+                                    <a href="/dashboard/job-applications/" class="btn btn-info add-btn"><i
+                                        class=" ri-file-list-line align-bottom me-1"></i> Applications </a>
+                        </div>
+                    </div>
+                    <!--end col-->
+                </div>
+                <!--end row-->
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div>
+                    <div class="team-list list-view-filter row">
+
+                        
+                        
+                        <div class="col">
+                            <div class="card team-box">
+                                <div class="card-body p-4">
+                                    <div class="row align-items-center team-row">
+                                        <div class="col team-settings">
+                                            <div class="row">
+                                                <div class="col text-end ">
+
+                                                    <a class="remove-item-btn" data-bs-toggle="modal"
+                                                        data-bs-target="#myDeleteModal4">
+                                                        <i
+                                                            class="ri-delete-bin-fill align-bottom text-danger fs-14"></i>
+                                                    </a>
+
+													 <a class="edit-item-btn" data-bs-toggle="offcanvas" href="#editJobCanvas4" role="button">
+															<i class="ri-edit-2-fill align-bottom text-primary fs-14"></i>
+													</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col">
+                                            <div class="team-profile-img">
+                                                
+                                                <div class="team-content">
+                                                    <a  href="/job-details/4" target="_blank"
+                                                       >
+                                                        <h5 class="fs-16 mb-1">We are hiring for:Telecalling | Digital Marketing | Sales Executive </h5>
+                                                    </a>
+                                                    <p class="text-muted mb-0">Marketing and Sales</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col">
+                                            <div class="row text-muted text-center">
+                                                <div class="col-4 border-end border-end-dashed">
+                                                    <h5 class="mb-1">Jan. 31, 2026</h5>
+                                                    <p class="text-muted mb-0"><i
+                                                            class=" ri-calendar-line align-bottom me-1"></i> Created Date
+                                                        </p>
+                                                </div>
+                                                <div class="col-4">
+                                                    <h5 class="mb-1">Lohgaon</h5>
+                                                    <p class="text-muted mb-0"><i
+                                                            class="  ri-map-pin-line align-bottom me-1"></i> Location</p>
+                                                </div>
+                                                <div class="col-4">
+                                                    <h5 class="mb-1">8</h5>
+                                                    <p class="text-muted mb-0"><i
+                                                            class=" ri-group-line align-bottom me-1"></i> Total Openings</p>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col">
+                                            <div class="text-end">
+                                                <div class="form-check form-switch form-switch-sm" dir="ltr">
+                                                    <label class="form-check-label text-uppercase">active</label>
+                                                    
+                                                    <input type="checkbox" class="form-check-input me-1 ms-1"
+                                                        id="customSwitchsizemd" checked  value="active" onclick="activeJob(4)">
+                                                    
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--end card-->
+						 <!-- Edit Job Off-Canvas Modal -->
+                        <div class="offcanvas offcanvas-top" tabindex="-1" id="editJobCanvas4" aria-labelledby="editJobCanvasLabel">
+                            <div class="offcanvas-header">
+                                <h5 id="editJobCanvasLabel">Edit Job</h5>
+                                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                            </div>
+                            <div class="offcanvas-body">
+                                <form action="/dashboard/editjob/4/" method="post">
+                                    <input type="hidden" name="csrfmiddlewaretoken" value="MmR8DJahGnOR2C9ylpJ9p2PQU3MQj5d7nnumXNtaAoAsDoCa4m7tf9ebtausxgWd">
+                                    
+                                    <div class="row">
+                                        <!-- Larger Input Boxes in a Single Row -->
+                                        <div class="col-lg-12">
+                                            <div class="mb-3">
+                                                <label for="teammembersName" class="form-label">Job Title
+                                                    <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="teammembersName"
+                                                    name="title" value="We are hiring for:Telecalling | Digital Marketing | Sales Executive" placeholder="Enter job title" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label for="category" class="form-label">Category 
+                                                    <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="category"
+                                                    name="category" value="Marketing and Sales" placeholder="Enter job category" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label for="location" class="form-label">Location
+                                                    <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="location"
+                                                    name="location" value="Lohgaon" placeholder="Job locations" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label for="address" class="form-label">Address
+                                                    <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="address"
+                                                    name="address" value="Sai Realty,Shree Building,Sai Nagar,Lohegaon-Dhanori Road,Lohegaon Pune-411047" placeholder="Enter address" required>
+                                            </div>
+                                        </div>
+                                   
+                        
+                                    
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label for="openings" class="form-label">Openings 
+                                                    <span class="text-danger">*</span></label>
+                                                <input type="number" class="form-control" id="openings"
+                                                    name="opening" value="8" placeholder="Number of openings" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="mb-3">
+                                                <label for="description" class="form-label">Job Description 
+                                                    <span class="text-danger">*</span></label>
+                                                <textarea name="description" class="form-control" cols="30" rows="5"
+                                                    placeholder="Describe the responsibilities" required>We Are Hiring – Join Our Growing Team!
+
+Certified Properties is hiring dynamic and motivated candidates for the following positions:
+
+🔹 Open Positions
+
+Telecalling Executive
+
+Digital Marketing Executive
+
+Sales Executive
+
+🔹 Eligibility
+
+12th Pass / Any Graduate / Post Graduate
+
+Age: 18 to 45 years
+
+Freshers are welcome
+
+🔹 Job Details
+
+Day shift job
+
+No target, no sales pressure
+
+Office-based role
+
+Training will be provided
+
+🔹 Salary &amp; Benefits
+
+₹15,000 to ₹25,000 per month 
+
+Attractive Incentives
+
+Growth opportunity and supportive work environment
+
+🔹 How to Apply
+
+📍 Walk-in Interview: 10 AM to 6 PM
+Carry your updated CV
+
+🌐 Online Apply:
+https://certifiedproperties.in/job-details/4
+
+📞 Contact Details
+
+Raj Bansode
+📱 9320072003
+📧 raj@sairealty.in
+
+🌐 www.certifiedproperties.in</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                        
+                                    <div class="col-lg-6">
+                                        <div class="hstack gap-2 justify-content-end">
+                                            <button type="button" class="btn btn-light" data-bs-dismiss="offcanvas">Close</button>
+                                            <button type="submit" class="btn btn-success">Update</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+						<!-- end job edit model-->
+                        </div>
+                        <!--end col-->
+                        
+                        <div class="col">
+                            <div class="card team-box">
+                                <div class="card-body p-4">
+                                    <div class="row align-items-center team-row">
+                                        <div class="col team-settings">
+                                            <div class="row">
+                                                <div class="col text-end ">
+
+                                                    <a class="remove-item-btn" data-bs-toggle="modal"
+                                                        data-bs-target="#myDeleteModal3">
+                                                        <i
+                                                            class="ri-delete-bin-fill align-bottom text-danger fs-14"></i>
+                                                    </a>
+
+													 <a class="edit-item-btn" data-bs-toggle="offcanvas" href="#editJobCanvas3" role="button">
+															<i class="ri-edit-2-fill align-bottom text-primary fs-14"></i>
+													</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col">
+                                            <div class="team-profile-img">
+                                                
+                                                <div class="team-content">
+                                                    <a  href="/job-details/3" target="_blank"
+                                                       >
+                                                        <h5 class="fs-16 mb-1">Web Development Intern </h5>
+                                                    </a>
+                                                    <p class="text-muted mb-0">Software Engineering,Frontend Backend Development</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col">
+                                            <div class="row text-muted text-center">
+                                                <div class="col-4 border-end border-end-dashed">
+                                                    <h5 class="mb-1">April 23, 2024</h5>
+                                                    <p class="text-muted mb-0"><i
+                                                            class=" ri-calendar-line align-bottom me-1"></i> Created Date
+                                                        </p>
+                                                </div>
+                                                <div class="col-4">
+                                                    <h5 class="mb-1">Lohgaon</h5>
+                                                    <p class="text-muted mb-0"><i
+                                                            class="  ri-map-pin-line align-bottom me-1"></i> Location</p>
+                                                </div>
+                                                <div class="col-4">
+                                                    <h5 class="mb-1">2</h5>
+                                                    <p class="text-muted mb-0"><i
+                                                            class=" ri-group-line align-bottom me-1"></i> Total Openings</p>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col">
+                                            <div class="text-end">
+                                                <div class="form-check form-switch form-switch-sm" dir="ltr">
+                                                    <label class="form-check-label text-uppercase">active</label>
+                                                    
+                                                    <input type="checkbox" class="form-check-input me-1 ms-1"
+                                                        id="customSwitchsizemd" checked  value="active" onclick="activeJob(3)">
+                                                    
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--end card-->
+						 <!-- Edit Job Off-Canvas Modal -->
+                        <div class="offcanvas offcanvas-top" tabindex="-1" id="editJobCanvas3" aria-labelledby="editJobCanvasLabel">
+                            <div class="offcanvas-header">
+                                <h5 id="editJobCanvasLabel">Edit Job</h5>
+                                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                            </div>
+                            <div class="offcanvas-body">
+                                <form action="/dashboard/editjob/3/" method="post">
+                                    <input type="hidden" name="csrfmiddlewaretoken" value="MmR8DJahGnOR2C9ylpJ9p2PQU3MQj5d7nnumXNtaAoAsDoCa4m7tf9ebtausxgWd">
+                                    
+                                    <div class="row">
+                                        <!-- Larger Input Boxes in a Single Row -->
+                                        <div class="col-lg-12">
+                                            <div class="mb-3">
+                                                <label for="teammembersName" class="form-label">Job Title
+                                                    <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="teammembersName"
+                                                    name="title" value="Web Development Intern" placeholder="Enter job title" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label for="category" class="form-label">Category 
+                                                    <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="category"
+                                                    name="category" value="Software Engineering,Frontend Backend Development" placeholder="Enter job category" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label for="location" class="form-label">Location
+                                                    <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="location"
+                                                    name="location" value="Lohgaon" placeholder="Job locations" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label for="address" class="form-label">Address
+                                                    <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="address"
+                                                    name="address" value="Sai Realty ,Shree Building,Sai Nagar,Lohegaon-Dhanori Road,Lohegaon Pune-411047" placeholder="Enter address" required>
+                                            </div>
+                                        </div>
+                                   
+                        
+                                    
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label for="openings" class="form-label">Openings 
+                                                    <span class="text-danger">*</span></label>
+                                                <input type="number" class="form-control" id="openings"
+                                                    name="opening" value="2" placeholder="Number of openings" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="mb-3">
+                                                <label for="description" class="form-label">Job Description 
+                                                    <span class="text-danger">*</span></label>
+                                                <textarea name="description" class="form-control" cols="30" rows="5"
+                                                    placeholder="Describe the responsibilities" required>Job Description: Frontend Developer (React)
+
+We are looking for a talented Frontend Developer with expertise in React to join our dynamic team. The ideal candidate will possess strong technical skills and be able to translate designs into efficient and responsive web applications.
+
+Key Responsibilities:
+
+Develop and maintain frontend components using React.
+Understand and work with existing HTML and CSS (Tailwind) to integrate them into React applications.
+Handle session management, authentication, and authorization across the application.
+Collaborate with backend teams to integrate REST APIs.
+Utilize creative problem-solving skills to tackle complex challenges.
+Knowledge of working is desirable with MySQL for data interaction and management.
+Qualifications:
+
+Strong experience with React and related frontend technologies.
+Proficiency in HTML and CSS (Tailwind).
+Hands-on experience with session management, authentication, and authorization.
+Knowledge of REST API integration.
+Familiarity with MySQL for database interactions.
+Spring Boot knowledge is a plus.
+Out-of-the-box thinker with excellent problem-solving skills.
+If you&#x27;re passionate about delivering high-quality frontend solutions and eager to innovate, we encourage you to apply!</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                        
+                                    <div class="col-lg-6">
+                                        <div class="hstack gap-2 justify-content-end">
+                                            <button type="button" class="btn btn-light" data-bs-dismiss="offcanvas">Close</button>
+                                            <button type="submit" class="btn btn-success">Update</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+						<!-- end job edit model-->
+                        </div>
+                        <!--end col-->
+                        
+                        <div class="col">
+                            <div class="card team-box">
+                                <div class="card-body p-4">
+                                    <div class="row align-items-center team-row">
+                                        <div class="col team-settings">
+                                            <div class="row">
+                                                <div class="col text-end ">
+
+                                                    <a class="remove-item-btn" data-bs-toggle="modal"
+                                                        data-bs-target="#myDeleteModal2">
+                                                        <i
+                                                            class="ri-delete-bin-fill align-bottom text-danger fs-14"></i>
+                                                    </a>
+
+													 <a class="edit-item-btn" data-bs-toggle="offcanvas" href="#editJobCanvas2" role="button">
+															<i class="ri-edit-2-fill align-bottom text-primary fs-14"></i>
+													</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col">
+                                            <div class="team-profile-img">
+                                                
+                                                <div class="team-content">
+                                                    <a  href="/job-details/2" target="_blank"
+                                                       >
+                                                        <h5 class="fs-16 mb-1">Opening for Sales &amp; Marketing Executive, Telecalling Executive job </h5>
+                                                    </a>
+                                                    <p class="text-muted mb-0">Marketing and Sales</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col">
+                                            <div class="row text-muted text-center">
+                                                <div class="col-4 border-end border-end-dashed">
+                                                    <h5 class="mb-1">Oct. 18, 2023</h5>
+                                                    <p class="text-muted mb-0"><i
+                                                            class=" ri-calendar-line align-bottom me-1"></i> Created Date
+                                                        </p>
+                                                </div>
+                                                <div class="col-4">
+                                                    <h5 class="mb-1">Lohgaon</h5>
+                                                    <p class="text-muted mb-0"><i
+                                                            class="  ri-map-pin-line align-bottom me-1"></i> Location</p>
+                                                </div>
+                                                <div class="col-4">
+                                                    <h5 class="mb-1">8</h5>
+                                                    <p class="text-muted mb-0"><i
+                                                            class=" ri-group-line align-bottom me-1"></i> Total Openings</p>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col">
+                                            <div class="text-end">
+                                                <div class="form-check form-switch form-switch-sm" dir="ltr">
+                                                    <label class="form-check-label text-uppercase">inactive</label>
+                                                    
+
+                                                    <input type="checkbox" class="form-check-input me-1 ms-1"
+                                                        id="customSwitchsizemd"  value="inactive" onclick="activeJob(2)">
+                                                    
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--end card-->
+						 <!-- Edit Job Off-Canvas Modal -->
+                        <div class="offcanvas offcanvas-top" tabindex="-1" id="editJobCanvas2" aria-labelledby="editJobCanvasLabel">
+                            <div class="offcanvas-header">
+                                <h5 id="editJobCanvasLabel">Edit Job</h5>
+                                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                            </div>
+                            <div class="offcanvas-body">
+                                <form action="/dashboard/editjob/2/" method="post">
+                                    <input type="hidden" name="csrfmiddlewaretoken" value="MmR8DJahGnOR2C9ylpJ9p2PQU3MQj5d7nnumXNtaAoAsDoCa4m7tf9ebtausxgWd">
+                                    
+                                    <div class="row">
+                                        <!-- Larger Input Boxes in a Single Row -->
+                                        <div class="col-lg-12">
+                                            <div class="mb-3">
+                                                <label for="teammembersName" class="form-label">Job Title
+                                                    <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="teammembersName"
+                                                    name="title" value="Opening for Sales &amp; Marketing Executive, Telecalling Executive job" placeholder="Enter job title" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label for="category" class="form-label">Category 
+                                                    <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="category"
+                                                    name="category" value="Marketing and Sales" placeholder="Enter job category" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label for="location" class="form-label">Location
+                                                    <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="location"
+                                                    name="location" value="Lohgaon" placeholder="Job locations" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label for="address" class="form-label">Address
+                                                    <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="address"
+                                                    name="address" value="Sai Realty ,Shree Building,Sai Nagar,Lohegaon-Dhanori Road,Lohegaon Pune-411047" placeholder="Enter address" required>
+                                            </div>
+                                        </div>
+                                   
+                        
+                                    
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label for="openings" class="form-label">Openings 
+                                                    <span class="text-danger">*</span></label>
+                                                <input type="number" class="form-control" id="openings"
+                                                    name="opening" value="8" placeholder="Number of openings" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="mb-3">
+                                                <label for="description" class="form-label">Job Description 
+                                                    <span class="text-danger">*</span></label>
+                                                <textarea name="description" class="form-control" cols="30" rows="5"
+                                                    placeholder="Describe the responsibilities" required>We have opening for Sales &amp; Marketing Executive, Telecalling Executive job….. Dear candidate Greetings for the day We have opening for Digital Marketing Executive/ Telecalling Executive job/ Housekeeping Staff Qualification:12th pass/Any Graduate/post Graduate Job profile: Day shift job No target No sales Age:18 to 30 Salary:15000-20000 pm+Huge incentive Freshers are most welcome Interested candidate can directly come for interview between 10 am to 6 pm with their updated cvs Thanks &amp; Regards Raj Bansode 9222445513 raj@sairealty.in www.certifiedproperties.in Sai Realty,Shree Building,Sai Nagar,Lohegaon-Dhanori Road,Lohegaon Pune-411047</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                        
+                                    <div class="col-lg-6">
+                                        <div class="hstack gap-2 justify-content-end">
+                                            <button type="button" class="btn btn-light" data-bs-dismiss="offcanvas">Close</button>
+                                            <button type="submit" class="btn btn-success">Update</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+						<!-- end job edit model-->
+                        </div>
+                        <!--end col-->
+                        
+                        
+
+
+                    </div>
+                    <!--end row-->
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="addmembers" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="myModalLabel"><i
+                                            class="ri-user-add-line align-bottom me-1"></i> Add New Job</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <form
+                                                action="/dashboard/jobs/"
+                                                method="post">
+                                                <input type="hidden" name="csrfmiddlewaretoken" value="MmR8DJahGnOR2C9ylpJ9p2PQU3MQj5d7nnumXNtaAoAsDoCa4m7tf9ebtausxgWd">
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="mb-3">
+                                                            <label for="teammembersName" class="form-label">Job Title
+                                                                <span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control" id="teammembersName"
+                                                                name="title" placeholder="Enter job title" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-3">
+                                                            <label for="designation" class="form-label">Category <span
+                                                                    class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control" id="designation"
+                                                                name="category"  placeholder="Enter job category"
+                                                                required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-3">
+                                                            <label for="designation" class="form-label">Location<span
+                                                                    class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control" id="designation"
+                                                                name="location" placeholder="Job locations " required>
+                                                        </div>
+                                                    </div>
+                                                   
+                                                    <div class="col-lg-8">
+                                                        <div class="mb-3">
+                                                            <label for="teammembersName" class="form-label">Address
+                                                                <span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control" id="teammembersName"
+                                                                name="address" placeholder="Enter address" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <div class="mb-3">
+                                                            <label for="totalTasks" class="form-label">Openings <span
+                                                                    class="text-danger"> *</span></label>
+                                                            <input type="number" class="form-control" id="totalTasks"
+                                                                name="opening" placeholder="Number of opening" value="2" required>
+                                                        </div>
+                                                    </div>
+
+                                                   
+                                                   
+                                                    <div class="col-lg-12">
+                                                        <div class="mb-3">
+                                                            <label for="totalProjects" class="form-label">
+                                                                Job Description <span
+                                                                class="text-danger"> *</span></label>
+                                                            <textarea name="description" class="form-control" id=""
+                                                                cols="30" rows="5"
+                                                                placeholder="Describe the responsibilites" required></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div class="hstack gap-2 justify-content-end">
+                                                            <button type="button" class="btn btn-light"
+                                                                data-bs-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-success">Add
+                                                                </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--end modal-content-->
+                        </div>
+                        <!--end modal-dialog-->
+                    </div>
+                    <!--end modal-->
+
+
+                    
+
+                    <!--end offcanvas-->
+                </div>
+            </div><!-- end col -->
+        </div>
+        <!--end row-->
+
+        <svg class="bookmark-hide">
+            <symbol viewBox="0 0 24 24" stroke="currentColor" fill="var(--color-svg)" id="icon-star">
+                <path stroke-width=".4"
+                    d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z">
+                </path>
+            </symbol>
+        </svg>
+
+    </div><!-- container-fluid -->
+
+
+    
+    <div id="myDeleteModal4" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true"
+        style="display: none;">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        id="btn-close"></button>
+                </div>
+                <div class="modal-body p-5 text-center">
+                    <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop"
+                        colors="primary:#405189,secondary:#f06548" style="width:90px;height:90px">
+                    </lord-icon>
+                    <div class="mt-4 text-center">
+                        <h4 class="fs-semibold">You are about to delete a job We are hiring for:Telecalling | Digital Marketing | Sales Executive ?
+                        </h4>
+                        <p class="text-muted fs-14 mb-4 pt-1">Deleting your job will remove all of
+                            jobs information from our database.</p>
+                        <div class="hstack gap-2 justify-content-center remove">
+                            <button class="btn btn-link link-success fw-medium text-decoration-none"
+                                data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> Close</button>
+                            <a href="/dashboard/delete-job/4/" class="btn btn-danger"
+                                id="delete-record">Yes, Delete
+                                It.</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    
+    <div id="myDeleteModal3" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true"
+        style="display: none;">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        id="btn-close"></button>
+                </div>
+                <div class="modal-body p-5 text-center">
+                    <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop"
+                        colors="primary:#405189,secondary:#f06548" style="width:90px;height:90px">
+                    </lord-icon>
+                    <div class="mt-4 text-center">
+                        <h4 class="fs-semibold">You are about to delete a job Web Development Intern ?
+                        </h4>
+                        <p class="text-muted fs-14 mb-4 pt-1">Deleting your job will remove all of
+                            jobs information from our database.</p>
+                        <div class="hstack gap-2 justify-content-center remove">
+                            <button class="btn btn-link link-success fw-medium text-decoration-none"
+                                data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> Close</button>
+                            <a href="/dashboard/delete-job/3/" class="btn btn-danger"
+                                id="delete-record">Yes, Delete
+                                It.</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    
+    <div id="myDeleteModal2" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true"
+        style="display: none;">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        id="btn-close"></button>
+                </div>
+                <div class="modal-body p-5 text-center">
+                    <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop"
+                        colors="primary:#405189,secondary:#f06548" style="width:90px;height:90px">
+                    </lord-icon>
+                    <div class="mt-4 text-center">
+                        <h4 class="fs-semibold">You are about to delete a job Opening for Sales &amp; Marketing Executive, Telecalling Executive job ?
+                        </h4>
+                        <p class="text-muted fs-14 mb-4 pt-1">Deleting your job will remove all of
+                            jobs information from our database.</p>
+                        <div class="hstack gap-2 justify-content-center remove">
+                            <button class="btn btn-link link-success fw-medium text-decoration-none"
+                                data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> Close</button>
+                            <a href="/dashboard/delete-job/2/" class="btn btn-danger"
+                                id="delete-record">Yes, Delete
+                                It.</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    
+
+
+
+</div>
+
+
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <script>document.write(new Date().getFullYear())</script> © BUSINESSYOG.COM
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="text-sm-end d-none d-sm-block">
+                                Design & Develop by Phenoware Pvt Ltd
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        <!-- end main content-->
+
+    </div>
+    <!-- END layout-wrapper -->
+
+
+
+    <!--start back-to-top-->
+    <button onclick="topFunction()" class="btn btn-danger btn-icon" id="back-to-top">
+        <i class="ri-arrow-up-line"></i>
+    </button>
+    <!--end back-to-top-->
+
+
+
+
+    <!-- JAVASCRIPT -->
+    <script src="/static/dashboard/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/dashboard/assets/libs/simplebar/simplebar.min.js"></script>
+    <script src="/static/dashboard/assets/libs/node-waves/waves.min.js"></script>
+    <script src="/static/dashboard/assets/libs/feather-icons/feather.min.js"></script>
+    <script src="/static/dashboard/assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
+    <script src="/static/dashboard/assets/js/plugins.js"></script>
+
+    <!-- apexcharts -->
+    <script src="/static/dashboard/assets/libs/apexcharts/apexcharts.min.js"></script>
+
+    <!-- piecharts init -->
+    <!-- <script src="/static/dashboard/assets/js/pages/apexcharts-pie.init.js"></script> -->
+
+
+    <!-- Vector map-->
+    <script src="/static/dashboard/assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
+    <script src="/static/dashboard/assets/libs/jsvectormap/maps/world-merc.js"></script>
+
+    <!--Swiper slider js-->
+    <script src="/static/dashboard/assets/libs/swiper/swiper-bundle.min.js"></script>
+
+    <!-- Dashboard init -->
+    <script src="/static/dashboard/assets/js/pages/dashboard-ecommerce.init.js"></script>
+
+    <!-- App js -->
+    <script src="/static/dashboard/assets/js/app.js"></script>
+
+    <!-- Leads Table  -->
+    <!-- list.js min js -->
+    <script src="/static/dashboard/assets/libs/list.js/list.min.js"></script>
+    <script src="/static/dashboard/assets/libs/list.pagination.js/list.pagination.min.js"></script>
+
+    <!-- Sweet Alerts js -->
+    <script src="/static/dashboard/assets/libs/sweetalert2/sweetalert2.min.js"></script>
+    <!-- crm leads init -->
+    <script src="/static/dashboard/assets/js/pages/crm-leads.init.js"></script>
+
+    <!-- dropzone js -->
+    <script src="/static/dashboard/assets/libs/dropzone/dropzone-min.js"></script>
+    <!-- project-create init -->
+    <script src="/static/dashboard/assets/js/pages/project-create.init.js"></script>
+
+    <!-- nouisliderribute js -->
+    <script src="/static/dashboard/assets/libs/nouislider/nouislider.min.js"></script>
+    <script src="/static/dashboard/assets/libs/wnumb/wNumb.min.js"></script>
+
+    <!-- gridjs js -->
+    <script src="/static/dashboard/assets/libs/gridjs/gridjs.umd.js"></script>
+    <script src="../../../../unpkg.com/gridjs%405.1.0/plugins/selection/dist/selection.umd.js' %}"></script>
+    <!-- ecommerce product list -->
+    <script src="/static/dashboard/assets/js/pages/ecommerce-product-list.init.js"></script>
+
+    <!--Swiper slider js-->
+    <!-- <script src="/static/dashboard/assets/libs/swiper/swiper-bundle.min.js"></script> -->
+
+    <!-- ecommerce product details init -->
+    <script src="/static/dashboard/assets/js/pages/ecommerce-product-details.init.js"></script>
+
+    <!-- cleave.js -->
+    <script src="/static/dashboard/assets/libs/cleave.js/cleave.min.js"></script>
+
+   
+    <!-- profile init js -->
+    <script src="/static/dashboard/assets/js/pages/profile.init.js"></script>
+
+    <!-- team init js -->
+    <script src="/static/dashboard/assets/js/pages/team.init.js"></script>
+
+    
+
+
+
+    <!-- glightbox js -->
+    <script src="/static/dashboard/assets/libs/glightbox/js/glightbox.min.js"></script>
+
+    <!-- isotope-layout -->
+    <script src="/static/dashboard/assets/libs/isotope-layout/isotope.pkgd.min.js"></script>
+
+    <script src="/static/dashboard/assets/js/pages/gallery.init.js"></script>
+
+   
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
+    <!--select2 cdn-->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script src="/static/dashboard/assets/js/pages/select2.init.js"></script>
+
+    <!-- prismjs plugin -->
+    <script src="/static/dashboard/assets/libs/prismjs/prism.js"></script>
+
+
+    <script src="/static/dashboard/assets/js/pages/ecommerce-product-create.init.js"></script>
+
+  
+
+    
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+
+
+    
+
+<script>
+    function activeJob(id){
+        location.replace('/dashboard/change-job-status/'+id);
+    }
+</script>
+
+
+</body>
+
+
+</html>

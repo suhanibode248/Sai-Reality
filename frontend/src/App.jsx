@@ -1,4 +1,14 @@
 import React from 'react'
+import DashboardProjects from './pages/DashboardProjects.jsx';
+import DashboardDailyReport from './pages/DashboardDailyReport.jsx';
+import DashboardFinance from './pages/DashboardFinance.jsx';
+import DashboardTransactions from './pages/DashboardTransactions.jsx';
+import DashboardUsers from './pages/DashboardUsers.jsx';
+import DashboardAttendance from './pages/DashboardAttendance.jsx';
+import DashboardJobs from './pages/DashboardJobs.jsx';
+import DashboardApplications from './pages/DashboardApplications.jsx';
+import DashboardSliders from './pages/DashboardSliders.jsx';
+import DashboardOffers from './pages/DashboardOffers.jsx';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Login from './pages/Login.jsx'
 import Home from './pages/Home.jsx'
@@ -7,18 +17,8 @@ import DashboardOverview from './pages/DashboardOverview.jsx'
 import DashboardAnalytics from './pages/DashboardAnalytics.jsx'
 import DashboardProperties from './pages/DashboardProperties.jsx'
 import {
-  DashboardProjects,
-  DashboardDailyReport,
-  DashboardFinance,
-  DashboardTransactions,
   DashboardMyAccount,
-  DashboardUsers,
-  DashboardAttendance,
-  DashboardJobs,
-  DashboardApplications,
   DashboardMedia,
-  DashboardSliders,
-  DashboardOffers,
   DashboardReviews,
   DashboardContact,
   DashboardUsersSequence,
@@ -60,7 +60,9 @@ function App() {
         {/* CRM Dashboard: Master */}
         <Route path="/dashboard/my-account" element={<DashboardMyAccount />} />
         <Route path="/dashboard/users" element={<DashboardUsers />} />
-        <Route path="/dashboard/users/attendance" element={<DashboardAttendance />} />
+        <Route path="/dashboard/user-attendance" element={<DashboardAttendance />} />
+        <Route path="/dashboard/jobs" element={<DashboardJobs />} />
+        <Route path="/dashboard/applications" element={<DashboardApplications />} />
         <Route path="/dashboard/jobs" element={<DashboardJobs />} />
         <Route path="/dashboard/jobs/applications" element={<DashboardApplications />} />
 

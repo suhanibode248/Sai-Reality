@@ -76,14 +76,14 @@ const DashboardLayout = ({ children }) => {
     return (
         <div id="layout-wrapper" style={{ backgroundColor: '#f4f6fb', minHeight: '100vh', width: '100%', maxWidth: '100vw', overflowX: 'hidden', display: 'flex', fontFamily: "'Plus Jakarta Sans', 'Inter', sans-serif", boxSizing: 'border-box' }}>
             
-            {/* ── Ultra-Modern Luxury Dark Sidebar ── */}
+            {/* ── Velzon Style Sidebar ── */}
             <aside 
                 style={{ 
                     width: sidebarCollapsed ? '72px' : '250px', 
-                    background: 'linear-gradient(180deg, #151c2e 0%, #1e2538 100%)', 
-                    color: '#fff', 
+                    backgroundColor: '#405189', 
+                    color: '#abb9e8', 
                     flexShrink: 0,
-                    transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
+                    transition: 'all 0.25s ease',
                     minHeight: '100vh',
                     display: 'flex',
                     flexDirection: 'column',
@@ -92,8 +92,7 @@ const DashboardLayout = ({ children }) => {
                     top: 0,
                     bottom: 0,
                     zIndex: 1001,
-                    borderRight: '1px solid rgba(255,255,255,0.06)',
-                    boxShadow: '4px 0 20px rgba(0,0,0,0.15)'
+                    boxShadow: '0 2px 4px rgba(15, 34, 58, 0.12)'
                 }}
             >
                 {/* Branded Logo Container with Sai Reality Logo */}
@@ -117,65 +116,50 @@ const DashboardLayout = ({ children }) => {
                     </Link>
                 </div>
 
-                {/* Sidebar Navigation (Scrollable) */}
-                <div className="sidebarNav" style={{ flex: 1, overflowY: 'auto', padding: '12px 8px 24px', scrollbarWidth: 'thin' }}>
+                {/* Sidebar Navigation */}
+                <div className="sidebarNav" style={{ flex: 1, overflowY: 'auto', padding: '10px 0 24px', scrollbarWidth: 'thin' }}>
                     
-                    {/* Main Dashboard Link */}
+                    {/* Dashboards */}
                     <Link 
                         to="/dashboard"
                         style={{ 
-                            padding: sidebarCollapsed ? '10px 0' : '10px 14px', 
-                            fontSize: '13.5px', 
-                            color: isActive('/dashboard') ? '#ffffff' : '#94a3b8', 
+                            padding: '10px 20px', 
+                            fontSize: '14.5px', 
+                            color: isActive('/dashboard') ? '#ffffff' : '#abb9e8', 
                             display: 'flex', 
                             alignItems: 'center', 
                             justifyContent: sidebarCollapsed ? 'center' : 'flex-start',
                             gap: '12px', 
-                            fontWeight: isActive('/dashboard') ? '600' : '500',
-                            background: isActive('/dashboard') ? 'linear-gradient(90deg, rgba(0, 210, 211, 0.2) 0%, rgba(0, 210, 211, 0.04) 100%)' : 'transparent',
                             textDecoration: 'none',
-                            borderRadius: '8px',
-                            borderLeft: isActive('/dashboard') ? '3px solid #00d2d3' : '3px solid transparent',
-                            marginBottom: '4px',
-                            transition: 'all 0.2s'
+                            transition: 'all 0.2s',
+                            fontWeight: isActive('/dashboard') ? '500' : '400'
                         }}
                     >
-                        <i className="ri-dashboard-2-fill" style={{ fontSize: '18px', color: isActive('/dashboard') ? '#00d2d3' : '#94a3b8' }}></i>
-                        {!sidebarCollapsed && <span>Executive CRM</span>}
+                        <i className="ri-dashboard-2-line" style={{ fontSize: '18px' }}></i>
+                        {!sidebarCollapsed && <span>Dashboards</span>}
                     </Link>
 
                     {/* CRM SECTION */}
                     {!sidebarCollapsed && (
-                        <div style={{ padding: '14px 14px 6px', fontSize: '10.5px', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.8px', fontWeight: '800' }}>
-                            CRM MODULES
+                        <div style={{ padding: '12px 20px 4px', fontSize: '11px', color: '#838fb9', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: '600', marginTop: '10px' }}>
+                            CRM
                         </div>
                     )}
 
                     <Link 
                         to="/dashboard/leads/all" 
                         style={{ 
-                            display: 'flex', 
-                            alignItems: 'center', 
-                            justifyContent: sidebarCollapsed ? 'center' : 'space-between',
-                            padding: sidebarCollapsed ? '10px 0' : '9px 14px', 
-                            color: isActive('/dashboard/leads/all') ? '#ffffff' : '#94a3b8', 
-                            textDecoration: 'none', 
-                            fontSize: '13.5px',
-                            background: isActive('/dashboard/leads/all') ? 'linear-gradient(90deg, rgba(0, 210, 211, 0.2) 0%, rgba(0, 210, 211, 0.04) 100%)' : 'transparent',
-                            fontWeight: isActive('/dashboard/leads/all') ? '600' : '500',
-                            borderRadius: '8px',
-                            borderLeft: isActive('/dashboard/leads/all') ? '3px solid #00d2d3' : '3px solid transparent',
-                            marginBottom: '2px',
-                            transition: 'all 0.2s'
+                            padding: '10px 20px', fontSize: '14.5px', color: isActive('/dashboard/leads/all') ? '#ffffff' : '#abb9e8', 
+                            display: 'flex', alignItems: 'center', justifyContent: sidebarCollapsed ? 'center' : 'space-between', textDecoration: 'none', transition: 'all 0.2s', fontWeight: isActive('/dashboard/leads/all') ? '500' : '400'
                         }}
                     >
                         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                            <i className="ri-contacts-book-2-line" style={{ fontSize: '17px', color: isActive('/dashboard/leads/all') ? '#00d2d3' : '#94a3b8' }}></i>
-                            {!sidebarCollapsed && <span>Leads Management</span>}
+                            <i className="ri-file-list-3-line" style={{ fontSize: '18px' }}></i>
+                            {!sidebarCollapsed && <span>Leads</span>}
                         </div>
                         {!sidebarCollapsed && (
-                            <span style={{ backgroundColor: '#ea580c', color: '#fff', fontSize: '10px', padding: '2px 6px', borderRadius: '10px', fontWeight: '700' }}>
-                                14.8k
+                            <span style={{ backgroundColor: 'rgba(10, 179, 156, 0.15)', color: '#0ab39c', fontSize: '11px', padding: '2px 6px', borderRadius: '4px', fontWeight: '600' }}>
+                                14863
                             </span>
                         )}
                     </Link>
@@ -183,27 +167,16 @@ const DashboardLayout = ({ children }) => {
                     <Link 
                         to="/dashboard/properties" 
                         style={{ 
-                            display: 'flex', 
-                            alignItems: 'center', 
-                            justifyContent: sidebarCollapsed ? 'center' : 'space-between',
-                            padding: sidebarCollapsed ? '10px 0' : '9px 14px', 
-                            color: isActive('/dashboard/properties') ? '#ffffff' : '#94a3b8', 
-                            textDecoration: 'none', 
-                            fontSize: '13.5px',
-                            background: isActive('/dashboard/properties') ? 'linear-gradient(90deg, rgba(0, 210, 211, 0.2) 0%, rgba(0, 210, 211, 0.04) 100%)' : 'transparent',
-                            fontWeight: isActive('/dashboard/properties') ? '600' : '500',
-                            borderRadius: '8px',
-                            borderLeft: isActive('/dashboard/properties') ? '3px solid #00d2d3' : '3px solid transparent',
-                            marginBottom: '2px',
-                            transition: 'all 0.2s'
+                            padding: '10px 20px', fontSize: '14.5px', color: isActive('/dashboard/properties') ? '#ffffff' : '#abb9e8', 
+                            display: 'flex', alignItems: 'center', justifyContent: sidebarCollapsed ? 'center' : 'space-between', textDecoration: 'none', transition: 'all 0.2s', fontWeight: isActive('/dashboard/properties') ? '500' : '400'
                         }}
                     >
                         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                            <i className="ri-building-line" style={{ fontSize: '17px', color: isActive('/dashboard/properties') ? '#00d2d3' : '#94a3b8' }}></i>
+                            <i className="ri-building-line" style={{ fontSize: '18px' }}></i>
                             {!sidebarCollapsed && <span>Properties</span>}
                         </div>
                         {!sidebarCollapsed && (
-                            <span style={{ backgroundColor: '#0284c7', color: '#fff', fontSize: '10.5px', padding: '2px 7px', borderRadius: '10px', fontWeight: '700' }}>
+                            <span style={{ backgroundColor: 'rgba(10, 179, 156, 0.15)', color: '#0ab39c', fontSize: '11px', padding: '2px 6px', borderRadius: '4px', fontWeight: '600' }}>
                                 808
                             </span>
                         )}
@@ -212,27 +185,16 @@ const DashboardLayout = ({ children }) => {
                     <Link 
                         to="/dashboard/projects" 
                         style={{ 
-                            display: 'flex', 
-                            alignItems: 'center', 
-                            justifyContent: sidebarCollapsed ? 'center' : 'space-between',
-                            padding: sidebarCollapsed ? '10px 0' : '9px 14px', 
-                            color: isActive('/dashboard/projects') ? '#ffffff' : '#94a3b8', 
-                            textDecoration: 'none', 
-                            fontSize: '13.5px',
-                            background: isActive('/dashboard/projects') ? 'linear-gradient(90deg, rgba(0, 210, 211, 0.2) 0%, rgba(0, 210, 211, 0.04) 100%)' : 'transparent',
-                            fontWeight: isActive('/dashboard/projects') ? '600' : '500',
-                            borderRadius: '8px',
-                            borderLeft: isActive('/dashboard/projects') ? '3px solid #00d2d3' : '3px solid transparent',
-                            marginBottom: '2px',
-                            transition: 'all 0.2s'
+                            padding: '10px 20px', fontSize: '14.5px', color: isActive('/dashboard/projects') ? '#ffffff' : '#abb9e8', 
+                            display: 'flex', alignItems: 'center', justifyContent: sidebarCollapsed ? 'center' : 'space-between', textDecoration: 'none', transition: 'all 0.2s', fontWeight: isActive('/dashboard/projects') ? '500' : '400'
                         }}
                     >
                         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                            <i className="ri-stack-line" style={{ fontSize: '17px', color: isActive('/dashboard/projects') ? '#00d2d3' : '#94a3b8' }}></i>
-                            {!sidebarCollapsed && <span>Townships &amp; Projects</span>}
+                            <i className="ri-building-4-line" style={{ fontSize: '18px' }}></i>
+                            {!sidebarCollapsed && <span>Projects</span>}
                         </div>
                         {!sidebarCollapsed && (
-                            <span style={{ backgroundColor: '#0284c7', color: '#fff', fontSize: '10.5px', padding: '2px 7px', borderRadius: '10px', fontWeight: '700' }}>
+                            <span style={{ backgroundColor: 'rgba(10, 179, 156, 0.15)', color: '#0ab39c', fontSize: '11px', padding: '2px 6px', borderRadius: '4px', fontWeight: '600' }}>
                                 48
                             </span>
                         )}
@@ -241,52 +203,30 @@ const DashboardLayout = ({ children }) => {
                     <Link 
                         to="/dashboard/daily-report" 
                         style={{ 
-                            display: 'flex', 
-                            alignItems: 'center', 
-                            justifyContent: sidebarCollapsed ? 'center' : 'flex-start',
-                            padding: sidebarCollapsed ? '10px 0' : '9px 14px', 
-                            color: isActive('/dashboard/daily-report') ? '#ffffff' : '#94a3b8', 
-                            textDecoration: 'none', 
-                            fontSize: '13.5px',
-                            background: isActive('/dashboard/daily-report') ? 'linear-gradient(90deg, rgba(0, 210, 211, 0.2) 0%, rgba(0, 210, 211, 0.04) 100%)' : 'transparent',
-                            fontWeight: isActive('/dashboard/daily-report') ? '600' : '500',
-                            borderRadius: '8px',
-                            borderLeft: isActive('/dashboard/daily-report') ? '3px solid #00d2d3' : '3px solid transparent',
-                            marginBottom: '2px',
-                            transition: 'all 0.2s'
+                            padding: '10px 20px', fontSize: '14.5px', color: isActive('/dashboard/daily-report') ? '#ffffff' : '#abb9e8', 
+                            display: 'flex', alignItems: 'center', justifyContent: sidebarCollapsed ? 'center' : 'flex-start', gap: '12px', textDecoration: 'none', transition: 'all 0.2s', fontWeight: isActive('/dashboard/daily-report') ? '500' : '400'
                         }}
                     >
-                        <i className="ri-calendar-check-line" style={{ marginRight: sidebarCollapsed ? '0' : '12px', fontSize: '17px', color: isActive('/dashboard/daily-report') ? '#00d2d3' : '#94a3b8' }}></i>
-                        {!sidebarCollapsed && <span>Daily Calling Report</span>}
+                        <i className="ri-time-line" style={{ fontSize: '18px' }}></i>
+                        {!sidebarCollapsed && <span>Daily Report</span>}
                     </Link>
 
                     {/* FINANCE & ACCOUNTING SECTION */}
                     {!sidebarCollapsed && (
-                        <div style={{ padding: '14px 14px 6px', fontSize: '10.5px', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.8px', fontWeight: '800' }}>
-                            FINANCE &amp; ACCOUNTS
+                        <div style={{ padding: '12px 20px 4px', fontSize: '11px', color: '#838fb9', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: '600', marginTop: '10px' }}>
+                            FINANCE &amp; ACCOUNTING
                         </div>
                     )}
 
                     <Link 
                         to="/dashboard/finance-overview" 
                         style={{ 
-                            display: 'flex', 
-                            alignItems: 'center', 
-                            justifyContent: sidebarCollapsed ? 'center' : 'flex-start',
-                            padding: sidebarCollapsed ? '10px 0' : '9px 14px', 
-                            color: isActive('/dashboard/finance-overview') ? '#ffffff' : '#94a3b8', 
-                            textDecoration: 'none', 
-                            fontSize: '13.5px',
-                            background: isActive('/dashboard/finance-overview') ? 'linear-gradient(90deg, rgba(0, 210, 211, 0.2) 0%, rgba(0, 210, 211, 0.04) 100%)' : 'transparent',
-                            fontWeight: isActive('/dashboard/finance-overview') ? '600' : '500',
-                            borderRadius: '8px',
-                            borderLeft: isActive('/dashboard/finance-overview') ? '3px solid #00d2d3' : '3px solid transparent',
-                            marginBottom: '2px',
-                            transition: 'all 0.2s'
+                            padding: '10px 20px', fontSize: '14.5px', color: isActive('/dashboard/finance-overview') ? '#ffffff' : '#abb9e8', 
+                            display: 'flex', alignItems: 'center', justifyContent: sidebarCollapsed ? 'center' : 'flex-start', gap: '12px', textDecoration: 'none', transition: 'all 0.2s', fontWeight: isActive('/dashboard/finance-overview') ? '500' : '400'
                         }}
                     >
-                        <i className="ri-wallet-3-line" style={{ marginRight: sidebarCollapsed ? '0' : '12px', fontSize: '17px', color: isActive('/dashboard/finance-overview') ? '#00d2d3' : '#94a3b8' }}></i>
-                        {!sidebarCollapsed && <span>Finance Overview</span>}
+                        <i className="ri-pie-chart-line" style={{ fontSize: '18px' }}></i>
+                        {!sidebarCollapsed && <span>Overview</span>}
                     </Link>
 
                     {/* Transactions Accordion */}
@@ -294,82 +234,42 @@ const DashboardLayout = ({ children }) => {
                         <div 
                             onClick={() => setOpenTransactions(!openTransactions)}
                             style={{ 
-                                display: 'flex', 
-                                alignItems: 'center', 
-                                justifyContent: sidebarCollapsed ? 'center' : 'space-between',
-                                padding: sidebarCollapsed ? '10px 0' : '9px 14px', 
-                                color: location.pathname.includes('/transactions') ? '#ffffff' : '#94a3b8', 
-                                textDecoration: 'none', 
-                                fontSize: '13.5px',
-                                cursor: 'pointer',
-                                background: location.pathname.includes('/transactions') ? 'linear-gradient(90deg, rgba(0, 210, 211, 0.2) 0%, rgba(0, 210, 211, 0.04) 100%)' : 'transparent',
-                                fontWeight: location.pathname.includes('/transactions') ? '600' : '500',
-                                borderRadius: '8px',
-                                borderLeft: location.pathname.includes('/transactions') ? '3px solid #00d2d3' : '3px solid transparent',
-                                marginBottom: '2px',
-                                transition: 'all 0.2s'
+                                padding: '10px 20px', fontSize: '14.5px', color: location.pathname.includes('/transactions') ? '#ffffff' : '#abb9e8', 
+                                display: 'flex', alignItems: 'center', justifyContent: sidebarCollapsed ? 'center' : 'space-between', cursor: 'pointer', transition: 'all 0.2s', fontWeight: location.pathname.includes('/transactions') ? '500' : '400'
                             }}
                         >
                             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                <i className="ri-exchange-dollar-line" style={{ fontSize: '17px', color: location.pathname.includes('/transactions') ? '#00d2d3' : '#94a3b8' }}></i>
+                                <i className="ri-arrow-left-right-line" style={{ fontSize: '18px' }}></i>
                                 {!sidebarCollapsed && <span>Transactions</span>}
                             </div>
                             {!sidebarCollapsed && (
-                                <i className={openTransactions ? "ri-arrow-down-s-line" : "ri-arrow-right-s-line"} style={{ fontSize: '15px', opacity: 0.8 }}></i>
+                                <i className={openTransactions ? "ri-arrow-down-s-line" : "ri-arrow-right-s-line"} style={{ fontSize: '15px' }}></i>
                             )}
                         </div>
-
-                        {/* Submenu */}
                         {openTransactions && !sidebarCollapsed && (
-                            <div style={{ paddingLeft: '38px', display: 'flex', flexDirection: 'column', gap: '3px', marginTop: '3px', marginBottom: '6px' }}>
-                                <Link 
-                                    to="/dashboard/transactions/income" 
-                                    style={{ color: location.pathname === '/dashboard/transactions/income' ? '#00d2d3' : '#94a3b8', textDecoration: 'none', fontSize: '12.5px', padding: '4px 0', fontWeight: location.pathname === '/dashboard/transactions/income' ? '700' : '400' }}
-                                >
-                                    • Income &amp; Brokerage
-                                </Link>
-                                <Link 
-                                    to="/dashboard/transactions/expenses" 
-                                    style={{ color: location.pathname === '/dashboard/transactions/expenses' ? '#00d2d3' : '#94a3b8', textDecoration: 'none', fontSize: '12.5px', padding: '4px 0', fontWeight: location.pathname === '/dashboard/transactions/expenses' ? '700' : '400' }}
-                                >
-                                    • Office Expenses
-                                </Link>
-                                <Link 
-                                    to="/dashboard/transactions" 
-                                    style={{ color: location.pathname === '/dashboard/transactions' ? '#00d2d3' : '#94a3b8', textDecoration: 'none', fontSize: '12.5px', padding: '4px 0', fontWeight: location.pathname === '/dashboard/transactions' ? '700' : '400' }}
-                                >
-                                    • All Ledgers
-                                </Link>
+                            <div style={{ paddingLeft: '50px', display: 'flex', flexDirection: 'column', gap: '8px', paddingBottom: '8px', paddingTop: '4px' }}>
+                                <Link to="/dashboard/transactions/income" style={{ color: location.pathname === '/dashboard/transactions/income' ? '#ffffff' : '#abb9e8', textDecoration: 'none', fontSize: '13.5px' }}>- Income</Link>
+                                <Link to="/dashboard/transactions/expenses" style={{ color: location.pathname === '/dashboard/transactions/expenses' ? '#ffffff' : '#abb9e8', textDecoration: 'none', fontSize: '13.5px' }}>- Expenses</Link>
+                                <Link to="/dashboard/transactions" style={{ color: location.pathname === '/dashboard/transactions' ? '#ffffff' : '#abb9e8', textDecoration: 'none', fontSize: '13.5px' }}>- All</Link>
                             </div>
                         )}
                     </div>
 
                     {/* MASTER SECTION */}
                     {!sidebarCollapsed && (
-                        <div style={{ padding: '14px 14px 6px', fontSize: '10.5px', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.8px', fontWeight: '800' }}>
-                            MASTER &amp; USERS
+                        <div style={{ padding: '12px 20px 4px', fontSize: '11px', color: '#838fb9', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: '600', marginTop: '10px' }}>
+                            MASTER
                         </div>
                     )}
 
                     <Link 
                         to="/dashboard/my-account" 
                         style={{ 
-                            display: 'flex', 
-                            alignItems: 'center', 
-                            justifyContent: sidebarCollapsed ? 'center' : 'flex-start',
-                            padding: sidebarCollapsed ? '10px 0' : '9px 14px', 
-                            color: isActive('/dashboard/my-account') ? '#ffffff' : '#94a3b8', 
-                            textDecoration: 'none', 
-                            fontSize: '13.5px',
-                            background: isActive('/dashboard/my-account') ? 'linear-gradient(90deg, rgba(0, 210, 211, 0.2) 0%, rgba(0, 210, 211, 0.04) 100%)' : 'transparent',
-                            fontWeight: isActive('/dashboard/my-account') ? '600' : '500',
-                            borderRadius: '8px',
-                            borderLeft: isActive('/dashboard/my-account') ? '3px solid #00d2d3' : '3px solid transparent',
-                            marginBottom: '2px',
-                            transition: 'all 0.2s'
+                            padding: '10px 20px', fontSize: '14.5px', color: isActive('/dashboard/my-account') ? '#ffffff' : '#abb9e8', 
+                            display: 'flex', alignItems: 'center', justifyContent: sidebarCollapsed ? 'center' : 'flex-start', gap: '12px', textDecoration: 'none', transition: 'all 0.2s', fontWeight: isActive('/dashboard/my-account') ? '500' : '400'
                         }}
                     >
-                        <i className="ri-user-settings-line" style={{ marginRight: sidebarCollapsed ? '0' : '12px', fontSize: '17px', color: isActive('/dashboard/my-account') ? '#00d2d3' : '#94a3b8' }}></i>
+                        <i className="ri-account-circle-line" style={{ fontSize: '18px' }}></i>
                         {!sidebarCollapsed && <span>My Account</span>}
                     </Link>
 
@@ -378,338 +278,177 @@ const DashboardLayout = ({ children }) => {
                         <div 
                             onClick={() => setOpenUsers(!openUsers)}
                             style={{ 
-                                display: 'flex', 
-                                alignItems: 'center', 
-                                justifyContent: sidebarCollapsed ? 'center' : 'space-between',
-                                padding: sidebarCollapsed ? '10px 0' : '9px 14px', 
-                                color: location.pathname.includes('/users') ? '#ffffff' : '#94a3b8', 
-                                textDecoration: 'none', 
-                                fontSize: '13.5px',
-                                cursor: 'pointer',
-                                background: location.pathname.includes('/users') ? 'linear-gradient(90deg, rgba(0, 210, 211, 0.2) 0%, rgba(0, 210, 211, 0.04) 100%)' : 'transparent',
-                                fontWeight: location.pathname.includes('/users') ? '600' : '500',
-                                borderRadius: '8px',
-                                borderLeft: location.pathname.includes('/users') ? '3px solid #00d2d3' : '3px solid transparent',
-                                marginBottom: '2px',
-                                transition: 'all 0.2s'
+                                padding: '10px 20px', fontSize: '14.5px', color: location.pathname.includes('/users') && !location.pathname.includes('sequence') ? '#ffffff' : '#abb9e8', 
+                                display: 'flex', alignItems: 'center', justifyContent: sidebarCollapsed ? 'center' : 'space-between', cursor: 'pointer', transition: 'all 0.2s', fontWeight: location.pathname.includes('/users') && !location.pathname.includes('sequence') ? '500' : '400'
                             }}
                         >
                             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                <i className="ri-team-line" style={{ fontSize: '17px', color: location.pathname.includes('/users') ? '#00d2d3' : '#94a3b8' }}></i>
-                                {!sidebarCollapsed && <span>Staff &amp; Attendance</span>}
+                                <i className="ri-team-line" style={{ fontSize: '18px' }}></i>
+                                {!sidebarCollapsed && <span>Users</span>}
                             </div>
                             {!sidebarCollapsed && (
-                                <i className={openUsers ? "ri-arrow-down-s-line" : "ri-arrow-right-s-line"} style={{ fontSize: '15px', opacity: 0.8 }}></i>
+                                <i className={openUsers ? "ri-arrow-down-s-line" : "ri-arrow-right-s-line"} style={{ fontSize: '15px' }}></i>
                             )}
                         </div>
-
-                        {/* Submenu */}
                         {openUsers && !sidebarCollapsed && (
-                            <div style={{ paddingLeft: '38px', display: 'flex', flexDirection: 'column', gap: '3px', marginTop: '3px', marginBottom: '6px' }}>
-                                <Link 
-                                    to="/dashboard/users" 
-                                    style={{ color: location.pathname === '/dashboard/users' ? '#00d2d3' : '#94a3b8', textDecoration: 'none', fontSize: '12.5px', padding: '4px 0', fontWeight: location.pathname === '/dashboard/users' ? '700' : '400' }}
-                                >
-                                    • Users Directory
-                                </Link>
-                                <Link 
-                                    to="/dashboard/users/attendance" 
-                                    style={{ color: location.pathname === '/dashboard/users/attendance' ? '#00d2d3' : '#94a3b8', textDecoration: 'none', fontSize: '12.5px', padding: '4px 0', fontWeight: location.pathname === '/dashboard/users/attendance' ? '700' : '400' }}
-                                >
-                                    • Daily Attendance
-                                </Link>
+                            <div style={{ paddingLeft: '50px', display: 'flex', flexDirection: 'column', gap: '8px', paddingBottom: '8px', paddingTop: '4px' }}>
+                                <Link to="/dashboard/users" style={{ color: location.pathname === '/dashboard/users' ? '#ffffff' : '#abb9e8', textDecoration: 'none', fontSize: '13.5px' }}>- Directory</Link>
+                                <Link to="/dashboard/users/attendance" style={{ color: location.pathname === '/dashboard/users/attendance' ? '#ffffff' : '#abb9e8', textDecoration: 'none', fontSize: '13.5px' }}>- Attendance</Link>
                             </div>
                         )}
                     </div>
 
-                    {/* Jobs & Applications Accordion */}
+                    {/* Jobs Accordion */}
                     <div>
                         <div 
                             onClick={() => setOpenJobs(!openJobs)}
                             style={{ 
-                                display: 'flex', 
-                                alignItems: 'center', 
-                                justifyContent: sidebarCollapsed ? 'center' : 'space-between',
-                                padding: sidebarCollapsed ? '10px 0' : '9px 14px', 
-                                color: location.pathname.includes('/jobs') ? '#ffffff' : '#94a3b8', 
-                                textDecoration: 'none', 
-                                fontSize: '13.5px',
-                                cursor: 'pointer',
-                                background: location.pathname.includes('/jobs') ? 'linear-gradient(90deg, rgba(0, 210, 211, 0.2) 0%, rgba(0, 210, 211, 0.04) 100%)' : 'transparent',
-                                fontWeight: location.pathname.includes('/jobs') ? '600' : '500',
-                                borderRadius: '8px',
-                                borderLeft: location.pathname.includes('/jobs') ? '3px solid #00d2d3' : '3px solid transparent',
-                                marginBottom: '2px',
-                                transition: 'all 0.2s'
+                                padding: '10px 20px', fontSize: '14.5px', color: location.pathname.includes('/jobs') ? '#ffffff' : '#abb9e8', 
+                                display: 'flex', alignItems: 'center', justifyContent: sidebarCollapsed ? 'center' : 'space-between', cursor: 'pointer', transition: 'all 0.2s'
                             }}
                         >
                             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                <i className="ri-briefcase-line" style={{ fontSize: '17px', color: location.pathname.includes('/jobs') ? '#00d2d3' : '#94a3b8' }}></i>
-                                {!sidebarCollapsed && <span>Careers &amp; Jobs</span>}
+                                <i className="ri-box-3-line" style={{ fontSize: '18px', color: location.pathname.includes('/jobs') ? '#ffffff' : 'inherit' }}></i>
+                                {!sidebarCollapsed && <span style={{ fontWeight: location.pathname.includes('/jobs') ? '600' : '400' }}>Jobs &amp; Applications</span>}
                             </div>
                             {!sidebarCollapsed && (
-                                <i className={openJobs ? "ri-arrow-down-s-line" : "ri-arrow-right-s-line"} style={{ fontSize: '15px', opacity: 0.8 }}></i>
+                                <i className={openJobs ? "ri-arrow-down-s-line" : "ri-arrow-right-s-line"} style={{ fontSize: '15px', color: location.pathname.includes('/jobs') ? '#ffffff' : 'inherit' }}></i>
                             )}
                         </div>
-
-                        {/* Submenu */}
                         {openJobs && !sidebarCollapsed && (
-                            <div style={{ paddingLeft: '38px', display: 'flex', flexDirection: 'column', gap: '3px', marginTop: '3px', marginBottom: '6px' }}>
-                                <Link 
-                                    to="/dashboard/jobs" 
-                                    style={{ color: location.pathname === '/dashboard/jobs' ? '#00d2d3' : '#94a3b8', textDecoration: 'none', fontSize: '12.5px', padding: '4px 0', fontWeight: location.pathname === '/dashboard/jobs' ? '700' : '400' }}
-                                >
-                                    • Job Postings
-                                </Link>
-                                <Link 
-                                    to="/dashboard/jobs/applications" 
-                                    style={{ color: location.pathname === '/dashboard/jobs/applications' ? '#00d2d3' : '#94a3b8', textDecoration: 'none', fontSize: '12.5px', padding: '4px 0', fontWeight: location.pathname === '/dashboard/jobs/applications' ? '700' : '400' }}
-                                >
-                                    • Candidate Resumes
-                                </Link>
+                            <div style={{ paddingLeft: '50px', display: 'flex', flexDirection: 'column', gap: '12px', paddingBottom: '8px', paddingTop: '8px' }}>
+                                <Link to="/dashboard/jobs" style={{ color: location.pathname === '/dashboard/jobs' ? '#ffffff' : '#abb9e8', textDecoration: 'none', fontSize: '13.5px', display: 'flex', gap: '8px' }}><span>-</span> Jobs</Link>
+                                <Link to="/dashboard/jobs/applications" style={{ color: location.pathname === '/dashboard/jobs/applications' ? '#ffffff' : '#abb9e8', textDecoration: 'none', fontSize: '13.5px', display: 'flex', gap: '8px' }}><span>-</span> Applications</Link>
                             </div>
                         )}
                     </div>
 
-                    {/* WEBSITE & MARKETING SECTION */}
+                    {/* OTHERS SECTION */}
                     {!sidebarCollapsed && (
-                        <div style={{ padding: '14px 14px 6px', fontSize: '10.5px', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.8px', fontWeight: '800' }}>
-                            WEBSITE &amp; MARKETING
+                        <div style={{ padding: '12px 20px 4px', fontSize: '11px', color: '#838fb9', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: '600', marginTop: '10px' }}>
+                            OTHERS
                         </div>
                     )}
 
                     <Link 
                         to="/dashboard/media-gallery" 
                         style={{ 
-                            display: 'flex', 
-                            alignItems: 'center', 
-                            justifyContent: sidebarCollapsed ? 'center' : 'flex-start',
-                            padding: sidebarCollapsed ? '10px 0' : '9px 14px', 
-                            color: isActive('/dashboard/media-gallery') ? '#ffffff' : '#94a3b8', 
-                            textDecoration: 'none', 
-                            fontSize: '13.5px',
-                            background: isActive('/dashboard/media-gallery') ? 'linear-gradient(90deg, rgba(0, 210, 211, 0.2) 0%, rgba(0, 210, 211, 0.04) 100%)' : 'transparent',
-                            fontWeight: isActive('/dashboard/media-gallery') ? '600' : '500',
-                            borderRadius: '8px',
-                            borderLeft: isActive('/dashboard/media-gallery') ? '3px solid #00d2d3' : '3px solid transparent',
-                            marginBottom: '2px',
-                            transition: 'all 0.2s'
+                            padding: '10px 20px', fontSize: '14.5px', color: isActive('/dashboard/media-gallery') ? '#ffffff' : '#abb9e8', 
+                            display: 'flex', alignItems: 'center', justifyContent: sidebarCollapsed ? 'center' : 'flex-start', gap: '12px', textDecoration: 'none', transition: 'all 0.2s', fontWeight: isActive('/dashboard/media-gallery') ? '500' : '400'
                         }}
                     >
-                        <i className="ri-image-2-line" style={{ marginRight: sidebarCollapsed ? '0' : '12px', fontSize: '17px', color: isActive('/dashboard/media-gallery') ? '#00d2d3' : '#94a3b8' }}></i>
-                        {!sidebarCollapsed && <span>Media Gallery</span>}
+                        <i className="ri-image-line" style={{ fontSize: '18px' }}></i>
+                        {!sidebarCollapsed && <span>Media / Gallery</span>}
                     </Link>
 
                     <Link 
                         to="/dashboard/website-slider" 
                         style={{ 
-                            display: 'flex', 
-                            alignItems: 'center', 
-                            justifyContent: sidebarCollapsed ? 'center' : 'flex-start',
-                            padding: sidebarCollapsed ? '10px 0' : '9px 14px', 
-                            color: isActive('/dashboard/website-slider') ? '#ffffff' : '#94a3b8', 
-                            textDecoration: 'none', 
-                            fontSize: '13.5px',
-                            background: isActive('/dashboard/website-slider') ? 'linear-gradient(90deg, rgba(0, 210, 211, 0.2) 0%, rgba(0, 210, 211, 0.04) 100%)' : 'transparent',
-                            fontWeight: isActive('/dashboard/website-slider') ? '600' : '500',
-                            borderRadius: '8px',
-                            borderLeft: isActive('/dashboard/website-slider') ? '3px solid #00d2d3' : '3px solid transparent',
-                            marginBottom: '2px',
-                            transition: 'all 0.2s'
+                            padding: '10px 20px', fontSize: '14.5px', color: isActive('/dashboard/website-slider') ? '#ffffff' : '#abb9e8', 
+                            display: 'flex', alignItems: 'center', justifyContent: sidebarCollapsed ? 'center' : 'flex-start', gap: '12px', textDecoration: 'none', transition: 'all 0.2s', fontWeight: isActive('/dashboard/website-slider') ? '500' : '400'
                         }}
                     >
-                        <i className="ri-slideshow-line" style={{ marginRight: sidebarCollapsed ? '0' : '12px', fontSize: '17px', color: isActive('/dashboard/website-slider') ? '#00d2d3' : '#94a3b8' }}></i>
-                        {!sidebarCollapsed && <span>Hero Sliders</span>}
+                        <i className="ri-slideshow-line" style={{ fontSize: '18px' }}></i>
+                        {!sidebarCollapsed && <span>Website Sliders</span>}
                     </Link>
 
                     <Link 
                         to="/dashboard/website-offer" 
                         style={{ 
-                            display: 'flex', 
-                            alignItems: 'center', 
-                            justifyContent: sidebarCollapsed ? 'center' : 'flex-start',
-                            padding: sidebarCollapsed ? '10px 0' : '9px 14px', 
-                            color: isActive('/dashboard/website-offer') ? '#ffffff' : '#94a3b8', 
-                            textDecoration: 'none', 
-                            fontSize: '13.5px',
-                            background: isActive('/dashboard/website-offer') ? 'linear-gradient(90deg, rgba(0, 210, 211, 0.2) 0%, rgba(0, 210, 211, 0.04) 100%)' : 'transparent',
-                            fontWeight: isActive('/dashboard/website-offer') ? '600' : '500',
-                            borderRadius: '8px',
-                            borderLeft: isActive('/dashboard/website-offer') ? '3px solid #00d2d3' : '3px solid transparent',
-                            marginBottom: '2px',
-                            transition: 'all 0.2s'
+                            padding: '10px 20px', fontSize: '14.5px', color: isActive('/dashboard/website-offer') ? '#ffffff' : '#abb9e8', 
+                            display: 'flex', alignItems: 'center', justifyContent: sidebarCollapsed ? 'center' : 'flex-start', gap: '12px', textDecoration: 'none', transition: 'all 0.2s', fontWeight: isActive('/dashboard/website-offer') ? '500' : '400'
                         }}
                     >
-                        <i className="ri-gift-2-line" style={{ marginRight: sidebarCollapsed ? '0' : '12px', fontSize: '17px', color: isActive('/dashboard/website-offer') ? '#00d2d3' : '#94a3b8' }}></i>
-                        {!sidebarCollapsed && <span>Festival Offers</span>}
+                        <i className="ri-gift-line" style={{ fontSize: '18px' }}></i>
+                        {!sidebarCollapsed && <span>Website Offer</span>}
                     </Link>
 
                     <Link 
                         to="/dashboard/reviews" 
                         style={{ 
-                            display: 'flex', 
-                            alignItems: 'center', 
-                            justifyContent: sidebarCollapsed ? 'center' : 'flex-start',
-                            padding: sidebarCollapsed ? '10px 0' : '9px 14px', 
-                            color: isActive('/dashboard/reviews') ? '#ffffff' : '#94a3b8', 
-                            textDecoration: 'none', 
-                            fontSize: '13.5px',
-                            background: isActive('/dashboard/reviews') ? 'linear-gradient(90deg, rgba(0, 210, 211, 0.2) 0%, rgba(0, 210, 211, 0.04) 100%)' : 'transparent',
-                            fontWeight: isActive('/dashboard/reviews') ? '600' : '500',
-                            borderRadius: '8px',
-                            borderLeft: isActive('/dashboard/reviews') ? '3px solid #00d2d3' : '3px solid transparent',
-                            marginBottom: '2px',
-                            transition: 'all 0.2s'
+                            padding: '10px 20px', fontSize: '14.5px', color: isActive('/dashboard/reviews') ? '#ffffff' : '#abb9e8', 
+                            display: 'flex', alignItems: 'center', justifyContent: sidebarCollapsed ? 'center' : 'flex-start', gap: '12px', textDecoration: 'none', transition: 'all 0.2s', fontWeight: isActive('/dashboard/reviews') ? '500' : '400'
                         }}
                     >
-                        <i className="ri-star-line" style={{ marginRight: sidebarCollapsed ? '0' : '12px', fontSize: '17px', color: isActive('/dashboard/reviews') ? '#00d2d3' : '#94a3b8' }}></i>
-                        {!sidebarCollapsed && <span>Client Reviews</span>}
+                        <i className="ri-message-2-line" style={{ fontSize: '18px' }}></i>
+                        {!sidebarCollapsed && <span>Reviews</span>}
                     </Link>
 
                     <Link 
                         to="/dashboard/contact" 
                         style={{ 
-                            display: 'flex', 
-                            alignItems: 'center', 
-                            justifyContent: sidebarCollapsed ? 'center' : 'flex-start',
-                            padding: sidebarCollapsed ? '10px 0' : '9px 14px', 
-                            color: isActive('/dashboard/contact') ? '#ffffff' : '#94a3b8', 
-                            textDecoration: 'none', 
-                            fontSize: '13.5px',
-                            background: isActive('/dashboard/contact') ? 'linear-gradient(90deg, rgba(0, 210, 211, 0.2) 0%, rgba(0, 210, 211, 0.04) 100%)' : 'transparent',
-                            fontWeight: isActive('/dashboard/contact') ? '600' : '500',
-                            borderRadius: '8px',
-                            borderLeft: isActive('/dashboard/contact') ? '3px solid #00d2d3' : '3px solid transparent',
-                            marginBottom: '2px',
-                            transition: 'all 0.2s'
+                            padding: '10px 20px', fontSize: '14.5px', color: isActive('/dashboard/contact') ? '#ffffff' : '#abb9e8', 
+                            display: 'flex', alignItems: 'center', justifyContent: sidebarCollapsed ? 'center' : 'flex-start', gap: '12px', textDecoration: 'none', transition: 'all 0.2s', fontWeight: isActive('/dashboard/contact') ? '500' : '400'
                         }}
                     >
-                        <i className="ri-phone-line" style={{ marginRight: sidebarCollapsed ? '0' : '12px', fontSize: '17px', color: isActive('/dashboard/contact') ? '#00d2d3' : '#94a3b8' }}></i>
+                        <i className="ri-mail-line" style={{ fontSize: '18px' }}></i>
                         {!sidebarCollapsed && <span>Contact Details</span>}
+                    </Link>
+
+                    <Link 
+                        to="/dashboard/users-sequence" 
+                        style={{ 
+                            padding: '10px 20px', fontSize: '14.5px', color: isActive('/dashboard/users-sequence') ? '#ffffff' : '#abb9e8', 
+                            display: 'flex', alignItems: 'center', justifyContent: sidebarCollapsed ? 'center' : 'flex-start', gap: '12px', textDecoration: 'none', transition: 'all 0.2s', fontWeight: isActive('/dashboard/users-sequence') ? '500' : '400'
+                        }}
+                    >
+                        <i className="ri-stack-line" style={{ fontSize: '18px' }}></i>
+                        {!sidebarCollapsed && <span>Users Sequence</span>}
                     </Link>
 
                     <Link 
                         to="/dashboard/gcode" 
                         style={{ 
-                            display: 'flex', 
-                            alignItems: 'center', 
-                            justifyContent: sidebarCollapsed ? 'center' : 'flex-start',
-                            padding: sidebarCollapsed ? '10px 0' : '9px 14px', 
-                            color: isActive('/dashboard/gcode') ? '#ffffff' : '#94a3b8', 
-                            textDecoration: 'none', 
-                            fontSize: '13.5px',
-                            background: isActive('/dashboard/gcode') ? 'linear-gradient(90deg, rgba(0, 210, 211, 0.2) 0%, rgba(0, 210, 211, 0.04) 100%)' : 'transparent',
-                            fontWeight: isActive('/dashboard/gcode') ? '600' : '500',
-                            borderRadius: '8px',
-                            borderLeft: isActive('/dashboard/gcode') ? '3px solid #00d2d3' : '3px solid transparent',
-                            marginBottom: '2px',
-                            transition: 'all 0.2s'
+                            padding: '10px 20px', fontSize: '14.5px', color: isActive('/dashboard/gcode') ? '#ffffff' : '#abb9e8', 
+                            display: 'flex', alignItems: 'center', justifyContent: sidebarCollapsed ? 'center' : 'flex-start', gap: '12px', textDecoration: 'none', transition: 'all 0.2s', fontWeight: isActive('/dashboard/gcode') ? '500' : '400'
                         }}
                     >
-                        <span style={{ display: 'inline-flex', alignItems: 'flex-end', gap: '2px', marginRight: sidebarCollapsed ? '0' : '12px', height: '16px' }}>
-                            <span style={{ width: '3.5px', height: '6px', backgroundColor: '#f59e0b', borderRadius: '1px' }}></span>
-                            <span style={{ width: '3.5px', height: '11px', backgroundColor: '#f97316', borderRadius: '1px' }}></span>
-                            <span style={{ width: '3.5px', height: '16px', backgroundColor: '#ea580c', borderRadius: '1px' }}></span>
-                        </span>
+                        <i className="ri-bar-chart-fill" style={{ fontSize: '18px', color: '#f59e0b' }}></i>
                         {!sidebarCollapsed && <span>Google Analytics</span>}
                     </Link>
 
-                    {/* SUPPORT & LOGOUT */}
+                    {/* SUPPORT */}
                     {!sidebarCollapsed && (
-                        <div style={{ padding: '14px 14px 6px', fontSize: '10.5px', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.8px', fontWeight: '800' }}>
-                            SUPPORT &amp; SYSTEM
+                        <div style={{ padding: '12px 20px 4px', fontSize: '11px', color: '#838fb9', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: '600', marginTop: '10px' }}>
+                            SUPPORT
                         </div>
                     )}
 
                     <Link 
                         to="/dashboard/faq" 
                         style={{ 
-                            display: 'flex', 
-                            alignItems: 'center', 
-                            justifyContent: sidebarCollapsed ? 'center' : 'flex-start',
-                            padding: sidebarCollapsed ? '10px 0' : '9px 14px', 
-                            color: isActive('/dashboard/faq') ? '#ffffff' : '#94a3b8', 
-                            textDecoration: 'none', 
-                            fontSize: '13.5px',
-                            background: isActive('/dashboard/faq') ? 'linear-gradient(90deg, rgba(0, 210, 211, 0.2) 0%, rgba(0, 210, 211, 0.04) 100%)' : 'transparent',
-                            fontWeight: isActive('/dashboard/faq') ? '600' : '500',
-                            borderRadius: '8px',
-                            borderLeft: isActive('/dashboard/faq') ? '3px solid #00d2d3' : '3px solid transparent',
-                            marginBottom: '2px',
-                            transition: 'all 0.2s'
+                            padding: '10px 20px', fontSize: '14.5px', color: isActive('/dashboard/faq') ? '#ffffff' : '#abb9e8', 
+                            display: 'flex', alignItems: 'center', justifyContent: sidebarCollapsed ? 'center' : 'flex-start', gap: '12px', textDecoration: 'none', transition: 'all 0.2s', fontWeight: isActive('/dashboard/faq') ? '500' : '400'
                         }}
                     >
-                        <i className="ri-questionnaire-line" style={{ marginRight: sidebarCollapsed ? '0' : '12px', fontSize: '17px', color: isActive('/dashboard/faq') ? '#00d2d3' : '#94a3b8' }}></i>
-                        {!sidebarCollapsed && <span>FAQ &amp; Knowledgebase</span>}
+                        <i className="ri-question-answer-line" style={{ fontSize: '18px' }}></i>
+                        {!sidebarCollapsed && <span>FAQ's</span>}
                     </Link>
 
                     <Link 
                         to="/dashboard/help" 
                         style={{ 
-                            display: 'flex', 
-                            alignItems: 'center', 
-                            justifyContent: sidebarCollapsed ? 'center' : 'flex-start',
-                            padding: sidebarCollapsed ? '10px 0' : '9px 14px', 
-                            color: isActive('/dashboard/help') ? '#ffffff' : '#94a3b8', 
-                            textDecoration: 'none', 
-                            fontSize: '13.5px',
-                            background: isActive('/dashboard/help') ? 'linear-gradient(90deg, rgba(0, 210, 211, 0.2) 0%, rgba(0, 210, 211, 0.04) 100%)' : 'transparent',
-                            fontWeight: isActive('/dashboard/help') ? '600' : '500',
-                            borderRadius: '8px',
-                            borderLeft: isActive('/dashboard/help') ? '3px solid #00d2d3' : '3px solid transparent',
-                            marginBottom: '2px',
-                            transition: 'all 0.2s'
+                            padding: '10px 20px', fontSize: '14.5px', color: isActive('/dashboard/help') ? '#ffffff' : '#abb9e8', 
+                            display: 'flex', alignItems: 'center', justifyContent: sidebarCollapsed ? 'center' : 'flex-start', gap: '12px', textDecoration: 'none', transition: 'all 0.2s', fontWeight: isActive('/dashboard/help') ? '500' : '400'
                         }}
                     >
-                        <i className="ri-customer-service-2-line" style={{ marginRight: sidebarCollapsed ? '0' : '12px', fontSize: '17px', color: isActive('/dashboard/help') ? '#00d2d3' : '#94a3b8' }}></i>
-                        {!sidebarCollapsed && <span>Help Desk</span>}
+                        <i className="ri-question-line" style={{ fontSize: '18px' }}></i>
+                        {!sidebarCollapsed && <span>Help</span>}
                     </Link>
 
-                    <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', margin: '12px 6px 6px' }}></div>
+                    <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)', margin: '16px 20px 8px' }}></div>
 
                     <Link 
                         to="/dashboard/user-logout" 
                         style={{ 
-                            display: 'flex', 
-                            alignItems: 'center', 
-                            justifyContent: sidebarCollapsed ? 'center' : 'flex-start',
-                            padding: sidebarCollapsed ? '10px 0' : '9px 14px', 
-                            color: '#f87171', 
-                            textDecoration: 'none', 
-                            fontSize: '13.5px',
-                            fontWeight: '600',
-                            borderRadius: '8px',
-                            transition: 'all 0.2s'
+                            padding: '10px 20px', fontSize: '14.5px', color: '#abb9e8', 
+                            display: 'flex', alignItems: 'center', justifyContent: sidebarCollapsed ? 'center' : 'flex-start', gap: '12px', textDecoration: 'none', transition: 'all 0.2s'
                         }}
                     >
-                        <i className="ri-logout-box-r-line" style={{ marginRight: sidebarCollapsed ? '0' : '12px', fontSize: '17px' }}></i>
-                        {!sidebarCollapsed && <span>Sign Out</span>}
+                        <i className="ri-logout-box-r-line" style={{ fontSize: '18px' }}></i>
+                        {!sidebarCollapsed && <span>Logout</span>}
                     </Link>
                 </div>
-
-                {/* Sidebar Bottom Profile Card */}
-                {!sidebarCollapsed && (
-                    <div style={{ padding: '12px 14px', borderTop: '1px solid rgba(255,255,255,0.08)', backgroundColor: 'rgba(0,0,0,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                            <div style={{ position: 'relative' }}>
-                                <img 
-                                    src="/static/dashboard/assets/images/users/avatar-1.jpg" 
-                                    alt="Admin" 
-                                    style={{ width: '34px', height: '34px', borderRadius: '50%', objectFit: 'cover', border: '1.5px solid #00d2d3' }} 
-                                    onError={(e) => { e.target.src = '/logo.png'; }}
-                                />
-                                <span style={{ position: 'absolute', bottom: '0', right: '0', width: '9px', height: '9px', backgroundColor: '#10b981', border: '2px solid #151c2e', borderRadius: '50%' }}></span>
-                            </div>
-                            <div>
-                                <div style={{ fontSize: '12.5px', fontWeight: '700', color: '#ffffff', lineHeight: 1.2 }}>Sai Admin</div>
-                                <small style={{ fontSize: '10.5px', color: '#00d2d3' }}>Super Admin</small>
-                            </div>
-                        </div>
-                        <Link to="/home" target="_blank" title="Open Public Website" style={{ color: '#94a3b8', fontSize: '16px' }}>
-                            <i className="ri-external-link-line"></i>
-                        </Link>
-                    </div>
-                )}
             </aside>
 
             {/* ── Main Taskbar (Topbar) & Content Area with Accurate Width Boundaries ── */}

@@ -40,3 +40,24 @@ class Lead(Base):
     notes = Column(String(500), nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
+
+class Slider(Base):
+    __tablename__ = "sliders"
+
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String(255), nullable=True)
+    image_path = Column(String(500), nullable=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+
+class Offer(Base):
+    __tablename__ = "offers"
+
+    id = Column(Integer, primary_key=True, index=True)
+    offer_text = Column(String(1000), nullable=False)
+    duration = Column(Integer, default=20)
+    font_color = Column(String(50), default="#000000")
+    background_color = Column(String(50), default="#000000")
+    font_style = Column(String(50), default="open")
+    status = Column(String(50), default="Published")
+    created_at = Column(DateTime(timezone=True), server_default=func.now())

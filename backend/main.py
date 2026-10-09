@@ -41,12 +41,7 @@ app = FastAPI(
 # Allow React dev server (localhost:5173, 5174, etc.) and production origins
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173", "http://127.0.0.1:5173",
-        "http://localhost:5174", "http://127.0.0.1:5174",
-        "http://localhost:5175", "http://127.0.0.1:5175",
-        "http://localhost:3000", "http://127.0.0.1:3000",
-    ],
+    allow_origins=["*"],
     allow_origin_regex=r"http://(localhost|127\.0\.0\.1)(:\d+)?",
     allow_credentials=True,
     allow_methods=["*"],
@@ -501,3 +496,103 @@ def root():
 
 
 
+
+import os
+import shutil
+from fastapi import File, UploadFile, Form
+from fastapi.staticfiles import StaticFiles
+from models import Slider, Offer
+from typing import List
+
+# Setup uploads directory
+os.makedirs("uploads/sliders", exist_ok=True)
+app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
+
+# --- SLIDER ENDPOINTS ---
+
+@app.get("/api/sliders")
+def get_sliders(db: Session = Depends(get_db)):
+    sliders = db.query(Slider).order_by(Slider.id.desc()).all()
+    return {"status": "success", "sliders": sliders}
+
+from typing import Optional
+
+@app.post("/api/sliders")
+async def create_slider(
+    title: str = Form(...),
+    image: Optional[UploadFile] = File(None),
+    image_url: Optional[str] = Form(None),
+    db: Session = Depends(get_db)
+):
+    final_path = ""
+    if image:
+        file_location = f"uploads/sliders/{image.filename}"
+        with open(file_location, "wb+") as file_object:
+            shutil.copyfileobj(image.file, file_object)
+        final_path = f"http://localhost:8000/{file_location}"
+    elif image_url:
+        final_path = image_url
+    else:
+        return {"status": "error", "message": "No image or image_url provided"}
+    
+    # Save to db
+    slider = Slider(title=title, image_path=final_path)
+    db.add(slider)
+    db.commit()
+    db.refresh(slider)
+    return {"status": "success", "slider": slider}
+
+@app.delete("/api/sliders/{slider_id}")
+def delete_slider(slider_id: int, db: Session = Depends(get_db)):
+    slider = db.query(Slider).filter(Slider.id == slider_id).first()
+    if slider:
+        db.delete(slider)
+        db.commit()
+    return {"status": "success"}
+
+# --- OFFER ENDPOINTS ---
+
+class OfferCreate(BaseModel):
+    offer_text: str
+    duration: int
+    font_color: str
+    background_color: str
+    font_style: str
+
+@app.get("/api/offers")
+def get_offers(db: Session = Depends(get_db)):
+    offers = db.query(Offer).order_by(Offer.id.desc()).all()
+    return {"status": "success", "offers": offers}
+
+@app.post("/api/offers")
+def create_offer(offer: OfferCreate, db: Session = Depends(get_db)):
+    new_offer = Offer(**offer.dict())
+    db.add(new_offer)
+    db.commit()
+    db.refresh(new_offer)
+    return {"status": "success", "offer": new_offer}
+
+@app.delete("/api/offers/{offer_id}")
+def delete_offer(offer_id: int, db: Session = Depends(get_db)):
+    offer = db.query(Offer).filter(Offer.id == offer_id).first()
+    if offer:
+        db.delete(offer)
+        db.commit()
+    return {"status": "success"}
+
+# --- MEDIA ENDPOINT ---
+@app.get("/api/media")
+def get_media(db: Session = Depends(get_db)):
+    # Quick hack: get all unique images from sliders
+    sliders = db.query(Slider.image_path).distinct().all()
+    images = [s[0] for s in sliders if s[0]]
+    
+    # Also add any local uploaded files
+    local_dir = "uploads/sliders"
+    if os.path.exists(local_dir):
+        for file in os.listdir(local_dir):
+            url = f"http://localhost:8000/uploads/sliders/{file}"
+            if url not in images:
+                images.append(url)
+                
+    return {"status": "success", "images": images}

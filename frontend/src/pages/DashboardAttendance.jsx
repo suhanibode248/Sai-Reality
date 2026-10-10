@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import useCrmCollection from '../hooks/useCrmCollection';
 import DashboardLayout from '../components/DashboardLayout';
 
 const DashboardAttendance = () => {
@@ -6,7 +7,7 @@ const DashboardAttendance = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showReportsModal, setShowReportsModal] = useState(false);
   
-  const [attendanceRecords, setAttendanceRecords] = useState([
+  const [attendanceRecords, setAttendanceRecords] = useCrmCollection('attendance', [
     { id: '1', date: 'Jan. 2, 2024', empCount: 13, presentCount: 1, absentCount: 12 },
     { id: '2', date: 'Sept. 1, 2023', empCount: 8, presentCount: 1, absentCount: 7 },
     { id: '3', date: 'Aug. 31, 2023', empCount: 7, presentCount: 1, absentCount: 6 },
@@ -87,6 +88,13 @@ const DashboardAttendance = () => {
     setNewAttendance({ date: new Date().toISOString().split('T')[0], presentMap: {} });
   };
 
+  const showAttendanceDetails = (record) => {
+    const lines = [`Date: ${record.date}`, `Employees: ${record.empCount}`, `Present: ${record.presentCount}`, `Absent: ${record.absentCount}`];
+    if (record.present?.length) lines.push('', 'Present: ' + record.present.join(', '));
+    if (record.absent?.length) lines.push('Absent: ' + record.absent.join(', '));
+    window.alert(lines.join('\n'));
+  };
+
   const filteredRecords = attendanceRecords.filter(r => 
     r.date.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -163,7 +171,7 @@ const DashboardAttendance = () => {
                       {filteredRecords.map(record => (
                         <tr key={record.id} style={{ height: '60px' }}>
                           <td>
-                            <a href="#!" className="fw-medium text-dark text-decoration-none" style={{ fontSize: '13px' }}>
+                            <a href="#!" onClick={(e) => { e.preventDefault(); showAttendanceDetails(record); }} className="fw-medium text-dark text-decoration-none" style={{ fontSize: '13px' }}>
                               {record.date}
                             </a>
                           </td>
@@ -181,7 +189,7 @@ const DashboardAttendance = () => {
                             </span>
                           </td>
                           <td>
-                            <a href="#!" className="text-muted">
+                            <a href="#!" onClick={(e) => { e.preventDefault(); showAttendanceDetails(record); }} className="text-muted" title="View">
                               <i className="ri-eye-line fs-18"></i>
                             </a>
                           </td>

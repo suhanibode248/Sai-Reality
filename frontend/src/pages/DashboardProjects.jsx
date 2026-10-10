@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import useCrmCollection from '../hooks/useCrmCollection';
 import scrapedProjects from '../data/scrapedProjects.json';
 import DashboardLayout from '../components/DashboardLayout';
 
@@ -14,7 +15,9 @@ const DashboardProjects = () => {
     { id: 4, title: 'Pristine Equilife', location: 'Wakad, Pune', price: 'Rs. 50 Lac - 80 Lac', area: '3.5 Acre', image: 'https://placehold.co/600x400?text=Project+4', status: 'Draft', date: 'March 15, 2025' },
   ];
 
-  const [projects, setProjects] = useState(scrapedProjects || initialProjects);
+  const [editingProject, setEditingProject] = useState(null);
+  const [projectSearch, setProjectSearch] = useState('');
+  const [projects, setProjects] = useCrmCollection('projects', scrapedProjects || initialProjects);
 
   const handleDeleteProject = (id) => {
     if (window.confirm('Are you sure you want to delete this project?')) {
@@ -68,8 +71,8 @@ const DashboardProjects = () => {
                         </p>
                       </div>
                       <div className="d-flex gap-2">
-                        <button className="btn btn-light btn-sm border"><i className="ri-links-line"></i></button>
-                        <button className="btn btn-light btn-sm border"><i className="ri-pencil-line"></i></button>
+                        <button onClick={() => { navigator.clipboard?.writeText(`${viewProject.title} - ${viewProject.location} - ${viewProject.price}`); alert('Project details copied'); }} className="btn btn-light btn-sm border" title="Copy project details"><i className="ri-links-line"></i></button>
+                        <button onClick={() => { setEditingProject(viewProject); setShowAddModal(true); }} className="btn btn-light btn-sm border" title="Edit"><i className="ri-pencil-line"></i></button>
                         <button onClick={() => setViewProject(null)} className="btn btn-light btn-sm border"><i className="ri-arrow-go-back-line"></i></button>
                       </div>
                     </div>
@@ -123,13 +126,16 @@ const DashboardProjects = () => {
             {/* Action Bar */}
             <div className="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
               <button onClick={() => setShowAddModal(true)} className="btn btn-success btn-sm px-4" style={{ backgroundColor: '#0ab39c', borderColor: '#0ab39c', fontWeight: '500' }}>
-                + Add New Project
+                <i className="ri-add-line me-1"></i> Add New
               </button>
               <div className="d-flex gap-2">
                 <form className="d-flex align-items-center bg-white border rounded px-2">
                   <i className="ri-search-line text-muted"></i>
-                  <input type="text" className="form-control border-0 shadow-none form-control-sm" placeholder="Search..." />
+                  <input type="text" className="form-control border-0 shadow-none form-control-sm" placeholder="Search..." value={projectSearch} onChange={(e) => setProjectSearch(e.target.value)} />
                 </form>
+                <button onClick={() => setProjectSearch('')} className="btn btn-light btn-sm px-3 border" style={{ fontWeight: '500' }}>
+                  <i className="ri-refresh-line me-1"></i> Refresh
+                </button>
                 <button onClick={() => setShowFilterModal(true)} className="btn btn-primary btn-sm px-3" style={{ backgroundColor: '#405189', borderColor: '#405189', fontWeight: '500' }}>
                   <i className="ri-filter-3-line me-1"></i> Filters
                 </button>
@@ -138,7 +144,7 @@ const DashboardProjects = () => {
 
             {/* Grid */}
             <div className="row">
-              {projects.map((p) => (
+              {projects.filter(p => `${p.title} ${p.location} ${p.price}`.toLowerCase().includes(projectSearch.trim().toLowerCase())).map((p) => (
                 <div className="col-xxl-3 col-lg-4 col-md-6 mb-4" key={p.id}>
                   <div className="card h-100 shadow-sm border" style={{ borderRadius: '4px', overflow: 'hidden', position: 'relative' }}>
                     
@@ -187,7 +193,7 @@ const DashboardProjects = () => {
                       <div className="d-flex gap-2">
                         <a href="tel:+919876543210" className="text-muted" title="Call To Seller"><i className="ri-phone-line" style={{ fontSize: '15px' }}></i></a>
                         <a href="https://wa.me/919876543210" target="_blank" rel="noreferrer" className="text-muted" title="Send Details On Whatsapp"><i className="ri-whatsapp-line" style={{ fontSize: '15px' }}></i></a>
-                        <a href="#!" onClick={(e) => { e.preventDefault(); setShowAddModal(true); }} className="text-muted" title="Edit Project Details"><i className="ri-pencil-fill" style={{ fontSize: '15px' }}></i></a>
+                        <a href="#!" onClick={(e) => { e.preventDefault(); setEditingProject(p); setShowAddModal(true); }} className="text-muted" title="Edit Project Details"><i className="ri-pencil-fill" style={{ fontSize: '15px' }}></i></a>
                         <a href="#!" onClick={(e) => { e.preventDefault(); handleDeleteProject(p.id); }} className="text-muted" title="Delete Property"><i className="ri-delete-bin-fill" style={{ fontSize: '15px' }}></i></a>
                       </div>
                       <span className="text-muted d-flex align-items-center" style={{ fontSize: '11px', whiteSpace: 'nowrap' }}>
@@ -284,7 +290,25 @@ const DashboardProjects = () => {
 
             {/* Form Body */}
             <div className="container-fluid mt-4 mb-5" style={{ maxWidth: '1400px' }}>
-              <form>
+              <form key={editingProject?.id || 'new'} onSubmit={(e) => {
+                e.preventDefault();
+                const val = (placeholder) => e.target.querySelector(`[placeholder="${placeholder}"]`)?.value.trim() || '';
+                const min = val('₹ Eg: 75 Lakhs'), max = val('₹ Eg: 3 Cr');
+                const data = {
+                  title: val('Enter property title'),
+                  location: [val('Enter property address'), val('Enter locations name'), val('Enter city name')].filter(Boolean).join(', '),
+                  price: min || max ? `Rs. ${[min, max].filter(Boolean).join(' - ')}` : (editingProject?.price || ''),
+                  area: val('Eg: 2 Acres') || editingProject?.area || ''
+                };
+                if (editingProject) {
+                  setProjects(prev => prev.map(p => p.id === editingProject.id ? { ...p, ...data, location: data.location || p.location } : p));
+                  if (viewProject?.id === editingProject.id) setViewProject(prev => ({ ...prev, ...data, location: data.location || prev.location }));
+                } else {
+                  setProjects(prev => [{ id: `proj-${Date.now()}`, status: 'Draft', image: '', date: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }), ...data }, ...prev]);
+                }
+                setEditingProject(null);
+                setShowAddModal(false);
+              }}>
                 <div className="row">
                   
                   {/* LEFT COLUMN */}
@@ -295,11 +319,11 @@ const DashboardProjects = () => {
                       <div className="card-body">
                         <div className="mb-3">
                           <label style={{ fontSize: '13px', fontWeight: '500', color: '#495057' }}>Property Name/ Title <span className="text-danger">*</span></label>
-                          <input type="text" className="form-control form-control-sm" placeholder="Enter property title" required />
+                          <input type="text" className="form-control form-control-sm" placeholder="Enter property title" defaultValue={editingProject?.title || ''} required />
                         </div>
                         <div className="mb-3">
                           <label style={{ fontSize: '13px', fontWeight: '500', color: '#495057' }}>Property Details / Description <span className="text-danger">*</span></label>
-                          <textarea className="form-control form-control-sm" rows="4" placeholder="Enter property description" required></textarea>
+                          <textarea className="form-control form-control-sm" rows="4" placeholder="Enter property description" required={!editingProject}></textarea>
                         </div>
                       </div>
                     </div>
@@ -327,7 +351,7 @@ const DashboardProjects = () => {
                         <div className="row g-3 mb-3">
                           <div className="col-lg-6">
                             <label style={{ fontSize: '13px', fontWeight: '500' }}>Address *</label>
-                            <input type="text" className="form-control form-control-sm" placeholder="Enter property address" />
+                            <input type="text" className="form-control form-control-sm" placeholder="Enter property address" defaultValue={editingProject?.location || ''} />
                           </div>
                           <div className="col-lg-6">
                             <label style={{ fontSize: '13px', fontWeight: '500' }}>Locations *</label>
@@ -385,7 +409,7 @@ const DashboardProjects = () => {
                           </div>
                           <div className="col-lg-3">
                             <label style={{ fontSize: '13px', fontWeight: '500' }}>Project Area *</label>
-                            <input type="text" className="form-control form-control-sm" placeholder="Eg: 2 Acres" />
+                            <input type="text" className="form-control form-control-sm" placeholder="Eg: 2 Acres" defaultValue={editingProject?.area || ''} />
                           </div>
                           <div className="col-lg-3">
                             <label style={{ fontSize: '13px', fontWeight: '500' }}>Possession *</label>
@@ -542,7 +566,7 @@ const DashboardProjects = () => {
                     <div className="d-flex justify-content-end gap-2 mt-4 mb-4 pb-4">
                       <button type="submit" className="btn text-white fw-medium px-4" style={{ backgroundColor: '#0ab39c' }}>+ Add Now</button>
                       <button type="reset" className="btn fw-medium px-4" style={{ backgroundColor: '#fef4e4', color: '#f59e0b', border: '1px solid #fef4e4' }}>Reset</button>
-                      <button type="button" onClick={() => setShowAddModal(false)} className="btn fw-medium px-4" style={{ backgroundColor: '#fde8e4', color: '#ef4444', border: '1px solid #fde8e4' }}>Cancel</button>
+                      <button type="button" onClick={() => { setEditingProject(null); setShowAddModal(false); }} className="btn fw-medium px-4" style={{ backgroundColor: '#fde8e4', color: '#ef4444', border: '1px solid #fde8e4' }}>Cancel</button>
                     </div>
 
                   </div>

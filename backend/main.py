@@ -596,3 +596,53 @@ def get_media(db: Session = Depends(get_db)):
                 images.append(url)
                 
     return {"status": "success", "images": images}
+
+# ---------------------------------------------
+# LOCAL CRM DATA STORE (demo data, no external connection)
+# Each collection (leads, properties, users, jobs, ...) is a JSON list in backend/data/
+# ---------------------------------------------
+import json
+import os
+import re as _re
+from typing import Any, List
+from fastapi.responses import Response
+
+CRM_DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
+
+def _collection_path(name: str):
+    if not _re.fullmatch(r"[A-Za-z0-9_-]{1,64}", name):
+        raise ValueError("Invalid collection name")
+    return os.path.join(CRM_DATA_DIR, f"{name}.json")
+
+def load_collection(name: str):
+    try:
+        with open(_collection_path(name), encoding="utf-8") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return None
+
+def save_collection(name: str, items):
+    os.makedirs(CRM_DATA_DIR, exist_ok=True)
+    path = _collection_path(name)
+    with open(path + ".tmp", "w", encoding="utf-8") as f:
+        json.dump(items, f, ensure_ascii=False)
+    os.replace(path + ".tmp", path)
+
+@app.get("/api/crm/{name}")
+def get_crm_collection(name: str):
+    try:
+        return {"status": "success", "data": load_collection(name)}
+    except ValueError as e:
+        return {"status": "error", "message": str(e)}
+
+@app.put("/api/crm/{name}")
+def put_crm_collection(name: str, items: List[Any]):
+    try:
+        save_collection(name, items)
+        return {"status": "success", "count": len(items)}
+    except ValueError as e:
+        return {"status": "error", "message": str(e)}
+
+# Leads, Properties and notifications (local demo data)
+from crm_demo import router as crm_demo_router
+app.include_router(crm_demo_router)

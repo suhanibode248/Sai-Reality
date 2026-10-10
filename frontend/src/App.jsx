@@ -13,17 +13,19 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Login from './pages/Login.jsx'
 import Home from './pages/Home.jsx'
 import LeadsDashboard from './pages/LeadsDashboard.jsx'
+import DashboardMyAccount from './pages/DashboardMyAccount.jsx'
+import DashboardUsersSequence from './pages/DashboardUsersSequence.jsx'
+import DashboardFAQ from './pages/DashboardFAQ.jsx'
+import DashboardUserProfile from './pages/DashboardUserProfile.jsx'
 import DashboardOverview from './pages/DashboardOverview.jsx'
 import DashboardAnalytics from './pages/DashboardAnalytics.jsx'
 import DashboardProperties from './pages/DashboardProperties.jsx'
 import {
-  DashboardMyAccount,
   DashboardMedia,
   DashboardReviews,
   DashboardContact,
-  DashboardUsersSequence,
-  DashboardFAQ,
-  DashboardHelp
+  DashboardHelp,
+  DashboardGCode
 } from './pages/DashboardSubPages.jsx'
 
 /**
@@ -61,6 +63,8 @@ function App() {
         <Route path="/dashboard/my-account" element={<DashboardMyAccount />} />
         <Route path="/dashboard/users" element={<DashboardUsers />} />
         <Route path="/dashboard/user-attendance" element={<DashboardAttendance />} />
+        <Route path="/dashboard/users/attendance" element={<DashboardAttendance />} />
+        <Route path="/dashboard/users/:userId" element={<DashboardUserProfile />} />
         <Route path="/dashboard/jobs" element={<DashboardJobs />} />
         <Route path="/dashboard/applications" element={<DashboardApplications />} />
         <Route path="/dashboard/jobs" element={<DashboardJobs />} />
@@ -73,7 +77,7 @@ function App() {
         <Route path="/dashboard/reviews" element={<DashboardReviews />} />
         <Route path="/dashboard/contact" element={<DashboardContact />} />
         <Route path="/dashboard/users-sequence" element={<DashboardUsersSequence />} />
-        <Route path="/dashboard/gcode" element={<DashboardAnalytics />} />
+        <Route path="/dashboard/gcode" element={<DashboardGCode />} />
         <Route path="/dashboard/analytics" element={<DashboardAnalytics />} />
 
         {/* CRM Dashboard: Support */}

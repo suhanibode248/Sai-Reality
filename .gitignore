@@ -24,3 +24,5 @@ env/
 Thumbs.db
 
 *.zip
+# Live CRM data cached by the backend
+backend/.cache/

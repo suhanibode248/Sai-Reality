@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import useCrmCollection from '../hooks/useCrmCollection';
 import DashboardLayout from '../components/DashboardLayout';
 
 const DashboardTransactions = () => {
@@ -23,7 +24,7 @@ const DashboardTransactions = () => {
   const [filterToDate, setFilterToDate] = useState('');
   
   // Dummy transactions for preview
-  const [transactions, setTransactions] = useState([
+  const [transactions, setTransactions] = useCrmCollection('transactions', [
     { id: '#TX1052', category: 'Sales', type: 'Income', amount: 50000, description: 'Client payment', status: 'Completed', date: '10/09/2026' },
     { id: '#TX3921', category: 'Marketing', type: 'Expenses', amount: 5000, description: 'Facebook Ads', status: 'Completed', date: '08/09/2026' },
     { id: '#TX8432', category: 'Consulting', type: 'Income', amount: 12000, description: 'Consultation fee', status: 'Completed', date: '05/09/2026' }
@@ -66,6 +67,27 @@ const DashboardTransactions = () => {
     setAmount('');
     setDescription('');
     setShowModal(false);
+  };
+
+  // "Download Statement CSV" for the transactions shown
+  const handleDownloadStatement = () => {
+    const rows = [['Tr. ID', 'Category', 'Type', 'Amount', 'Description', 'Status', 'Date'],
+      ...filteredTransactions.map(t => [t.id, t.category, t.type, t.amount, t.description || '', t.status || '', t.date])];
+    const csv = rows.map(r => r.map(v => `"${String(v ?? '').replace(/"/g, '""')}"`).join(',')).join('\n');
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+    link.download = 'transactions-statement.csv';
+    link.click();
+    URL.revokeObjectURL(link.href);
+  };
+
+  // Edit: change the amount / description of a transaction
+  const handleEdit = (tx) => {
+    const newAmount = window.prompt(`Amount for ${tx.id}`, tx.amount);
+    if (newAmount === null) return;
+    const newDescription = window.prompt('Description / Remark', tx.description || '');
+    if (newDescription === null) return;
+    setTransactions(prev => prev.map(t => t.id === tx.id ? { ...t, amount: parseFloat(newAmount) || t.amount, description: newDescription } : t));
   };
 
   const handleDelete = (id) => {
@@ -154,7 +176,7 @@ const DashboardTransactions = () => {
                       <button onClick={() => setShowFilters(true)} className="btn btn-info shadow-sm" type="button" style={{ backgroundColor: '#299cdb', borderColor: '#299cdb' }}>
                         <i className="ri-filter-3-line align-bottom me-1"></i> Filters
                       </button>
-                      <button className="btn btn-warning add-btn shadow-sm" type="button" style={{ backgroundColor: '#f7b84b', borderColor: '#f7b84b' }}>
+                      <button onClick={handleDownloadStatement} className="btn btn-warning add-btn shadow-sm" type="button" style={{ backgroundColor: '#f7b84b', borderColor: '#f7b84b' }}>
                         <i className="ri-download-cloud-line align-bottom me-1"></i> Download Statement CSV
                       </button>
                       <a href="/dashboard/finance-overview/" className="btn btn-soft-info add-btn shadow-sm" style={{ backgroundColor: '#e0f1f9', color: '#299cdb', border: 'none' }}>
@@ -206,7 +228,7 @@ const DashboardTransactions = () => {
                             <td>
                               <ul className="list-inline hstack gap-2 mb-0">
                                 <li className="list-inline-item">
-                                  <button className="btn btn-sm btn-soft-primary px-2 py-1"><i className="ri-pencil-fill"></i></button>
+                                  <button onClick={() => handleEdit(tx)} className="btn btn-sm btn-soft-primary px-2 py-1" title="Edit"><i className="ri-pencil-fill"></i></button>
                                 </li>
                                 <li className="list-inline-item">
                                   <button onClick={() => handleDelete(tx.id)} className="btn btn-sm btn-soft-danger px-2 py-1"><i className="ri-delete-bin-line"></i></button>

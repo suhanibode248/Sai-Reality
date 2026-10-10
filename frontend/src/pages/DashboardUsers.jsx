@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import useCrmCollection from '../hooks/useCrmCollection';
 import DashboardLayout from '../components/DashboardLayout';
 
 const DashboardUsers = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
-  const [users, setUsers] = useState([
+  const [users, setUsers] = useCrmCollection('users', [
     {
       id: '53',
       name: 'Sagar Mahadev Bachate',
@@ -38,6 +40,7 @@ const DashboardUsers = () => {
   ]);
 
   
+  const navigate = useNavigate();
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
 
@@ -259,8 +262,8 @@ const DashboardUsers = () => {
                 <h5 className="mt-3 mb-1 fw-semibold text-primary" style={{ fontSize: '16px' }}>{selectedUser.name}</h5>
                 <p className="text-muted mb-2" style={{ fontSize: '12px' }}>Sales Executive | {selectedUser.role}</p>
                 <div className="d-flex justify-content-center gap-2 mb-3">
-                  <a href="#!" className="btn btn-sm btn-soft-primary" style={{ padding: '4px 10px', backgroundColor: '#e0e8ff', color: '#405189' }}><i className="ri-facebook-fill"></i></a>
-                  <a href="#!" className="btn btn-sm btn-soft-info" style={{ padding: '4px 10px', backgroundColor: '#e0f4ff', color: '#299cdb' }}><i className="ri-linkedin-fill"></i></a>
+                  <a href={`https://www.facebook.com/search/top?q=${encodeURIComponent(selectedUser.name)}`} target="_blank" rel="noreferrer" className="btn btn-sm btn-soft-primary" style={{ padding: '4px 10px', backgroundColor: '#e0e8ff', color: '#405189' }}><i className="ri-facebook-fill"></i></a>
+                  <a href={`https://www.linkedin.com/search/results/all/?keywords=${encodeURIComponent(selectedUser.name)}`} target="_blank" rel="noreferrer" className="btn btn-sm btn-soft-info" style={{ padding: '4px 10px', backgroundColor: '#e0f4ff', color: '#299cdb' }}><i className="ri-linkedin-fill"></i></a>
                 </div>
               </div>
 
@@ -300,33 +303,50 @@ const DashboardUsers = () => {
                 <div className="mt-3 border-top pt-3" style={{ borderColor: '#e2e8f0', borderStyle: 'dashed' }}>
                   <div className="d-flex justify-content-between align-items-center mb-3">
                     <h6 className="m-0 fw-semibold text-dark" style={{ fontSize: '14px' }}>File Manager</h6>
-                    <button className="btn btn-sm btn-soft-info" style={{ backgroundColor: '#e0f4ff', color: '#299cdb', fontSize: '11px' }}>
+                    <label className="btn btn-sm btn-soft-info mb-0" style={{ backgroundColor: '#e0f4ff', color: '#299cdb', fontSize: '11px', cursor: 'pointer' }}>
                       <i className="ri-upload-cloud-2-line align-bottom me-1"></i> Upload Documents
-                    </button>
+                      <input type="file" multiple hidden onChange={(e) => {
+                        const added = [...e.target.files].map(f => ({ name: f.name, date: new Date().toLocaleString('en-IN') }));
+                        e.target.value = '';
+                        const updated = { ...selectedUser, documents: [...(selectedUser.documents || []), ...added] };
+                        setSelectedUser(updated);
+                        setUsers(prev => prev.map(u => u.id === updated.id ? updated : u));
+                      }} />
+                    </label>
                   </div>
-                  
-                  <div className="d-flex align-items-center p-2 mb-2" style={{ border: '1px solid white' }}>
-                    <div className="avatar-sm flex-shrink-0">
-                      <div className="avatar-title rounded bg-soft-danger text-danger" style={{ backgroundColor: '#ffeae8', color: '#f06548', padding: '10px', borderRadius: '4px' }}>
-                        <i className="ri-file-pdf-line"></i>
+
+                  {(selectedUser.documents || []).length === 0 && (
+                    <p className="text-muted mb-0" style={{ fontSize: '12px' }}>No documents uploaded yet.</p>
+                  )}
+                  {(selectedUser.documents || []).map((doc, i) => (
+                    <div key={i} className="d-flex align-items-center p-2 mb-2" style={{ border: '1px solid white' }}>
+                      <div className="avatar-sm flex-shrink-0">
+                        <div className="avatar-title rounded bg-soft-danger text-danger" style={{ backgroundColor: '#ffeae8', color: '#f06548', padding: '10px', borderRadius: '4px' }}>
+                          <i className="ri-file-pdf-line"></i>
+                        </div>
+                      </div>
+                      <div className="flex-grow-1 ms-3">
+                        <h6 className="mb-1 text-primary fw-medium" style={{ fontSize: '12px', color: '#405189' }}>{doc.name}</h6>
+                        <p className="text-muted mb-0" style={{ fontSize: '11px' }}>{doc.date}</p>
+                      </div>
+                      <div className="flex-shrink-0">
+                        <a href="#!" className="text-danger" title="Delete document" onClick={(e) => {
+                          e.preventDefault();
+                          const updated = { ...selectedUser, documents: selectedUser.documents.filter((_, j) => j !== i) };
+                          setSelectedUser(updated);
+                          setUsers(prev => prev.map(u => u.id === updated.id ? updated : u));
+                        }}><i className="ri-delete-bin-fill"></i></a>
                       </div>
                     </div>
-                    <div className="flex-grow-1 ms-3">
-                      <h6 className="mb-1 text-primary fw-medium" style={{ fontSize: '12px', color: '#405189' }}>IMG_20260526_174259.jpg</h6>
-                      <p className="text-muted mb-0" style={{ fontSize: '11px' }}>May 26, 2026, 6:19 p.m.</p>
-                    </div>
-                    <div className="flex-shrink-0">
-                      <a href="#!" className="text-danger"><i className="ri-delete-bin-fill"></i></a>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </div>
 
               <div className="p-3 bg-white border-top d-flex gap-2" style={{ position: 'sticky', bottom: 0 }}>
-                <button className="btn btn-light flex-grow-1" style={{ backgroundColor: '#f3f6f9', border: 'none', color: '#495057', fontSize: '13px', fontWeight: '500' }}>
+                <a href={`tel:${(selectedUser.phone || '').replace(/\s/g, '')}`} className="btn btn-light flex-grow-1" style={{ backgroundColor: '#f3f6f9', border: 'none', color: '#495057', fontSize: '13px', fontWeight: '500' }}>
                   <i className="ri-phone-line align-bottom me-1"></i> Make a Call
-                </button>
-                <button className="btn btn-primary flex-grow-1" style={{ backgroundColor: '#405189', borderColor: '#405189', fontSize: '13px', fontWeight: '500' }}>
+                </a>
+                <button onClick={() => { setShowProfileModal(false); navigate(`/dashboard/users/${selectedUser.id}`); }} className="btn btn-primary flex-grow-1" style={{ backgroundColor: '#405189', borderColor: '#405189', fontSize: '13px', fontWeight: '500' }}>
                   <i className="ri-user-3-line align-bottom me-1"></i> View Profile
                 </button>
               </div>

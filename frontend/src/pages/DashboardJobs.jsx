@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
+import useCrmCollection from '../hooks/useCrmCollection';
 import DashboardLayout from '../components/DashboardLayout';
 
 const DashboardJobs = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
   const [editingJob, setEditingJob] = useState(null);
-  const [jobs, setJobs] = useState([
+  const [jobs, setJobs] = useCrmCollection('jobs', [
     {
       id: '1',
       title: 'We are hiring for: Telecalling | Digital Marketing | Sales Executive',

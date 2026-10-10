@@ -1,56 +1,282 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import DashboardLayout from '../components/DashboardLayout';
-import scrapedProperties from '../data/scrapedProperties.json';
 
-const DashboardProperties = () => {
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [viewProperty, setViewProperty] = useState(null);
-  const [properties, setProperties] = useState(scrapedProperties || []);
-  const [appliedFilters, setAppliedFilters] = useState({ propertyType: 'All', category: 'All', city: 'All', location: 'All', bedroom: 'All' });
-  const handleDeleteProperty = (id) => {
-    if (window.confirm('Are you sure you want to delete this property?')) {
-      setProperties(properties.filter(p => p.id !== id));
-    }
+const API = 'http://localhost:8000/api/dashboard';
+const NO_IMAGE = `data:image/svg+xml;utf8,${encodeURIComponent(
+  '<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400"><rect width="100%" height="100%" fill="#f3f6f9"/>' +
+  '<text x="50%" y="50%" fill="#adb5bd" font-family="sans-serif" font-size="28" text-anchor="middle" dominant-baseline="middle">No Image</text></svg>'
+)}`;
+const EMPTY_FILTERS = { propertyType: '', category: '', city: '', location: [], bedroom: [], minPrice: '', maxPrice: '' };
+
+const EMPTY_PROPERTY = {
+  title: '', type: 'For Sale', category: 'Residential Appartment', location: '', city: 'Pune', address: '',
+  price: '', bedroom: '', bathroom: '', area: '', seller: '', phone: '', status: 'Draft', description: '', image: '', availableFrom: ''
+};
+
+const shareOnWhatsapp = (p) => {
+  const text = [p.title, p.price, p.address, p.area ? `Area: ${p.area}` : '', `Sai Realty - Call ${p.phone || ''}`].filter(Boolean).join('\n');
+  window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
+};
+
+// Add New / Edit Property form
+const PropertyForm = ({ initial, filterOptions, onClose, onSaved }) => {
+  const [data, setData] = useState(() => ({ ...EMPTY_PROPERTY, ...initial, price: initial?.priceValue ?? '' }));
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState('');
+  const set = (name) => (e) => setData(prev => ({ ...prev, [name]: e.target.value }));
+  const isEdit = Boolean(initial?.id);
+
+  const submit = (e) => {
+    e.preventDefault();
+    setSaving(true);
+    setError('');
+    fetch(`${API}/properties${isEdit ? `/${initial.id}` : ''}`, {
+      method: isEdit ? 'PUT' : 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...data, price: parseFloat(data.price) || 0 })
+    })
+      .then(res => res.json())
+      .then(res => { if (res.status === 'success') onSaved(res.data); else setError(res.message || 'Could not save'); })
+      .catch(() => setError('Could not reach the backend at localhost:8000'))
+      .finally(() => setSaving(false));
   };
 
-  const handleSearch = () => {
-    setAppliedFilters({ propertyType, category, city, location, bedroom });
-  };
-
-  
-  // Filter states
-  const [propertyType, setPropertyType] = useState('All');
-  const [category, setCategory] = useState('All');
-  const [city, setCity] = useState('All');
-  const [location, setLocation] = useState('All');
-  const [bedroom, setBedroom] = useState('All');
-  const [minPrice, setMinPrice] = useState('');
-  const [maxPrice, setMaxPrice] = useState('');
-
-  const filteredProperties = properties.filter(p => {
-    let match = true;
-    if (propertyType !== 'All' && p.type !== propertyType) match = false;
-    if (location !== 'All' && !p.location.includes(location)) match = false;
-    // For price, since it's a string like '₹ 27000', we'd need to parse it, but for now simple check
-    return match;
-  });
+  const field = (label, name, props = {}) => (
+    <div className="col-md-6 mb-3">
+      <label className="form-label fw-medium" style={{ fontSize: '13px' }}>{label}</label>
+      <input className="form-control form-control-sm" value={data[name] ?? ''} onChange={set(name)} {...props} />
+    </div>
+  );
+  const select = (label, name, options) => (
+    <div className="col-md-6 mb-3">
+      <label className="form-label fw-medium" style={{ fontSize: '13px' }}>{label}</label>
+      <select className="form-select form-select-sm" value={data[name] ?? ''} onChange={set(name)}>
+        {options.map(o => <option key={o} value={o}>{o || 'Select'}</option>)}
+      </select>
+    </div>
+  );
 
   return (
-    <DashboardLayout>
-      <div className="container-fluid p-0">
-        
-        {/* Title Box */}
-        
-      {viewProperty ? (
+    <div style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 99999, display: 'flex', alignItems: 'flex-start', justifyContent: 'center', overflowY: 'auto', padding: '40px 16px' }}>
+      <form onSubmit={submit} className="card shadow border-0" style={{ width: '100%', maxWidth: '760px', borderRadius: '8px' }}>
+        <div className="card-header bg-white d-flex justify-content-between align-items-center">
+          <h5 className="mb-0 fw-bold" style={{ fontSize: '15px' }}>{isEdit ? 'Edit Property Details' : 'Add New Property'}</h5>
+          <button type="button" className="btn-close" onClick={onClose}></button>
+        </div>
+        <div className="card-body row">
+          {field('Property Name/ Title *', 'title', { required: true })}
+          {select('Property Type', 'type', filterOptions.propertyType || ['For Sale', 'For Rent', 'For Lease'])}
+          {select('Category', 'category', filterOptions.category || ['Residential Appartment'])}
+          {select('Location', 'location', ['', ...(filterOptions.location || [])])}
+          {field('City', 'city')}
+          {field('Price (Rs.) *', 'price', { type: 'number', min: 0, required: true })}
+          {select('Bedroom', 'bedroom', ['', ...(filterOptions.bedroom || [])])}
+          {field('Bathroom', 'bathroom', { type: 'number', min: 0 })}
+          {field('Area', 'area', { placeholder: 'e.g. 800 sqft' })}
+          {field('Available From', 'availableFrom', { type: 'date' })}
+          {field('Seller Name', 'seller')}
+          {field('Seller Phone', 'phone', { type: 'tel' })}
+          {select('Status', 'status', ['Draft', 'Published'])}
+          {field('Image URL', 'image', { placeholder: '/media/dashboard/images/property/photo1.jpg' })}
+          <div className="col-12 mb-3">
+            <label className="form-label fw-medium" style={{ fontSize: '13px' }}>Address</label>
+            <input className="form-control form-control-sm" value={data.address ?? ''} onChange={set('address')} />
+          </div>
+          <div className="col-12">
+            <label className="form-label fw-medium" style={{ fontSize: '13px' }}>Property Details/ Description</label>
+            <textarea className="form-control form-control-sm" rows="4" value={data.description ?? ''} onChange={set('description')}></textarea>
+          </div>
+          {error && <p className="text-danger mt-2 mb-0" style={{ fontSize: '13px' }}>{error}</p>}
+        </div>
+        <div className="card-footer bg-white d-flex justify-content-end gap-2">
+          <button type="button" className="btn btn-light btn-sm" onClick={onClose}>Cancel</button>
+          <button type="submit" className="btn btn-success btn-sm px-4" disabled={saving} style={{ backgroundColor: '#0ab39c', borderColor: '#0ab39c' }}>{saving ? 'Saving...' : 'Save'}</button>
+        </div>
+      </form>
+    </div>
+  );
+};
+
+const norm = (s) => (s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+
+const matchesFilters = (p, f) => {
+  if (f.propertyType && p.type !== f.propertyType) return false;
+  if (f.category && p.category !== f.category) return false;
+  if (f.city && norm(p.city) !== norm(f.city)) return false;
+  if (f.location.length && !f.location.some(loc => norm(p.location).includes(norm(loc)) || norm(p.address).includes(norm(loc)))) return false;
+  if (f.bedroom.length && !f.bedroom.includes(p.bedroom)) return false;
+  const min = parseFloat(f.minPrice);
+  const max = parseFloat(f.maxPrice);
+  if (!isNaN(min) && (p.priceValue ?? -Infinity) < min) return false;
+  if (!isNaN(max) && (p.priceValue ?? Infinity) > max) return false;
+  return true;
+};
+
+// Dropdown with checkboxes for Location and Bedroom (the live form lets you pick several)
+const MultiSelect = ({ placeholder, options, value, onChange }) => {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const close = (e) => { if (!ref.current?.contains(e.target)) setOpen(false); };
+    document.addEventListener('mousedown', close);
+    return () => document.removeEventListener('mousedown', close);
+  }, [open]);
+
+  const toggle = (opt) => onChange(value.includes(opt) ? value.filter(v => v !== opt) : [...value, opt]);
+
+  return (
+    <div ref={ref} className="position-relative">
+      <button type="button" className="form-select form-select-sm text-start" onClick={() => setOpen(o => !o)} style={{ overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', backgroundColor: '#fff' }}>
+        {value.length ? value.join(', ') : placeholder}
+      </button>
+      {open && (
+        <div className="position-absolute bg-white border rounded shadow-sm w-100 mt-1 py-1" style={{ zIndex: 20, maxHeight: '220px', overflowY: 'auto' }}>
+          {options.map(opt => (
+            <label key={opt} className="d-flex align-items-center gap-2 px-2 py-1 mb-0" style={{ fontSize: '13px', cursor: 'pointer' }}>
+              <input type="checkbox" checked={value.includes(opt)} onChange={() => toggle(opt)} /> {opt}
+            </label>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+const DashboardProperties = () => {
+  const [properties, setProperties] = useState([]);
+  const [filterOptions, setFilterOptions] = useState({});
+  const [detailsLoaded, setDetailsLoaded] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState('');
+  const [reloadKey, setReloadKey] = useState(0);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const forceReloadRef = useRef(false);
+  const silentReloadRef = useRef(false);
+
+  // Search form values, and the ones applied when "Search" was pressed
+  const [form, setForm] = useState(EMPTY_FILTERS);
+  const [applied, setApplied] = useState(EMPTY_FILTERS);
+  const setField = (name, value) => setForm(prev => ({ ...prev, [name]: value }));
+
+  // Property details view
+  const [viewProperty, setViewProperty] = useState(null);
+  const [details, setDetails] = useState(null);
+  const [detailsLoading, setDetailsLoading] = useState(false);
+  const [activeImage, setActiveImage] = useState(0);
+  const [detailsTab, setDetailsTab] = useState('seller');
+  const [editing, setEditing] = useState(null); // {} = add new, property = edit
+
+  useEffect(() => {
+    let ignore = false;
+    const force = forceReloadRef.current;
+    forceReloadRef.current = false;
+    if (!silentReloadRef.current) setIsLoading(true);
+    silentReloadRef.current = false;
+
+    fetch(`${API}/properties${force ? '?force=true' : ''}`)
+      .then(res => res.json())
+      .then(data => {
+        if (ignore) return;
+        if (data.status === 'success') {
+          setProperties(data.data);
+          setFilterOptions(data.filterOptions || {});
+          setDetailsLoaded(data.detailsLoaded);
+          setLoadError('');
+        } else {
+          setLoadError(data.message || 'Could not load properties');
+        }
+      })
+      .catch(() => { if (!ignore) setLoadError('Could not reach the backend at localhost:8000'); })
+      .finally(() => {
+        if (!ignore) {
+          setIsLoading(false);
+          setIsRefreshing(false);
+        }
+      });
+    return () => { ignore = true; };
+  }, [reloadKey]);
+
+  // Category and bedrooms are read from each property's detail page in the background; poll until all are in
+  useEffect(() => {
+    if (!properties.length || detailsLoaded >= properties.length) return;
+    const timer = setTimeout(() => {
+      silentReloadRef.current = true;
+      setReloadKey(k => k + 1);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, [properties, detailsLoaded]);
+
+  const refresh = () => {
+    setForm(EMPTY_FILTERS);
+    setApplied(EMPTY_FILTERS);
+    forceReloadRef.current = true;
+    silentReloadRef.current = properties.length > 0;
+    setIsRefreshing(true);
+    setReloadKey(k => k + 1);
+  };
+
+  const openDetails = (p) => {
+    setViewProperty(p);
+    setDetails(null);
+    setActiveImage(0);
+    setDetailsTab('seller');
+    setDetailsLoading(true);
+    window.scrollTo(0, 0);
+    fetch(`${API}/properties/${p.id}?force=true`)
+      .then(res => res.json())
+      .then(data => { if (data.status === 'success') setDetails(data.data); })
+      .catch(() => {})
+      .finally(() => setDetailsLoading(false));
+  };
+
+  const handleDelete = (p) => {
+    if (!window.confirm(`Delete "${p.title}"?`)) return;
+    fetch(`${API}/properties/${p.id}`, { method: 'DELETE' })
+      .then(() => {
+        setProperties(prev => prev.filter(x => x.id !== p.id));
+        if (viewProperty?.id === p.id) setViewProperty(null);
+      })
+      .catch(() => alert('Could not reach the backend at localhost:8000'));
+  };
+
+  const onPropertySaved = (saved) => {
+    setEditing(null);
+    setProperties(prev => prev.some(x => x.id === saved.id) ? prev.map(x => x.id === saved.id ? saved : x) : [saved, ...prev]);
+    if (viewProperty?.id === saved.id) openDetails(saved);
+  };
+
+  const propertyForm = editing && (
+    <PropertyForm initial={editing} filterOptions={filterOptions} onClose={() => setEditing(null)} onSaved={onPropertySaved} />
+  );
+
+  const filteredProperties = properties.filter(p => matchesFilters(p, applied));
+  const filtersNeedDetails = applied.category || applied.bedroom.length;
+  const detailsPending = properties.length - detailsLoaded;
+
+  const selectOptions = (name, fallback) => (filterOptions[name]?.length ? filterOptions[name] : fallback);
+
+  // ── Property details view ──
+  if (viewProperty) {
+    const d = details || {};
+    const images = details?.images?.length ? details.images : (viewProperty.image ? [viewProperty.image] : []);
+    const mainImage = images[activeImage] || images[0];
+    const features = Object.entries(d.features || {});
+    const sellerRows = Object.entries(d.sellerInfo || {});
+    const metaRows = Object.entries(d.meta || {});
+
+    return (
+      <DashboardLayout>
+        {propertyForm}
         <div className="container-fluid p-0">
-          {/* Header */}
           <div className="row mb-3">
             <div className="col-12">
-              <div className="page-title-box d-sm-flex align-items-center justify-content-between bg-white border-0 p-3 shadow-sm rounded">
+              <div className="page-title-box d-sm-flex align-items-center justify-content-between bg-white border-0 p-3 shadow-sm rounded" style={{ margin: 0 }}>
                 <h4 className="mb-sm-0 fw-bold text-uppercase" style={{ fontSize: '14px', color: '#495057' }}>Property Details</h4>
                 <div className="page-title-right">
                   <ol className="breadcrumb m-0" style={{ backgroundColor: 'transparent', padding: 0 }}>
-                    <li className="breadcrumb-item"><a href="#!" style={{ color: '#495057', textDecoration: 'none' }}>CRM</a></li>
+                    <li className="breadcrumb-item"><a href="#!" onClick={(e) => { e.preventDefault(); setViewProperty(null); }} style={{ color: '#495057', textDecoration: 'none' }}>CRM</a></li>
                     <li className="breadcrumb-item active" style={{ color: '#74788d' }}>Property Details</li>
                   </ol>
                 </div>
@@ -63,13 +289,19 @@ const DashboardProperties = () => {
             <div className="col-lg-4">
               <div className="card shadow-sm border-0 mb-3 rounded">
                 <div className="card-body p-2 position-relative">
-                  <div className="position-absolute top-0 start-0 m-3 bg-dark bg-opacity-75 text-white px-2 py-1 rounded" style={{ fontSize: '12px', zIndex: 10 }}>
-                    <i className="ri-image-line me-1"></i> 5 of 7
-                  </div>
-                  <img src={viewProperty.image && viewProperty.image !== '/media/' ? viewProperty.image : 'https://placehold.co/600x400'} alt="Main" className="w-100 rounded mb-2" style={{ height: '250px', objectFit: 'cover' }} />
-                  <div className="d-flex gap-2">
-                    <img src={viewProperty.image && viewProperty.image !== '/media/' ? viewProperty.image : 'https://placehold.co/100x100'} alt="Thumb 1" className="rounded" style={{ width: '80px', height: '80px', objectFit: 'cover', border: '2px solid #0ab39c' }} />
-                  </div>
+                  {images.length > 0 && (
+                    <div className="position-absolute top-0 start-0 m-3 bg-dark bg-opacity-75 text-white px-2 py-1 rounded" style={{ fontSize: '12px', zIndex: 10 }}>
+                      <i className="ri-image-line me-1"></i> {activeImage + 1} of {images.length}
+                    </div>
+                  )}
+                  <img src={mainImage || NO_IMAGE} alt={viewProperty.title} className="w-100 rounded mb-2" style={{ height: '250px', objectFit: 'cover' }} onError={(e) => { e.target.src = NO_IMAGE; }} />
+                  {images.length > 1 && (
+                    <div className="d-flex gap-2 flex-wrap">
+                      {images.map((src, i) => (
+                        <img key={src} src={src} alt={`Photo ${i + 1}`} onClick={() => setActiveImage(i)} className="rounded" style={{ width: '70px', height: '70px', objectFit: 'cover', cursor: 'pointer', border: i === activeImage ? '2px solid #0ab39c' : '2px solid transparent' }} />
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -80,125 +312,120 @@ const DashboardProperties = () => {
                 <div className="card-body">
                   <div className="d-flex justify-content-between align-items-start mb-2">
                     <div>
-                      <h4 className="fw-bold mb-1" style={{ color: '#405189', fontSize: '18px' }}>{viewProperty.title}</h4>
+                      <h4 className="fw-bold mb-1" style={{ color: '#405189', fontSize: '18px' }}>{d.title || viewProperty.title}</h4>
                       <p className="text-muted mb-2" style={{ fontSize: '12px' }}>
-                        Residential Appartment - {viewProperty.type || 'For Sale'} | Seller: <strong>Vijay Shipalkar</strong> | Published : {viewProperty.date}
+                        {d.category || viewProperty.category || '-'} - {d.type || viewProperty.type} | Seller : <strong>{d.seller || '-'}</strong> | Published : {d.published || viewProperty.created}
                       </p>
                       <p className="text-muted mb-3" style={{ fontSize: '13px' }}>
-                        <i className="ri-map-pin-line text-primary me-1"></i> {viewProperty.location}
+                        <i className="ri-map-pin-line text-primary me-1"></i> {d.address || viewProperty.address}
                       </p>
                     </div>
                     <div className="d-flex gap-2">
-                      <button className="btn btn-light btn-sm border"><i className="ri-links-line"></i></button>
-                      <button className="btn btn-light btn-sm border"><i className="ri-pencil-line"></i></button>
-                      <button onClick={() => setViewProperty(null)} className="btn btn-light btn-sm border"><i className="ri-arrow-go-back-line"></i></button>
+                      <button onClick={() => shareOnWhatsapp(viewProperty)} className="btn btn-light btn-sm border" title="Send Details On Whatsapp"><i className="ri-whatsapp-line"></i></button>
+                      <button onClick={() => setEditing(viewProperty)} className="btn btn-light btn-sm border" title="Edit"><i className="ri-pencil-line"></i></button>
+                      <button onClick={() => setViewProperty(null)} className="btn btn-light btn-sm border" title="Back to property list"><i className="ri-arrow-go-back-line"></i></button>
                     </div>
                   </div>
+
+                  {detailsLoading && !details && (
+                    <p className="text-muted" style={{ fontSize: '13px' }}>Loading details...</p>
+                  )}
 
                   {/* 4 Info Boxes */}
                   <div className="row g-3 mb-4">
-                    <div className="col-md-3">
-                      <div className="border rounded p-3 d-flex align-items-center gap-3">
-                        <i className="ri-money-rupee-circle-line" style={{ fontSize: '24px', color: '#0ab39c' }}></i>
-                        <div>
-                          <p className="text-muted mb-0" style={{ fontSize: '11px' }}>Price -</p>
-                          <h6 className="mb-0 fw-bold">{viewProperty.price || 'Ask Price'}</h6>
+                    {[
+                      ['ri-money-rupee-circle-line', 'Price', d.price || viewProperty.price],
+                      ['ri-layout-masonry-line', 'Area', d.area],
+                      ['ri-hotel-bed-line', 'Bedroom', d.bedroom],
+                      ['ri-showers-line', 'Bathroom', d.bathroom]
+                    ].map(([icon, label, value]) => (
+                      <div className="col-md-3" key={label}>
+                        <div className="border rounded p-3 d-flex align-items-center gap-3">
+                          <i className={icon} style={{ fontSize: '24px', color: '#0ab39c' }}></i>
+                          <div>
+                            <p className="text-muted mb-0" style={{ fontSize: '11px' }}>{label} :</p>
+                            <h6 className="mb-0 fw-bold">{value || '-'}</h6>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="col-md-3">
-                      <div className="border rounded p-3 d-flex align-items-center gap-3">
-                        <i className="ri-layout-masonry-line" style={{ fontSize: '24px', color: '#0ab39c' }}></i>
-                        <div>
-                          <p className="text-muted mb-0" style={{ fontSize: '11px' }}>Area -</p>
-                          <h6 className="mb-0 fw-bold">767 sqft</h6>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-md-3">
-                      <div className="border rounded p-3 d-flex align-items-center gap-3">
-                        <i className="ri-hotel-bed-line" style={{ fontSize: '24px', color: '#0ab39c' }}></i>
-                        <div>
-                          <p className="text-muted mb-0" style={{ fontSize: '11px' }}>Bedroom -</p>
-                          <h6 className="mb-0 fw-bold">2</h6>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-md-3">
-                      <div className="border rounded p-3 d-flex align-items-center gap-3">
-                        <i className="ri-showers-line" style={{ fontSize: '24px', color: '#0ab39c' }}></i>
-                        <div>
-                          <p className="text-muted mb-0" style={{ fontSize: '11px' }}>Bathroom -</p>
-                          <h6 className="mb-0 fw-bold">2</h6>
-                        </div>
-                      </div>
-                    </div>
+                    ))}
                   </div>
 
                   <h6 className="fw-bold" style={{ fontSize: '13px' }}>Description :</h6>
-                  <p className="text-muted" style={{ fontSize: '13px' }}>{viewProperty.title} Amenities - Club House, Swimming Pool, Lift with Back Up, Security Guards 24by7, Housekeeping, 24 by 7 Drinking water from PMC, 24by7 Water for use.</p>
+                  <p className="text-muted" style={{ fontSize: '13px', whiteSpace: 'pre-line' }}>{d.description || '-'}</p>
 
                   <h6 className="fw-bold mt-4" style={{ fontSize: '13px' }}>Features :</h6>
                   <ul className="list-unstyled text-muted" style={{ fontSize: '13px' }}>
-                    <li className="mb-1"><i className="ri-checkbox-circle-line text-success me-1"></i> Built Year : 2026</li>
-                    <li className="mb-1"><i className="ri-checkbox-circle-line text-success me-1"></i> Transaction :</li>
-                    <li className="mb-1"><i className="ri-checkbox-circle-line text-success me-1"></i> Facing :</li>
-                    <li className="mb-1"><i className="ri-checkbox-circle-line text-success me-1"></i> Furnishing : Unfurnished</li>
+                    {features.length ? features.map(([key, value]) => (
+                      <li className="mb-1" key={key}><i className="ri-checkbox-circle-line text-success me-1"></i> {key} : {value}</li>
+                    )) : <li>-</li>}
                   </ul>
 
                   <h6 className="fw-bold mt-4" style={{ fontSize: '13px' }}>Amenities :</h6>
                   <div className="d-flex flex-wrap gap-3 mb-4 text-muted" style={{ fontSize: '12px' }}>
-                    <span><i className="ri-check-line text-success"></i> Swimming Pool</span>
-                    <span><i className="ri-check-line text-success"></i> Gym</span>
-                    <span><i className="ri-check-line text-success"></i> Clubhouse</span>
-                    <span><i className="ri-check-line text-success"></i> Security</span>
-                    <span><i className="ri-check-line text-success"></i> Playground</span>
-                    <span><i className="ri-check-line text-success"></i> Parking</span>
-                    <span><i className="ri-check-line text-success"></i> CCTV</span>
+                    {d.amenities?.length ? d.amenities.map(a => (
+                      <span key={a}><i className="ri-check-line text-success"></i> {a}</span>
+                    )) : <span>-</span>}
                   </div>
 
                   <h6 className="fw-bold mt-4" style={{ fontSize: '13px' }}>Property Description :</h6>
                   <ul className="nav nav-tabs nav-tabs-custom mb-3">
-                    <li className="nav-item">
-                      <a className="nav-link active" style={{ color: '#0ab39c', borderBottom: '2px solid #0ab39c' }} href="#!">Seller Information</a>
-                    </li>
-                    <li className="nav-item">
-                      <a className="nav-link text-muted" href="#!">Meta SEO Details</a>
-                    </li>
+                    {[['seller', 'Seller Information'], ['meta', 'Meta SEO Details']].map(([key, label]) => (
+                      <li className="nav-item" key={key}>
+                        <a
+                          className={`nav-link ${detailsTab === key ? 'active' : 'text-muted'}`}
+                          style={detailsTab === key ? { color: '#0ab39c', borderBottom: '2px solid #0ab39c' } : {}}
+                          href="#!"
+                          onClick={(e) => { e.preventDefault(); setDetailsTab(key); }}
+                        >
+                          {label}
+                        </a>
+                      </li>
+                    ))}
                   </ul>
-                  
-                  <div className="table-responsive">
-                    <table className="table table-borderless table-sm text-muted" style={{ fontSize: '13px' }}>
-                      <tbody>
-                        <tr className="border-bottom">
-                          <th className="fw-medium py-2" style={{ width: '150px' }}>Category</th>
-                          <td className="py-2">Residential Appartment - For Sale</td>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="fw-medium py-2">Seller Name</th>
-                          <td className="py-2">Vijay Shipalkar</td>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="fw-medium py-2">Seller Phone</th>
-                          <td className="py-2">9175929455</td>
-                        </tr>
-                        <tr>
-                          <th className="fw-medium py-2">Address</th>
-                          <td className="py-2"></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
 
+                  {detailsTab === 'seller' ? (
+                    <div className="table-responsive">
+                      <table className="table table-borderless table-sm text-muted" style={{ fontSize: '13px' }}>
+                        <tbody>
+                          {sellerRows.map(([label, value]) => (
+                            <tr className="border-bottom" key={label}>
+                              <th className="fw-medium py-2" style={{ width: '150px' }}>{label}</th>
+                              <td className="py-2">
+                                {label === 'Seller Phone' && value ? <a href={`tel:${value}`}>{value}</a> : value}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : (
+                    <div className="text-muted" style={{ fontSize: '13px' }}>
+                      {metaRows.map(([label, value]) => (
+                        <div key={label} className="mb-3">
+                          <h6 className="fw-bold mb-1" style={{ fontSize: '13px' }}>{label}</h6>
+                          <p className="mb-0">{value || '-'}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
           </div>
         </div>
-      ) : (<>
-<div className="row mb-3">
+      </DashboardLayout>
+    );
+  }
+
+  // ── Properties list ──
+  return (
+    <DashboardLayout>
+      {propertyForm}
+      <div className="container-fluid p-0">
+        <div className="row mb-3">
           <div className="col-12">
-            <div className="page-title-box d-sm-flex align-items-center justify-content-between bg-transparent border-0 p-0">
+            <div className="page-title-box d-sm-flex align-items-center justify-content-between bg-transparent border-0 p-0" style={{ margin: 0 }}>
               <h4 className="mb-sm-0 fw-bold" style={{ fontSize: '16px', color: '#495057' }}>Properties List</h4>
               <div className="page-title-right">
                 <ol className="breadcrumb m-0" style={{ backgroundColor: 'transparent', padding: 0 }}>
@@ -210,472 +437,159 @@ const DashboardProperties = () => {
           </div>
         </div>
 
-        <div className="row mb-3">
-          <div className="col-12">
-            <div className="card shadow-sm border-0" style={{ borderRadius: '8px' }}>
-              <div className="card-body">
-                <div className="row g-3">
-                  <div className="col-lg-3 col-md-6">
-                    <label style={{ fontSize: '13px', fontWeight: '500', color: '#495057' }}>Property Type</label>
-                    <select className="form-select form-select-sm" value={propertyType} onChange={e => setPropertyType(e.target.value)}>
-                      <option value="All">Select Property Type</option>
-                      <option value="For Sale">For Sale</option>
-                      <option value="For Rent">For Rent</option>
-                      <option value="For Lease">For Lease</option>
-                    </select>
-                  </div>
-                  <div className="col-lg-3 col-md-6">
-                    <label style={{ fontSize: '13px', fontWeight: '500', color: '#495057' }}>Category</label>
-                    <select className="form-select form-select-sm" value={category} onChange={e => setCategory(e.target.value)}>
-                      <option value="All">Select Category</option>
-                      <option value="Residential Appartment">Residential Appartment</option>
-                      <option value="Commercial Space & Office">Commercial Space & Office</option>
-                      <option value="Commercial Shop">Commercial Shop</option>
-                      <option value="Commercial Showroom">Commercial Showroom</option>
-                      <option value="Banglow">Banglow</option>
-                      <option value="Open Plot">Open Plot</option>
-                    </select>
-                  </div>
-                  <div className="col-lg-3 col-md-6">
-                    <label style={{ fontSize: '13px', fontWeight: '500', color: '#495057' }}>City</label>
-                    <select className="form-select form-select-sm" value={city} onChange={e => setCity(e.target.value)}>
-                      <option value="All">Select City</option>
-                      <option value="Pune">Pune</option>
-                      <option value="Mumbai">Mumbai</option>
-                      <option value="bangalore">bangalore</option>
-                      <option value="Delhi">Delhi</option>
-                    </select>
-                  </div>
-                  <div className="col-lg-3 col-md-6">
-                    <label style={{ fontSize: '13px', fontWeight: '500', color: '#495057' }}>Location</label>
-                    <select className="form-select form-select-sm" value={location} onChange={e => setLocation(e.target.value)}>
-                      <option value="All">Select Location</option>
-                      <option value="Dhanori">Dhanori</option>
-                      <option value="Kharadi">Kharadi</option>
-                      <option value="Lohgaon">Lohgaon</option>
-                      <option value="Wagholi">Wagholi</option>
-                      <option value="Viman Nagar">Viman Nagar</option>
-                      <option value="Kalyani Nagar">Kalyani Nagar</option>
-                    </select>
-                  </div>
-                  <div className="col-lg-2 col-md-6">
-                    <label style={{ fontSize: '13px', fontWeight: '500', color: '#495057' }}>Min Price</label>
-                    <input type="text" className="form-control form-control-sm" placeholder="Min Price" value={minPrice} onChange={e => setMinPrice(e.target.value)} />
-                  </div>
-                  <div className="col-lg-2 col-md-6">
-                    <label style={{ fontSize: '13px', fontWeight: '500', color: '#495057' }}>Max Price</label>
-                    <input type="text" className="form-control form-control-sm" placeholder="Max Price" value={maxPrice} onChange={e => setMaxPrice(e.target.value)} />
-                  </div>
-                  <div className="col-lg-2 col-md-6">
-                    <label style={{ fontSize: '13px', fontWeight: '500', color: '#495057' }}>Bedroom</label>
-                    <select className="form-select form-select-sm" value={bedroom} onChange={e => setBedroom(e.target.value)}>
-                      <option value="All">Select Bedroom</option>
-                      <option value="1BHK">1BHK</option>
-                      <option value="2BHK">2BHK</option>
-                      <option value="3BHK">3BHK</option>
-                      <option value="4BHK">4BHK</option>
-                      <option value="5BHK">5BHK</option>
-                    </select>
-                  </div>
-                  <div className="col-lg-3 col-md-6 d-flex align-items-end">
-                    <button onClick={handleSearch} className="btn btn-primary btn-sm w-100" style={{ backgroundColor: '#405189', borderColor: '#405189' }}>
-                      <i className="ri-search-line me-1"></i> Search
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
+        {/* Action Bar */}
+        <div className="card shadow-sm border-0 mb-3" style={{ borderRadius: '8px' }}>
+          <div className="card-body d-flex align-items-center gap-3 py-2">
+            <button onClick={() => setEditing({})} className="btn btn-success btn-sm px-3" style={{ backgroundColor: '#0ab39c', borderColor: '#0ab39c', fontWeight: '500' }}>
+              <i className="ri-add-line me-1"></i> Add New
+            </button>
+            <button onClick={refresh} disabled={isRefreshing} className="btn btn-light btn-sm" style={{ fontWeight: '500' }}>
+              <i className="ri-refresh-line me-1"></i> {isRefreshing ? 'Refreshing...' : 'Refresh'}
+            </button>
           </div>
         </div>
 
-        {/* Action Bar (Top) */}
-        <div className="d-flex justify-content-between align-items-center mb-3">
-          <button onClick={() => setShowAddModal(true)} className="btn btn-success btn-sm px-4" style={{ backgroundColor: '#0ab39c', borderColor: '#0ab39c', fontWeight: '500' }}>
-            + Add New
-          </button>
-          <button className="btn btn-light btn-sm shadow-sm" style={{ fontWeight: '500' }}>
-            <i className="ri-refresh-line me-1"></i> Refresh
-          </button>
+        {/* Search form */}
+        <div className="card shadow-sm border-0 mb-3" style={{ borderRadius: '8px' }}>
+          <div className="card-body">
+            <form onSubmit={(e) => { e.preventDefault(); setApplied(form); }}>
+              <div className="row g-3">
+                <div className="col-lg-4 col-md-6">
+                  <label style={{ fontSize: '13px', fontWeight: '600', color: '#495057' }}>Property Type</label>
+                  <select className="form-select form-select-sm" value={form.propertyType} onChange={e => setField('propertyType', e.target.value)}>
+                    <option value="">Select Property Type</option>
+                    {selectOptions('propertyType', ['For Sale', 'For Rent', 'For Lease']).map(o => <option key={o} value={o}>{o}</option>)}
+                  </select>
+                </div>
+                <div className="col-lg-4 col-md-6">
+                  <label style={{ fontSize: '13px', fontWeight: '600', color: '#495057' }}>Category</label>
+                  <select className="form-select form-select-sm" value={form.category} onChange={e => setField('category', e.target.value)}>
+                    <option value="">Select Category</option>
+                    {selectOptions('category', []).map(o => <option key={o} value={o}>{o}</option>)}
+                  </select>
+                </div>
+                <div className="col-lg-4 col-md-6">
+                  <label style={{ fontSize: '13px', fontWeight: '600', color: '#495057' }}>City</label>
+                  <select className="form-select form-select-sm" value={form.city} onChange={e => setField('city', e.target.value)}>
+                    <option value="">Select City</option>
+                    {selectOptions('city', ['Pune']).map(o => <option key={o} value={o}>{o}</option>)}
+                  </select>
+                </div>
+                <div className="col-lg-4 col-md-6">
+                  <label style={{ fontSize: '13px', fontWeight: '600', color: '#495057' }}>Location</label>
+                  <MultiSelect placeholder="Select Location" options={selectOptions('location', [])} value={form.location} onChange={v => setField('location', v)} />
+                </div>
+                <div className="col-lg-4 col-md-6">
+                  <label style={{ fontSize: '13px', fontWeight: '600', color: '#495057' }}>Min Price</label>
+                  <input type="number" min="0" className="form-control form-control-sm" placeholder="Enter Minimum Price" value={form.minPrice} onChange={e => setField('minPrice', e.target.value)} />
+                </div>
+                <div className="col-lg-4 col-md-6">
+                  <label style={{ fontSize: '13px', fontWeight: '600', color: '#495057' }}>Max Price</label>
+                  <input type="number" min="0" className="form-control form-control-sm" placeholder="Enter Maximum Price" value={form.maxPrice} onChange={e => setField('maxPrice', e.target.value)} />
+                </div>
+                <div className="col-lg-4 col-md-6">
+                  <label style={{ fontSize: '13px', fontWeight: '600', color: '#495057' }}>Bedroom</label>
+                  <MultiSelect placeholder="Select Bedroom" options={selectOptions('bedroom', ['1BHK', '2BHK', '3BHK', '4BHK', '5BHK'])} value={form.bedroom} onChange={v => setField('bedroom', v)} />
+                </div>
+                <div className="col-lg-4 col-md-6 d-flex align-items-end gap-2">
+                  <button type="submit" className="btn btn-primary btn-sm px-4" style={{ backgroundColor: '#405189', borderColor: '#405189' }}>
+                    <i className="ri-search-line me-1"></i> Search
+                  </button>
+                  <button type="button" onClick={() => { setForm(EMPTY_FILTERS); setApplied(EMPTY_FILTERS); }} className="btn btn-light btn-sm">
+                    Clear
+                  </button>
+                </div>
+              </div>
+            </form>
+            {filtersNeedDetails && detailsPending > 0 ? (
+              <p className="text-muted mb-0 mt-2" style={{ fontSize: '12px' }}>
+                Category and bedroom details are still loading for {detailsPending} properties; results will update automatically.
+              </p>
+            ) : null}
+          </div>
         </div>
 
         {/* Properties Grid */}
-        <div className="row">
-          {filteredProperties.map((p) => (
-            <div className="col-xxl-3 col-lg-4 col-md-6 mb-4" key={p.id}>
-              <div className="card h-100 shadow-sm border" style={{ borderRadius: '4px', overflow: 'hidden', position: 'relative' }}>
-                
-                {/* Diagonal Ribbon */}
-                <div style={{ position: 'absolute', top: '10px', left: '-30px', backgroundColor: '#3b4371', color: 'white', padding: '4px 35px', transform: 'rotate(-45deg)', fontSize: '10px', fontWeight: 'bold', zIndex: 10, letterSpacing: '0.5px' }}>
-                  {p.type || 'For Sale'}
-                </div>
+        {isLoading ? (
+          <p className="text-muted text-center py-5">Loading properties...</p>
+        ) : loadError ? (
+          <p className="text-danger text-center py-5">{loadError}</p>
+        ) : filteredProperties.length === 0 ? (
+          <p className="text-muted text-center py-5">No properties match these filters.</p>
+        ) : (
+          <div className="row">
+            {filteredProperties.map((p) => (
+              <div className="col-xxl-3 col-lg-4 col-md-6 mb-4" key={p.id}>
+                <div className="card h-100 shadow-sm border" style={{ borderRadius: '4px', overflow: 'hidden', position: 'relative' }}>
 
-                <div style={{ height: '180px', width: '100%', overflow: 'hidden', backgroundColor: '#f3f6f9' }}>
-                  <img 
-                    alt={p.title} 
-                    className="w-100 h-100" 
-                    src={p.image && p.image !== '/media/' ? p.image : 'https://placehold.co/600x400?text=No+Image'} 
-                    style={{ objectFit: 'cover' }}
-                    onError={(e) => { e.target.src = 'https://placehold.co/600x400?text=No+Image'; }}
-                  />
-                </div>
-                
-                <div className="card-body p-3 pb-2">
-                  <div className="d-flex justify-content-between align-items-start mb-1">
-                    <h5 className="mb-0 text-truncate me-2" style={{ fontSize: '14px', fontWeight: '600' }}>
-                      <a href="#!" onClick={(e) => { e.preventDefault(); setViewProperty(p); }} className="text-primary text-decoration-none" style={{ color: '#0d6efd' }}>{p.title}</a>
-                    </h5>
-                    <span className="text-muted d-flex align-items-center" style={{ fontSize: '11px', whiteSpace: 'nowrap' }}>
-                      <i className="ri-eye-line me-1"></i> {Math.floor(1000000 + Math.random() * 9000000)}
-                    </span>
+                  {/* Diagonal Ribbon */}
+                  <div style={{ position: 'absolute', top: '10px', left: '-30px', backgroundColor: '#3b4371', color: 'white', padding: '4px 35px', transform: 'rotate(-45deg)', fontSize: '10px', fontWeight: 'bold', zIndex: 10, letterSpacing: '0.5px' }}>
+                    {p.type}
                   </div>
-                  <p className="text-muted mb-0 text-truncate" style={{ fontSize: '12px' }}>
-                    <i className="ri-map-pin-line align-bottom me-1"></i> {p.location}
-                  </p>
-                </div>
-                
-                <div className="card-body p-3 pt-0 pb-2">
-                  <div className="row g-2 text-center" style={{ borderTop: '1px solid #f3f6f9', borderBottom: '1px solid #f3f6f9', padding: '8px 0' }}>
-                    <div className="col-4 border-end">
-                      <p className="text-muted mb-0" style={{ fontSize: '11px' }}>Price</p>
-                      <h5 className="mb-0 text-truncate" style={{ fontSize: '12px', fontWeight: '600', color: '#495057' }}>{p.price || 'Ask Price'}</h5>
-                    </div>
-                    <div className="col-4 border-end">
-                      <p className="text-muted mb-0" style={{ fontSize: '11px' }}>Avl From</p>
-                      <h5 className="mb-0 text-truncate" style={{ fontSize: '12px', fontWeight: '600', color: '#495057' }}>None</h5>
-                    </div>
-                    <div className="col-4">
-                      <p className="text-muted mb-0" style={{ fontSize: '11px' }}>Created <i className="ri-calendar-line"></i></p>
-                      <h5 className="mb-0 text-truncate" style={{ fontSize: '12px', fontWeight: '600', color: '#495057' }}>{p.date}</h5>
-                    </div>
-                  </div>
-                </div>
 
-                <div className="card-footer bg-transparent p-2 px-3 border-0 d-flex justify-content-between align-items-center">
-                  <div className="d-flex gap-2">
-                    <a href="tel:+919876543210" className="text-muted" title="Call Seller"><i className="ri-phone-line" style={{ fontSize: '15px', cursor: 'pointer' }}></i></a>
-                    <a href="https://wa.me/919876543210" target="_blank" rel="noreferrer" className="text-muted" title="WhatsApp Seller"><i className="ri-whatsapp-line" style={{ fontSize: '15px', cursor: 'pointer' }}></i></a>
-                    <a href="#!" onClick={(e) => { e.preventDefault(); setShowAddModal(true); }} className="text-muted" title="Edit Property"><i className="ri-pencil-line" style={{ fontSize: '15px', cursor: 'pointer' }}></i></a>
-                    <a href="#!" onClick={(e) => { e.preventDefault(); handleDeleteProperty(p.id); }} className="text-muted" title="Delete Property"><i className="ri-delete-bin-line" style={{ fontSize: '15px', cursor: 'pointer' }}></i></a>
+                  <div style={{ height: '180px', width: '100%', overflow: 'hidden', backgroundColor: '#f3f6f9' }}>
+                    <img
+                      alt={p.title}
+                      className="w-100 h-100"
+                      src={p.image || NO_IMAGE}
+                      loading="lazy"
+                      style={{ objectFit: 'cover' }}
+                      onError={(e) => { e.target.src = NO_IMAGE; }}
+                    />
                   </div>
-                  <span style={{ color: '#0d6efd', fontSize: '12px', fontWeight: '600' }}>{p.id % 2 === 0 ? 'Published' : 'Draft'}</span>
+
+                  <div className="card-body p-3 pb-2">
+                    <div className="d-flex justify-content-between align-items-start mb-1">
+                      <h5 className="mb-0 text-truncate me-2" style={{ fontSize: '14px', fontWeight: '600' }} title={p.title}>
+                        <a href="#!" onClick={(e) => { e.preventDefault(); openDetails(p); }} className="text-primary text-decoration-none" style={{ color: '#0d6efd' }}>{p.title}</a>
+                      </h5>
+                      <span className="text-muted d-flex align-items-center" style={{ fontSize: '11px', whiteSpace: 'nowrap' }}>
+                        <i className="ri-eye-line me-1"></i> {p.views}
+                      </span>
+                    </div>
+                    <p className="text-muted mb-0 text-truncate" style={{ fontSize: '12px' }} title={p.address}>
+                      <i className="ri-map-pin-line align-bottom me-1"></i> {p.address}
+                    </p>
+                  </div>
+
+                  <div className="card-body p-3 pt-0 pb-2">
+                    <div className="row g-2 text-center" style={{ borderTop: '1px solid #f3f6f9', borderBottom: '1px solid #f3f6f9', padding: '8px 0' }}>
+                      <div className="col-4 border-end">
+                        <p className="text-muted mb-0" style={{ fontSize: '11px' }}>Price</p>
+                        <h5 className="mb-0 text-truncate" style={{ fontSize: '12px', fontWeight: '600', color: '#495057' }} title={p.price}>{p.price || '-'}</h5>
+                      </div>
+                      <div className="col-4 border-end">
+                        <p className="text-muted mb-0" style={{ fontSize: '11px' }}>Avl From <i className="ri-calendar-2-line"></i></p>
+                        <h5 className="mb-0 text-truncate" style={{ fontSize: '12px', fontWeight: '600', color: '#495057' }}>{p.availableFrom || 'None'}</h5>
+                      </div>
+                      <div className="col-4">
+                        <p className="text-muted mb-0" style={{ fontSize: '11px' }}>Created <i className="ri-calendar-2-line"></i></p>
+                        <h5 className="mb-0 text-truncate" style={{ fontSize: '12px', fontWeight: '600', color: '#495057' }}>{p.created}</h5>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="card-footer bg-transparent p-2 px-3 border-0 d-flex justify-content-between align-items-center">
+                    <div className="d-flex gap-2">
+                      <a href={p.phone ? `tel:${p.phone}` : undefined} className="text-muted" title={p.phone ? `Call To Seller (${p.phone})` : 'No seller phone'}><i className="ri-phone-line" style={{ fontSize: '15px', cursor: 'pointer' }}></i></a>
+                      <a href="#!" onClick={(e) => { e.preventDefault(); shareOnWhatsapp(p); }} className="text-muted" title="Send Details On Whatsapp"><i className="ri-whatsapp-line" style={{ fontSize: '15px', cursor: 'pointer' }}></i></a>
+                      <a href="#!" onClick={(e) => { e.preventDefault(); setEditing(p); }} className="text-muted" title="Edit Property Details"><i className="ri-pencil-line" style={{ fontSize: '15px', cursor: 'pointer' }}></i></a>
+                      <a href="#!" onClick={(e) => { e.preventDefault(); handleDelete(p); }} className="text-muted" title="Delete Property"><i className="ri-delete-bin-line" style={{ fontSize: '15px', cursor: 'pointer' }}></i></a>
+                    </div>
+                    <span style={{ color: '#0d6efd', fontSize: '12px', fontWeight: '600' }}>{p.status}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
-      </>
-      )}
+            ))}
+          </div>
+        )}
+
+        {!isLoading && !loadError && (
+          <p className="text-muted mb-4" style={{ fontSize: '13px' }}>
+            Available Properties {filteredProperties.length}{filteredProperties.length !== properties.length ? ` of ${properties.length}` : ''}
+          </p>
+        )}
       </div>
-
-      {/* ── Add New Property Full Modal ── */}
-      {showAddModal && (
-        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: '#f3f3f9', zIndex: 99999, overflowY: 'auto' }}>
-          
-          {/* Header */}
-          <div style={{ backgroundColor: '#fff', padding: '15px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0 2px 4px rgba(0,0,0,0.08)', position: 'sticky', top: 0, zIndex: 10 }}>
-            <div>
-              <h4 style={{ margin: 0, fontWeight: '700', fontSize: '15px', color: '#495057', textTransform: 'uppercase' }}>Add New Property</h4>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-              <span style={{ fontSize: '12px', color: '#878a99' }}>CRM &gt; Add New Property</span>
-              <button onClick={() => setShowAddModal(false)} className="btn-close" style={{ fontSize: '14px' }}></button>
-            </div>
-          </div>
-
-          {/* Form Content */}
-          <div className="container-fluid p-4">
-            <form onSubmit={e => e.preventDefault()}>
-              <div className="row">
-                
-                {/* ─── LEFT COLUMN ─── */}
-                <div className="col-lg-8">
-                  
-                  {/* Property Title & Desc */}
-                  <div className="card shadow-sm border-0 mb-3" style={{ borderRadius: '4px' }}>
-                    <div className="card-body">
-                      <div className="mb-4">
-                        <label className="form-label fw-medium" style={{ fontSize: '13px' }}>Property Name/ Title <span className="text-danger">*</span></label>
-                        <input className="form-control form-control-sm" type="text" placeholder="Enter property title" required />
-                      </div>
-                      <div>
-                        <label className="form-label fw-medium" style={{ fontSize: '13px' }}>Property Details/ Description <span className="text-danger">*</span></label>
-                        <textarea className="form-control form-control-sm" rows="6" placeholder="Enter property description" required></textarea>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Images Gallery */}
-                  <div className="card shadow-sm border-0 mb-3" style={{ borderRadius: '4px' }}>
-                    <div className="card-header bg-white border-bottom">
-                      <h5 className="card-title mb-0 fw-bold" style={{ fontSize: '14px' }}>Images Gallery</h5>
-                    </div>
-                    <div className="card-body">
-                      <div className="mb-4">
-                        <label className="form-label fw-medium mb-0" style={{ fontSize: '13px' }}>Property Main Image (Size : 800x800 Px)</label>
-                        <p className="text-muted small mb-2">Add main Image. <span className="text-danger">*</span> (Only .jpg)</p>
-                        <div style={{ border: '1px dashed #ced4da', borderRadius: '4px', padding: '30px', textAlign: 'center', backgroundColor: '#f8f9fa', width: '120px', height: '120px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                          <i className="ri-image-add-line" style={{ fontSize: '32px', color: '#adb5bd' }}></i>
-                        </div>
-                      </div>
-                      <div>
-                        <label className="form-label fw-medium mb-0" style={{ fontSize: '13px' }}>Gallery (Size : 800x800 Px)</label>
-                        <p className="text-muted small mb-2">Add Gallery Multiple Images. (Only .jpg)</p>
-                        <input type="file" className="form-control form-control-sm" accept="image/jpeg" multiple style={{ maxWidth: '300px' }} />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Address & Location */}
-                  <div className="card shadow-sm border-0 mb-3" style={{ borderRadius: '4px' }}>
-                    <div className="card-body">
-                      <div className="row g-3 mb-3">
-                        <div className="col-md-6">
-                          <label className="form-label fw-medium" style={{ fontSize: '13px' }}>Address <span className="text-danger">*</span></label>
-                          <input className="form-control form-control-sm" type="text" placeholder="Enter property address" required />
-                        </div>
-                        <div className="col-md-6">
-                          <label className="form-label fw-medium" style={{ fontSize: '13px' }}>Choose a location <span className="text-danger">*</span></label>
-                          <select className="form-select form-select-sm mb-2">
-                            <option value="">Select location</option>
-                            <option value="Kharadi">Kharadi</option>
-                            <option value="Lohgaon">Lohgaon</option>
-                            <option value="Dhanori">Dhanori</option>
-                            <option value="Wogholi">Wogholi</option>
-                            <option value="Hadapsar">Hadapsar</option>
-                            <option value="Vishrantwadi">Vishrantwadi</option>
-                            <option value="Viman Nagar">Viman Nagar</option>
-                            <option value="Tingare Nagar">Tingare Nagar</option>
-                            <option value="Dighi">Dighi</option>
-                            <option value="Koregaon Park">Koregaon Park</option>
-                            <option value="Kalyani Nagar">Kalyani Nagar</option>
-                            <option value="Yerwada">Yerwada</option>
-                            <option value="vadgaonsheri">vadgaonsheri</option>
-                            <option value="Chandan Nagar">Chandan Nagar</option>
-                          </select>
-                          <div className="d-flex gap-2">
-                            <input type="text" className="form-control form-control-sm" placeholder="Enter new location" />
-                            <button type="button" className="btn btn-light border btn-sm" style={{ whiteSpace: 'nowrap' }}>Add New Location</button>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <div className="row g-3 mb-3">
-                        <div className="col-md-6">
-                          <label className="form-label fw-medium" style={{ fontSize: '13px' }}>City <span className="text-danger">*</span></label>
-                          <input className="form-control form-control-sm" type="text" placeholder="Enter city name" required />
-                        </div>
-                        <div className="col-md-6">
-                          <label className="form-label fw-medium" style={{ fontSize: '13px' }}>Pincode <span className="text-danger">*</span></label>
-                          <input className="form-control form-control-sm" type="text" placeholder="Enter pincode" required />
-                        </div>
-                      </div>
-
-                      <div className="row g-3">
-                        <div className="col-md-3">
-                          <label className="form-label fw-medium" style={{ fontSize: '13px' }}>Area (In sqft) <span className="text-danger">*</span></label>
-                          <input className="form-control form-control-sm" type="number" defaultValue="10" required />
-                        </div>
-                        <div className="col-md-3">
-                          <label className="form-label fw-medium" style={{ fontSize: '13px' }}>Built Year <span className="text-danger">*</span></label>
-                          <input className="form-control form-control-sm" type="number" defaultValue="2001" required />
-                        </div>
-                        <div className="col-md-3">
-                          <label className="form-label fw-medium" style={{ fontSize: '13px' }}>Bedroom <span className="text-danger">*</span></label>
-                          <input className="form-control form-control-sm" type="number" defaultValue="2" required />
-                        </div>
-                        <div className="col-md-3">
-                          <label className="form-label fw-medium" style={{ fontSize: '13px' }}>Bathroom <span className="text-danger">*</span></label>
-                          <input className="form-control form-control-sm" type="number" defaultValue="1" required />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Tabs: Seller Details & Meta Data */}
-                  <div className="card shadow-sm border-0 mb-3" style={{ borderRadius: '4px' }}>
-                    <div className="card-header bg-white border-bottom p-0">
-                      <ul className="nav nav-tabs-custom border-bottom-0">
-                        <li className="nav-item">
-                          <a className="nav-link active fw-medium" style={{ color: '#405189', borderBottom: '2px solid #405189' }} href="#!">Seller Details</a>
-                        </li>
-                        <li className="nav-item">
-                          <a className="nav-link fw-medium text-muted" href="#!">Meta Data (SEO)</a>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="card-body">
-                      <div className="row g-3 mb-3">
-                        <div className="col-md-6">
-                          <label className="form-label fw-medium" style={{ fontSize: '13px' }}>Seller Name</label>
-                          <input className="form-control form-control-sm" type="text" placeholder="Enter Seller Name" />
-                        </div>
-                        <div className="col-md-6">
-                          <label className="form-label fw-medium" style={{ fontSize: '13px' }}>Seller Mobile</label>
-                          <input className="form-control form-control-sm" type="text" placeholder="Enter seller mobile" />
-                        </div>
-                      </div>
-                      
-                      <div className="row g-3">
-                        <div className="col-md-4">
-                          <label className="form-label fw-medium" style={{ fontSize: '13px' }}>Price/ Rent <span className="text-danger">*</span></label>
-                          <div className="input-group input-group-sm">
-                            <span className="input-group-text bg-light">₹</span>
-                            <input className="form-control" type="text" placeholder="Eg.1234567890" />
-                          </div>
-                        </div>
-                        <div className="col-md-4">
-                          <label className="form-label fw-medium" style={{ fontSize: '13px' }}>Deposit (If Available)</label>
-                          <div className="input-group input-group-sm">
-                            <span className="input-group-text bg-light">₹</span>
-                            <input className="form-control" type="text" placeholder="Eg. 40000" />
-                          </div>
-                        </div>
-                        <div className="col-md-4">
-                          <label className="form-label fw-medium" style={{ fontSize: '13px' }}>Youtube Video URL (If Available)</label>
-                          <div className="input-group input-group-sm">
-                            <span className="input-group-text bg-light"><i className="ri-link"></i></span>
-                            <input className="form-control" type="text" placeholder="Youtube Video URL" />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-
-                {/* ─── RIGHT COLUMN ─── */}
-                <div className="col-lg-4">
-                  
-                  {/* Publish */}
-                  <div className="card shadow-sm border-0 mb-3" style={{ borderRadius: '4px' }}>
-                    <div className="card-header bg-white border-bottom">
-                      <h5 className="card-title mb-0 fw-bold" style={{ fontSize: '14px' }}>Publish</h5>
-                    </div>
-                    <div className="card-body">
-                      <label className="form-label fw-medium" style={{ fontSize: '13px' }}>Status</label>
-                      <select className="form-select form-select-sm">
-                        <option value="Published">Published</option>
-                        <option value="Draft">Draft</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  {/* Basic Details */}
-                  <div className="card shadow-sm border-0 mb-3" style={{ borderRadius: '4px' }}>
-                    <div className="card-header bg-white border-bottom">
-                      <h5 className="card-title mb-0 fw-bold" style={{ fontSize: '14px' }}>Basic Details</h5>
-                    </div>
-                    <div className="card-body d-flex flex-column gap-3">
-                      <div>
-                        <label className="form-label fw-medium" style={{ fontSize: '13px' }}>Select Type</label>
-                        <select className="form-select form-select-sm">
-                          <option value="For Sale">For Sale</option>
-                          <option value="For Rent">For Rent</option>
-                          <option value="For Lease">For Lease</option>
-                        </select>
-                      </div>
-                      <div>
-                        <label className="form-label fw-medium" style={{ fontSize: '13px' }}>Select category</label>
-                        <select className="form-select form-select-sm">
-                          <option value="Residential Appartment">Residential Appartment</option>
-                          <option value="Commercial Space & Office">Commercial Space & Office</option>
-                          <option value="Commercial Shop">Commercial Shop</option>
-                          <option value="Commercial Showroom">Commercial Showroom</option>
-                          <option value="Banglow">Banglow</option>
-                          <option value="Open Plot">Open Plot</option>
-                        </select>
-                      </div>
-                      <div>
-                        <label className="form-label fw-medium" style={{ fontSize: '13px' }}>Select Transaction</label>
-                        <select className="form-select form-select-sm">
-                          <option value="New">New</option>
-                          <option value="Resele">Resele</option>
-                          <option value="Pre Launch">Pre Launch</option>
-                          <option value="Individual">Individual</option>
-                          <option value="Company">Company</option>
-                          <option value="Distress Sale">Distress Sale</option>
-                          <option value="Group Booking">Group Booking</option>
-                        </select>
-                      </div>
-                      <div>
-                        <label className="form-label fw-medium" style={{ fontSize: '13px' }}>Facing</label>
-                        <select className="form-select form-select-sm">
-                          <option value="East">East</option>
-                          <option value="West">West</option>
-                          <option value="Notrh">Notrh</option>
-                          <option value="South">South</option>
-                        </select>
-                      </div>
-                      <div>
-                        <label className="form-label fw-medium" style={{ fontSize: '13px' }}>Furnishing Status</label>
-                        <select className="form-select form-select-sm">
-                          <option value="Fully Furnished">Fully Furnished</option>
-                          <option value="Semi Furnished">Semi Furnished</option>
-                          <option value="Unfrnished">Unfrnished</option>
-                          <option value="Basic Furnished">Basic Furnished</option>
-                        </select>
-                      </div>
-                      <div>
-                        <label className="form-label fw-medium" style={{ fontSize: '13px' }}>Available From</label>
-                        <input type="date" className="form-control form-control-sm" />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Select Amenities */}
-                  <div className="card shadow-sm border-0 mb-3" style={{ borderRadius: '4px' }}>
-                    <div className="card-header bg-white border-bottom">
-                      <h5 className="card-title mb-0 fw-bold" style={{ fontSize: '14px' }}>Select Amenities</h5>
-                    </div>
-                    <div className="card-body">
-                      <div className="row">
-                        <div className="col-6 d-flex flex-column gap-2">
-                          <label className="d-flex align-items-center gap-2 m-0" style={{ fontSize: '12px' }}><input type="checkbox" /> Rooftop Amenities</label>
-                          <label className="d-flex align-items-center gap-2 m-0" style={{ fontSize: '12px' }}><input type="checkbox" /> Indoor Games</label>
-                          <label className="d-flex align-items-center gap-2 m-0" style={{ fontSize: '12px' }}><input type="checkbox" /> Party Lawn</label>
-                          <label className="d-flex align-items-center gap-2 m-0" style={{ fontSize: '12px' }}><input type="checkbox" /> Open Air Amphitheatre</label>
-                          <label className="d-flex align-items-center gap-2 m-0" style={{ fontSize: '12px' }}><input type="checkbox" /> Pantry</label>
-                          <label className="d-flex align-items-center gap-2 m-0" style={{ fontSize: '12px' }}><input type="checkbox" /> Spa</label>
-                          <label className="d-flex align-items-center gap-2 m-0" style={{ fontSize: '12px' }}><input type="checkbox" /> Basketball Court</label>
-                          <label className="d-flex align-items-center gap-2 m-0" style={{ fontSize: '12px' }}><input type="checkbox" /> Library</label>
-                          <label className="d-flex align-items-center gap-2 m-0" style={{ fontSize: '12px' }}><input type="checkbox" /> CCTV</label>
-                          <label className="d-flex align-items-center gap-2 m-0" style={{ fontSize: '12px' }}><input type="checkbox" /> Playground</label>
-                          <label className="d-flex align-items-center gap-2 m-0" style={{ fontSize: '12px' }}><input type="checkbox" /> Clubhouse</label>
-                          <label className="d-flex align-items-center gap-2 m-0" style={{ fontSize: '12px' }}><input type="checkbox" /> Swimming Pool</label>
-                        </div>
-                        <div className="col-6 d-flex flex-column gap-2">
-                          <label className="d-flex align-items-center gap-2 m-0" style={{ fontSize: '12px' }}><input type="checkbox" /> Designer Club House</label>
-                          <label className="d-flex align-items-center gap-2 m-0" style={{ fontSize: '12px' }}><input type="checkbox" /> Senior Citizen's Area</label>
-                          <label className="d-flex align-items-center gap-2 m-0" style={{ fontSize: '12px' }}><input type="checkbox" /> Kids Play Area</label>
-                          <label className="d-flex align-items-center gap-2 m-0" style={{ fontSize: '12px' }}><input type="checkbox" /> Gazebo</label>
-                          <label className="d-flex align-items-center gap-2 m-0" style={{ fontSize: '12px' }}><input type="checkbox" /> Yoga Room</label>
-                          <label className="d-flex align-items-center gap-2 m-0" style={{ fontSize: '12px' }}><input type="checkbox" /> Jogging Track</label>
-                          <label className="d-flex align-items-center gap-2 m-0" style={{ fontSize: '12px' }}><input type="checkbox" /> Tennis Court</label>
-                          <label className="d-flex align-items-center gap-2 m-0" style={{ fontSize: '12px' }}><input type="checkbox" /> Wi-Fi</label>
-                          <label className="d-flex align-items-center gap-2 m-0" style={{ fontSize: '12px' }}><input type="checkbox" /> Parking</label>
-                          <label className="d-flex align-items-center gap-2 m-0" style={{ fontSize: '12px' }}><input type="checkbox" /> Security</label>
-                          <label className="d-flex align-items-center gap-2 m-0" style={{ fontSize: '12px' }}><input type="checkbox" /> Gym</label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Bottom Buttons */}
-                  <div className="d-flex justify-content-end gap-2 mt-4 mb-4 pb-4">
-                    <button type="submit" className="btn text-white fw-medium px-4" style={{ backgroundColor: '#0ab39c' }}>+ Add Now</button>
-                    <button type="reset" className="btn fw-medium px-4" style={{ backgroundColor: '#fef4e4', color: '#f59e0b', border: '1px solid #fef4e4' }}>Reset</button>
-                    <button type="button" onClick={() => setShowAddModal(false)} className="btn fw-medium px-4" style={{ backgroundColor: '#fde8e4', color: '#ef4444', border: '1px solid #fde8e4' }}>Cancel</button>
-                  </div>
-
-                </div>
-
-              </div>
-            </form>
-          </div>
-
-        </div>
-      )}
-
     </DashboardLayout>
   );
 };

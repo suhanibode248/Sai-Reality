@@ -3,6 +3,14 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styles from './DashboardLayout.module.css';
 
 const DashboardLayout = ({ children }) => {
+    // Sidebar badge counts from the local backend
+    const [sidebarCounts, setSidebarCounts] = React.useState({});
+    React.useEffect(() => {
+        fetch('http://localhost:8000/api/dashboard/summary')
+            .then(res => res.json())
+            .then(data => { if (data.status === 'success') setSidebarCounts(data); })
+            .catch(() => {});
+    }, []);
     const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
     const [userDropdownOpen, setUserDropdownOpen] = useState(false);
     const [notifDropdownOpen, setNotifDropdownOpen] = useState(false);
@@ -74,7 +82,7 @@ const DashboardLayout = ({ children }) => {
     ];
 
     return (
-        <div id="layout-wrapper" style={{ backgroundColor: '#f4f6fb', minHeight: '100vh', width: '100%', maxWidth: '100vw', overflowX: 'hidden', display: 'flex', fontFamily: "'Plus Jakarta Sans', 'Inter', sans-serif", boxSizing: 'border-box' }}>
+        <div id="layout-wrapper" style={{ backgroundColor: '#f0f2f8', minHeight: '100vh', width: '100%', maxWidth: '100vw', overflowX: 'hidden', display: 'flex', fontFamily: "'Plus Jakarta Sans', 'Inter', sans-serif", boxSizing: 'border-box' }}>
             
             {/* ── Velzon Style Sidebar ── */}
             <aside 
@@ -159,7 +167,7 @@ const DashboardLayout = ({ children }) => {
                         </div>
                         {!sidebarCollapsed && (
                             <span style={{ backgroundColor: 'rgba(10, 179, 156, 0.15)', color: '#0ab39c', fontSize: '11px', padding: '2px 6px', borderRadius: '4px', fontWeight: '600' }}>
-                                14863
+                                {sidebarCounts.leads ?? ''}
                             </span>
                         )}
                     </Link>
@@ -177,7 +185,7 @@ const DashboardLayout = ({ children }) => {
                         </div>
                         {!sidebarCollapsed && (
                             <span style={{ backgroundColor: 'rgba(10, 179, 156, 0.15)', color: '#0ab39c', fontSize: '11px', padding: '2px 6px', borderRadius: '4px', fontWeight: '600' }}>
-                                808
+                                {sidebarCounts.properties ?? ''}
                             </span>
                         )}
                     </Link>
@@ -195,7 +203,7 @@ const DashboardLayout = ({ children }) => {
                         </div>
                         {!sidebarCollapsed && (
                             <span style={{ backgroundColor: 'rgba(10, 179, 156, 0.15)', color: '#0ab39c', fontSize: '11px', padding: '2px 6px', borderRadius: '4px', fontWeight: '600' }}>
-                                48
+                                {sidebarCounts.projects ?? ''}
                             </span>
                         )}
                     </Link>
@@ -760,18 +768,26 @@ const DashboardLayout = ({ children }) => {
                     </div>
                 </header>
 
-                {/* ── Main Dynamic Content Container ── */}
-                <main style={{ 
+                {/* ── Main Dynamic Content Container with Floating Orbs ── */}
+                <main className={styles.mainContentArea} style={{ 
                     flex: 1, 
                     padding: '20px 20px', 
-                    backgroundColor: '#f4f6fb', 
+                    backgroundColor: '#f0f2f8', 
                     width: '100%', 
                     maxWidth: '100%',
                     minWidth: 0, 
                     boxSizing: 'border-box',
-                    overflowX: 'hidden'
+                    overflowX: 'hidden',
+                    position: 'relative'
                 }}>
-                    {children}
+                    {/* Floating Background Orbs */}
+                    <div className={styles.floatingOrb1}></div>
+                    <div className={styles.floatingOrb2}></div>
+                    <div className={styles.floatingOrb3}></div>
+                    
+                    <div style={{ position: 'relative', zIndex: 1 }}>
+                        {children}
+                    </div>
                 </main>
 
                 {/* ── Minimalist Clean Footer ── */}

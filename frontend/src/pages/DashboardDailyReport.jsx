@@ -1,28 +1,38 @@
 import React, { useState } from 'react';
+import useCrmCollection from '../hooks/useCrmCollection';
 import DashboardLayout from '../components/DashboardLayout';
 
 const DashboardDailyReport = () => {
   
-  const [period, setPeriod] = useState('may');
+  const [period, setPeriod] = useState('daily');
   const [staff, setStaff] = useState('admin@email.com');
   const [fromDate, setFromDate] = useState('');
   const [toDate, setToDate] = useState('');
   const [filteredData, setFilteredData] = useState([]);
 
-  const allReportData = [
-    { date: '2026-05-12', staffId: 'admin@email.com', calls: 45, callsPercent: '90%', siteVisits: 5, note: 'Follow up tomorrow' },
-    { date: '2026-05-15', staffId: 'rajvardhansalve4377@gmail.com', calls: 38, callsPercent: '76%', siteVisits: 3, note: 'Customer asked for layout' },
-    { date: '2026-05-18', staffId: 'aartidodmani282002@gmail.com', calls: 50, callsPercent: '100%', siteVisits: 8, note: 'Excellent performance' },
-    { date: '2026-06-02', staffId: 'admin@email.com', calls: 20, callsPercent: '40%', siteVisits: 1, note: 'Half day leave' },
-    { date: '2026-06-10', staffId: 'aartidodmani282002@gmail.com', calls: 42, callsPercent: '84%', siteVisits: 4, note: 'Good leads' },
-    { date: '2026-04-25', staffId: 'rajvardhansalve4377@gmail.com', calls: 55, callsPercent: '100%', siteVisits: 6, note: 'Site visit confirmed' },
-  ];
+  const todayIso = new Date().toISOString().slice(0, 10);
+  const [allReportData, setAllReportData] = useCrmCollection('dailyReports', [
+    { id: 'r0', date: todayIso, staffId: 'admin@email.com', calls: 2, callsPercent: '1.33%', siteVisits: 0, note: '' },
+    { id: 'r1', date: '2026-05-12', staffId: 'admin@email.com', calls: 45, callsPercent: '90%', siteVisits: 5, note: 'Follow up tomorrow' },
+    { id: 'r2', date: '2026-05-15', staffId: 'rajvardhansalve4377@gmail.com', calls: 38, callsPercent: '76%', siteVisits: 3, note: 'Customer asked for layout' },
+    { id: 'r3', date: '2026-05-18', staffId: 'aartidodmani282002@gmail.com', calls: 50, callsPercent: '100%', siteVisits: 8, note: 'Excellent performance' },
+    { id: 'r4', date: '2026-06-02', staffId: 'admin@email.com', calls: 20, callsPercent: '40%', siteVisits: 1, note: 'Half day leave' },
+    { id: 'r5', date: '2026-06-10', staffId: 'aartidodmani282002@gmail.com', calls: 42, callsPercent: '84%', siteVisits: 4, note: 'Good leads' },
+    { id: 'r6', date: '2026-04-25', staffId: 'rajvardhansalve4377@gmail.com', calls: 55, callsPercent: '100%', siteVisits: 6, note: 'Site visit confirmed' },
+  ]);
+  const [notepad, setNotepad] = useState(null); // { id, note }
+
+  const saveNote = () => {
+    setAllReportData(prev => prev.map(r => (r.id === notepad.id ? { ...r, note: notepad.note } : r)));
+    setFilteredData(prev => prev.map(r => (r.id === notepad.id ? { ...r, note: notepad.note } : r)));
+    setNotepad(null);
+  };
 
   // Initialize on first render
   React.useEffect(() => {
     handleSearch();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [allReportData]);
 
   const handleSearch = (e) => {
     if (e) e.preventDefault();
@@ -35,7 +45,11 @@ const DashboardDailyReport = () => {
     }
 
     // Filter by exact date range if provided
-    if (fromDate && toDate) {
+    if (period === 'daily' && !(fromDate && toDate)) {
+      result = result.filter(r => r.date === todayIso);
+    } else if (period === 'monthly' && !(fromDate && toDate)) {
+      result = result.filter(r => r.date.slice(0, 7) === todayIso.slice(0, 7));
+    } else if (fromDate && toDate) {
       result = result.filter(r => r.date >= fromDate && r.date <= toDate);
     } else if (period !== 'daily' && period !== 'monthly') {
       // Very basic month text matching for dummy data purposes
@@ -131,6 +145,9 @@ return (
                     </tr>
                   </thead>
                   <tbody>
+                    {filteredData.length === 0 && (
+                      <tr><td colSpan="6" className="p-4 text-center text-muted">No report found for this period.</td></tr>
+                    )}
                     {filteredData.map((row, index) => (
                       <tr key={index}>
                         <td className="p-3">{row.date}</td>
@@ -142,7 +159,11 @@ return (
                           </span>
                         </td>
                         <td className="p-3">{row.siteVisits}</td>
-                        <td className="p-3 text-muted">{row.note}</td>
+                        <td className="p-3">
+                          <button type="button" className="btn btn-primary btn-sm" onClick={() => setNotepad({ id: row.id, note: row.note || '' })} title={row.note || 'No note yet'}>
+                            Open Notepad
+                          </button>
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -153,6 +174,23 @@ return (
 
         </div>
       </div>
+      {notepad && (
+        <div style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 99999, display: 'flex', alignItems: 'flex-start', justifyContent: 'center', paddingTop: '60px' }}>
+          <div className="modal-content bg-white rounded shadow" style={{ width: '100%', maxWidth: '500px' }}>
+            <div className="modal-header p-3 border-bottom d-flex justify-content-between">
+              <h5 className="modal-title">Notepad Editor</h5>
+              <button type="button" className="btn-close" onClick={() => setNotepad(null)}></button>
+            </div>
+            <div className="modal-body p-3">
+              <textarea className="form-control note-text" rows="10" placeholder="Write your notes here..." value={notepad.note} onChange={(e) => setNotepad(prev => ({ ...prev, note: e.target.value }))}></textarea>
+            </div>
+            <div className="modal-footer p-3 border-top d-flex justify-content-end gap-2">
+              <button type="button" className="btn btn-secondary" onClick={() => setNotepad(null)}>Close</button>
+              <button type="button" className="btn btn-primary" onClick={saveNote}>Save</button>
+            </div>
+          </div>
+        </div>
+      )}
     </DashboardLayout>
   );
 };

@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import useCrmCollection from '../hooks/useCrmCollection';
 import DashboardLayout from '../components/DashboardLayout';
 
 import { useState } from 'react';
@@ -13,7 +15,7 @@ const DashboardFinance = () => {
   const [amount, setAmount] = useState('');
   const [description, setDescription] = useState('');
   
-  const [transactions, setTransactions] = useState([]);
+  const [transactions, setTransactions] = useCrmCollection('transactions', []);
 
   
   const [showCategoryModal, setShowCategoryModal] = useState(false);
@@ -126,7 +128,7 @@ const DashboardFinance = () => {
                 <div className="d-flex align-items-end justify-content-between">
                   <div>
                     <h4 className="fs-22 fw-semibold ff-secondary mb-3">₹ {totalIncome}</h4>
-                    <a href="#income-table" className="text-decoration-underline text-muted" style={{ fontSize: '12px' }}>View Income Transaction</a>
+                    <Link to="/dashboard/transactions/income" className="text-decoration-underline text-muted" style={{ fontSize: '12px' }}>View Income Transaction</Link>
                   </div>
                   <div className="avatar-sm flex-shrink-0">
                     <span className="avatar-title rounded fs-3" style={{ backgroundColor: 'rgba(10, 179, 156, 0.18)', color: '#0ab39c' }}>
@@ -155,7 +157,7 @@ const DashboardFinance = () => {
                 <div className="d-flex align-items-end justify-content-between">
                   <div>
                     <h4 className="fs-22 fw-semibold ff-secondary mb-3">₹ {totalExpense}</h4>
-                    <a href="#income-table" className="text-decoration-underline text-muted" style={{ fontSize: '12px' }}>View Income Transaction</a>
+                    <Link to="/dashboard/transactions/expenses" className="text-decoration-underline text-muted" style={{ fontSize: '12px' }}>View Income Transaction</Link>
                   </div>
                   <div className="avatar-sm flex-shrink-0">
                     <span className="avatar-title rounded fs-3" style={{ backgroundColor: 'rgba(240, 101, 72, 0.18)', color: '#f06548' }}>
@@ -209,7 +211,7 @@ const DashboardFinance = () => {
                 <div className="d-flex align-items-end justify-content-between">
                   <div>
                     <h4 className="fs-22 fw-semibold ff-secondary mb-3">₹ {netSaving}</h4>
-                    <a href="#recent-transactions" className="text-decoration-underline text-muted" style={{ fontSize: '12px' }}>View Transactions</a>
+                    <Link to="/dashboard/transactions" className="text-decoration-underline text-muted" style={{ fontSize: '12px' }}>View Transactions</Link>
                   </div>
                   <div className="avatar-sm flex-shrink-0">
                     <span className="avatar-title rounded fs-3" style={{ backgroundColor: 'rgba(41, 156, 219, 0.18)', color: '#299cdb' }}>
@@ -289,7 +291,7 @@ const DashboardFinance = () => {
                 <h4 className="card-title mb-0 flex-grow-1 fw-semibold text-muted" style={{ fontSize: '14px' }}>
                   <i className="ri-arrow-right-down-line text-success me-1"></i> Income Transaction Overview
                 </h4>
-                <a href="#recent-transactions" className="text-muted" style={{ fontSize: '12px', textDecoration: 'none' }}><i className="ri-history-line"></i> View Transaction History</a>
+                <Link to="/dashboard/transactions/income" className="text-muted" style={{ fontSize: '12px', textDecoration: 'none' }}><i className="ri-history-line"></i> View Transaction History</Link>
               </div>
               <div className="card-body">
                 <div className="table-responsive">
@@ -318,7 +320,7 @@ const DashboardFinance = () => {
                             <td className="fw-medium text-primary">{tx.id}</td>
                             <td>{tx.category}</td>
                             <td className="text-success">+ ₹ {tx.amount}</td>
-                            <td><button className="btn btn-sm btn-soft-danger px-2 py-1"><i className="ri-delete-bin-line"></i></button></td>
+                            <td><button onClick={() => { if (window.confirm(`Delete transaction ${tx.id}?`)) setTransactions(prev => prev.filter(x => x.id !== tx.id)); }} className="btn btn-sm btn-soft-danger px-2 py-1" title="Delete"><i className="ri-delete-bin-line"></i></button></td>
                           </tr>
                         ))
                       )}
@@ -335,7 +337,7 @@ const DashboardFinance = () => {
                 <h4 className="card-title mb-0 flex-grow-1 fw-semibold text-muted" style={{ fontSize: '14px' }}>
                   <i className="ri-arrow-right-up-line text-danger me-1"></i> Expenses Transaction Overview
                 </h4>
-                <a href="#recent-transactions" className="text-muted" style={{ fontSize: '12px', textDecoration: 'none' }}><i className="ri-history-line"></i> View Transaction History</a>
+                <Link to="/dashboard/transactions/expenses" className="text-muted" style={{ fontSize: '12px', textDecoration: 'none' }}><i className="ri-history-line"></i> View Transaction History</Link>
               </div>
               <div className="card-body">
                 <div className="table-responsive">
@@ -364,7 +366,7 @@ const DashboardFinance = () => {
                             <td className="fw-medium text-primary">{tx.id}</td>
                             <td>{tx.category}</td>
                             <td className="text-danger">- ₹ {tx.amount}</td>
-                            <td><button className="btn btn-sm btn-soft-danger px-2 py-1"><i className="ri-delete-bin-line"></i></button></td>
+                            <td><button onClick={() => { if (window.confirm(`Delete transaction ${tx.id}?`)) setTransactions(prev => prev.filter(x => x.id !== tx.id)); }} className="btn btn-sm btn-soft-danger px-2 py-1" title="Delete"><i className="ri-delete-bin-line"></i></button></td>
                           </tr>
                         ))
                       )}
@@ -383,9 +385,9 @@ const DashboardFinance = () => {
               <div className="card-header align-items-center d-flex bg-transparent border-bottom-0 pb-0 pt-3">
                 <h4 className="card-title mb-0 flex-grow-1 fw-semibold text-muted" style={{ fontSize: '14px' }}>Recent Transactions</h4>
                 <div className="flex-shrink-0">
-                  <a className="btn btn-soft-info btn-sm" href="#recent-transactions" style={{ backgroundColor: 'rgba(41, 156, 219, 0.1)', color: '#299cdb' }}>
+                  <Link className="btn btn-soft-info btn-sm" to="/dashboard/transactions" style={{ backgroundColor: 'rgba(41, 156, 219, 0.1)', color: '#299cdb' }}>
                     <i className="ri-eye-line align-middle me-1"></i> View All
-                  </a>
+                  </Link>
                 </div>
               </div>
               <div className="card-body">

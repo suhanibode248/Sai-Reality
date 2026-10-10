@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import DashboardLayout from '../components/DashboardLayout';
 import certifiedData from '../data/certifiedData.json';
+import useCrmCollection from '../hooks/useCrmCollection';
 
 /**
  * ════════════════════════════════════════════════════════════
@@ -240,7 +241,10 @@ export function DashboardProjects() {
                           src={p.image} 
                           alt="" 
                           style={{ width: '56px', height: '40px', objectFit: 'cover', borderRadius: '4px' }}
-                          onError={(e) => { e.target.src = '/media/dashboard/images/gallery/1000607247.jpg'; }}
+                          onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = `data:image/svg+xml;utf8,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400"><rect width="100%" height="100%" fill="#f1f5f9"/><text x="50%" y="50%" fill="#94a3b8" font-family="sans-serif" font-size="28" text-anchor="middle" dominant-baseline="middle">No Image</text></svg>')}`;
+                  }}
                         />
                         <div>
                           <div className="fw-bold text-dark">{p.title}</div>
@@ -1672,7 +1676,7 @@ export function DashboardMedia() {
   const [activeAlbum, setActiveAlbum] = useState('All');
   const [showAddModal, setShowAddModal] = useState(false);
 
-  const [galleryImages, setGalleryImages] = useState([
+  const [galleryImages, setGalleryImages] = useCrmCollection('mediaGallery', [
     { title: 'Diwali Festive Banner', album: 'Project', src: '/media/dashboard/images/gallery/1000162207.jpg' },
     { title: 'Collector NA Plots 70L Offer', album: 'Project', src: '/media/dashboard/images/gallery/1000607247.jpg' },
     { title: 'Lodha Kharadi Premium', album: 'Designing', src: '/media/dashboard/images/gallery/AddText_11-08-07.17.24.jpg' },
@@ -1709,7 +1713,7 @@ export function DashboardMedia() {
     <DashboardLayout>
       <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
         <div>
-          <h4 className="mb-0 fw-bold" style={{ color: '#1e293b' }}>Media &amp; Gallery Management</h4>
+          <h4 className="mb-0 fw-bold" style={{ color: '#1e293b' }}>Gallery</h4>
           <span style={{ fontSize: '12px', color: '#64748b' }}>Others &gt; Media / Gallery &gt; Albums &amp; Property Banners</span>
         </div>
         <button 
@@ -1717,24 +1721,8 @@ export function DashboardMedia() {
           className="btn btn-sm" 
           style={{ backgroundColor: '#00b894', color: '#fff', fontWeight: '600' }}
         >
-          <i className="ri-add-line me-1"></i> + Upload New Media
+          <i className="ri-add-line me-1"></i> Add New Media
         </button>
-      </div>
-
-      {/* Album Filter Tabs */}
-      <div className="card border-0 shadow-sm mb-3" style={{ borderRadius: '8px' }}>
-        <div className="card-body p-2 d-flex gap-2 flex-wrap">
-          {['All', 'Project', 'Designing', 'Photography', 'Development', 'Events', 'Functions', 'Others'].map(album => (
-            <button
-              key={album}
-              onClick={() => setActiveAlbum(album)}
-              className={`btn btn-sm ${activeAlbum === album ? 'btn-primary' : 'btn-light border'}`}
-              style={{ fontWeight: activeAlbum === album ? '700' : '500' }}
-            >
-              {album}
-            </button>
-          ))}
-        </div>
       </div>
 
       {/* Media Grid */}
@@ -1747,7 +1735,10 @@ export function DashboardMedia() {
                   src={img.src} 
                   alt="" 
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                  onError={(e) => { e.target.src = '/media/dashboard/images/gallery/1000607247.jpg'; }}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = `data:image/svg+xml;utf8,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400"><rect width="100%" height="100%" fill="#f1f5f9"/><text x="50%" y="50%" fill="#94a3b8" font-family="sans-serif" font-size="28" text-anchor="middle" dominant-baseline="middle">No Image</text></svg>')}`;
+                  }}
                 />
                 <span className="badge bg-dark bg-opacity-75 position-absolute top-0 end-0 m-2" style={{ fontSize: '10px' }}>
                   500x500 Px
@@ -2240,12 +2231,15 @@ export function DashboardReviews() {
           <h4 className="mb-0 fw-bold" style={{ color: '#1e293b' }}>Client Reviews &amp; Testimonials ({reviews.length})</h4>
           <span style={{ fontSize: '12px', color: '#64748b' }}>Others &gt; Reviews &gt; Google Rating 4.9/5.0</span>
         </div>
+        <button onClick={() => window.location.reload()} className="btn btn-sm btn-light border me-2">
+          <i className="ri-refresh-line me-1"></i> Refresh
+        </button>
         <button 
           onClick={() => setShowAddModal(true)} 
           className="btn btn-sm" 
           style={{ backgroundColor: '#00b894', color: '#fff', fontWeight: '600' }}
         >
-          <i className="ri-add-line me-1"></i> + Add Review
+          <i className="ri-add-line me-1"></i> Add New Review
         </button>
       </div>
 
@@ -2424,12 +2418,8 @@ export function DashboardContact() {
               <input type="text" required className="form-control form-control-sm" value={contactData.whatsapp} onChange={e => setContactData({...contactData, whatsapp: e.target.value})} />
             </div>
             <div className="col-md-6">
-              <label className="form-label small fw-bold mb-1">Primary Phone Number*</label>
+              <label className="form-label small fw-bold mb-1">Phone Number*</label>
               <input type="text" required className="form-control form-control-sm" value={contactData.phone} onChange={e => setContactData({...contactData, phone: e.target.value})} />
-            </div>
-            <div className="col-md-6">
-              <label className="form-label small fw-bold mb-1">Secondary Phone Number*</label>
-              <input type="text" required className="form-control form-control-sm" value={contactData.phone2 || ''} onChange={e => setContactData({...contactData, phone2: e.target.value})} />
             </div>
             <div className="col-md-6">
               <label className="form-label small fw-bold mb-1">Email Address*</label>
@@ -2474,10 +2464,10 @@ export function DashboardContact() {
 
           <div className="d-flex gap-2">
             <button type="submit" className="btn btn-sm btn-primary fw-bold px-4">
-              Save Contact Settings
+              Updates
             </button>
             <button type="button" onClick={() => setContactData({ whatsapp: '+91 9222445513', phone: '+91 9320072003', email: 'support@certifiedproperties.in', siteEmail: 'raj@sairealty.in', address: 'Lohegaon - Dhanori Road, Lohegaon, Pune', cityPincode: 'Pune Maharashtra 411047', mapsUrl: 'https://goo.gl/maps/6SbWMzuEHDD4YmdV7', copyrightYear: '2026', companyName: 'Certified Properties', reservedBy: 'Phenoware Pvt Ltd' })} className="btn btn-sm btn-light border px-3">
-              Reset
+              Cancel
             </button>
           </div>
         </form>
@@ -2489,117 +2479,6 @@ export function DashboardContact() {
 /**
  * ════════════════════════════════════════════════════════════
  * 15. USERS SEQUENCE (Round-Robin Allocation)
- * ════════════════════════════════════════════════════════════
- */
-export function DashboardUsersSequence() {
-  const [sequence, setSequence] = useState(() => {
-    try {
-      const saved = localStorage.getItem('cp_users_sequence');
-      if (saved) return JSON.parse(saved);
-    } catch (e) {
-      console.error(e);
-    }
-    return [
-      { id: 1, order: 1, user: 'Amit Sharma (Sales Senior)', shift: 'Morning (09:00 AM - 02:00 PM)', allocation: '35% (Auto-Assigned)', leadsToday: 14 },
-      { id: 2, order: 2, user: 'Pooja Deshpande (Telecalling)', shift: 'General (10:00 AM - 06:00 PM)', allocation: '40% (Auto-Assigned)', leadsToday: 18 },
-      { id: 3, order: 3, user: 'Rajesh Patil (Kharadi Lead)', shift: 'Evening (02:00 PM - 08:00 PM)', allocation: '25% (Auto-Assigned)', leadsToday: 9 }
-    ];
-  });
-
-  const [editingSeq, setEditingSeq] = useState(null);
-
-  const handleUpdateSequence = (e) => {
-    e.preventDefault();
-    if (!editingSeq) return;
-    const updated = sequence.map(s => s.id === editingSeq.id ? editingSeq : s);
-    setSequence(updated);
-    try {
-      localStorage.setItem('cp_users_sequence', JSON.stringify(updated));
-    } catch (err) {
-      console.error(err);
-    }
-    setEditingSeq(null);
-  };
-
-  return (
-    <DashboardLayout>
-      <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-        <div>
-          <h4 className="mb-0 fw-bold" style={{ color: '#1e293b' }}>Users Sequence (Round-Robin)</h4>
-          <span style={{ fontSize: '12px', color: '#64748b' }}>Others &gt; Users Sequence &gt; Automated Lead Routing Rules</span>
-        </div>
-      </div>
-
-      <div className="card border-0 shadow-sm" style={{ borderRadius: '8px' }}>
-        <div className="card-body p-0">
-          <div className="table-responsive">
-            <table className="table table-hover align-middle mb-0" style={{ fontSize: '13px' }}>
-              <thead style={{ backgroundColor: '#f8fafc', color: '#475569' }}>
-                <tr>
-                  <th className="ps-3 py-2">Priority Order</th>
-                  <th className="py-2">Staff Member</th>
-                  <th className="py-2">Working Shift</th>
-                  <th className="py-2">Lead Flow Ratio</th>
-                  <th className="py-2">Allocated Today</th>
-                  <th className="text-end pe-3 py-2">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {sequence.map((s, i) => (
-                  <tr key={s.id || i}>
-                    <td className="ps-3 fw-bold text-primary">#{s.order}</td>
-                    <td className="fw-bold text-dark">{s.user}</td>
-                    <td className="text-muted">{s.shift}</td>
-                    <td><span className="badge bg-success-subtle text-success">{s.allocation}</span></td>
-                    <td className="fw-bold">{s.leadsToday} Leads</td>
-                    <td className="text-end pe-3">
-                      <button onClick={() => setEditingSeq({ ...s })} className="btn btn-sm btn-outline-primary">
-                        <i className="ri-pencil-line"></i> Edit
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      {editingSeq && (
-        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
-          <div style={{ backgroundColor: '#fff', borderRadius: '8px', width: '100%', maxWidth: '450px', padding: '24px' }}>
-            <div className="d-flex justify-content-between align-items-center mb-3">
-              <h5 className="modal-title fw-bold text-dark m-0">✏️ Edit Sequence &amp; Shift</h5>
-              <button onClick={() => setEditingSeq(null)} className="btn-close"></button>
-            </div>
-            <form onSubmit={handleUpdateSequence}>
-              <div className="mb-2">
-                <label className="form-label small fw-bold mb-1">Staff Member</label>
-                <input type="text" className="form-control form-control-sm" value={editingSeq.user} onChange={e => setEditingSeq({...editingSeq, user: e.target.value})} />
-              </div>
-              <div className="mb-2">
-                <label className="form-label small fw-bold mb-1">Working Shift</label>
-                <input type="text" className="form-control form-control-sm" value={editingSeq.shift} onChange={e => setEditingSeq({...editingSeq, shift: e.target.value})} />
-              </div>
-              <div className="mb-3">
-                <label className="form-label small fw-bold mb-1">Lead Flow Ratio (%)</label>
-                <input type="text" className="form-control form-control-sm" value={editingSeq.allocation} onChange={e => setEditingSeq({...editingSeq, allocation: e.target.value})} />
-              </div>
-              <div className="d-flex justify-content-end gap-2">
-                <button type="button" onClick={() => setEditingSeq(null)} className="btn btn-sm btn-secondary">Cancel</button>
-                <button type="submit" className="btn btn-sm btn-success" style={{ backgroundColor: '#00b894', borderColor: '#00b894' }}>Save Ratio</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-    </DashboardLayout>
-  );
-}
-
-/**
- * ════════════════════════════════════════════════════════════
- * 16. GOOGLE ANALYTICS
  * ════════════════════════════════════════════════════════════
  */
 export function DashboardAnalytics() {
@@ -2651,800 +2530,34 @@ export function DashboardAnalytics() {
  * 17. MY ACCOUNT (Matching live site overview, documents)
  * ════════════════════════════════════════════════════════════
  */
-export function DashboardMyAccount() {
-  const [activeTab, setActiveTab] = useState('overview');
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [showBusinessModal, setShowBusinessModal] = useState(false);
-  const [showPasswordModal, setShowPasswordModal] = useState(false);
-  const [showAddDocModal, setShowAddDocModal] = useState(false);
-  const [saveAlert, setSaveAlert] = useState('');
-
-  const [profile, setProfile] = useState(() => {
-    try {
-      const saved = localStorage.getItem('cp_account_profile');
-      if (saved) return JSON.parse(saved);
-    } catch (e) {
-      console.error(e);
-    }
-    return {
-      name: 'Admin',
-      role: 'Super Administrator',
-      email: 'admin@email.com',
-      mobile: '+(91) 9222445513',
-      location: 'Pune, Maharashtra',
-      lastLogin: 'Oct. 5, 2026, 10:14 p.m.',
-      companyName: 'Certified Properties / Sai Reality',
-      industry: 'Real Estate & Property Advisory',
-      reraNumber: 'P52100018592',
-      gstNumber: '27ABCDE1234F1Z5',
-      website: 'https://certifiedproperties.in',
-      officeAddress: 'Lohegaon - Dhanori Road, Lohegaon, Pune - 411047',
-      bio: 'Official Sai Reality & Certified Properties Master Account. Overseeing sales channels, lead generation workflows, and Pune developer partnerships.',
-      avatar: ''
-    };
-  });
-
-  const [editFormData, setEditFormData] = useState({ ...profile });
-
-  const [passwordData, setPasswordData] = useState({
-    currentPassword: '',
-    newPassword: '',
-    confirmPassword: ''
-  });
-
-  const [documents, setDocuments] = useState(() => {
-    try {
-      const saved = localStorage.getItem('cp_account_docs');
-      if (saved) return JSON.parse(saved);
-    } catch (e) {
-      console.error(e);
-    }
-    return [
-      { id: 1, title: 'MahaRERA Agent License Certificate', file: 'P52100018592_Sai_Reality.pdf', size: '1.4 MB', date: 'Oct 01, 2026', verified: true },
-      { id: 2, title: 'GST Registration Certificate', file: 'GSTIN_27ABCDE1234F1Z5.pdf', size: '820 KB', date: 'Sep 15, 2026', verified: true },
-      { id: 3, title: 'Company Incorporation & PAN Card', file: 'SAI_REALITY_PAN_CERT.pdf', size: '650 KB', date: 'Aug 20, 2026', verified: true }
-    ];
-  });
-
-  const [newDoc, setNewDoc] = useState({ title: '', file: '', size: '1.2 MB' });
-
-  const [notifications, setNotifications] = useState({
-    emailAlerts: true,
-    smsAlerts: true,
-    whatsappLeads: true,
-    siteVisitReminders: true,
-    dailyReportSummary: true
-  });
-
-  const triggerAlert = (msg) => {
-    setSaveAlert(msg);
-    setTimeout(() => {
-      setSaveAlert('');
-    }, 3500);
-  };
-
-  const handleOpenEdit = () => {
-    setEditFormData({ ...profile });
-    setShowEditModal(true);
-  };
-
-  const handleOpenBusiness = () => {
-    setEditFormData({ ...profile });
-    setShowBusinessModal(true);
-  };
-
-  const handleSaveProfile = (e) => {
-    e.preventDefault();
-    const updated = { ...profile, ...editFormData };
-    setProfile(updated);
-    try {
-      localStorage.setItem('cp_account_profile', JSON.stringify(updated));
-    } catch (err) {
-      console.error(err);
-    }
-    setShowEditModal(false);
-    setShowBusinessModal(false);
-    triggerAlert('✓ Profile and business details updated and saved successfully!');
-  };
-
-  const handleSavePassword = (e) => {
-    e.preventDefault();
-    if (passwordData.newPassword !== passwordData.confirmPassword) {
-      alert('New password and Confirm Password do not match!');
-      return;
-    }
-    if (passwordData.newPassword.length < 6) {
-      alert('Password must be at least 6 characters long.');
-      return;
-    }
-    setShowPasswordModal(false);
-    setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' });
-    triggerAlert('✓ Password changed and secured successfully!');
-  };
-
-  const handleAddDocument = (e) => {
-    e.preventDefault();
-    if (!newDoc.title) return;
-    const docItem = {
-      id: Date.now(),
-      title: newDoc.title,
-      file: newDoc.file || `${newDoc.title.replace(/\s+/g, '_')}.pdf`,
-      size: newDoc.size || '1.2 MB',
-      date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-      verified: true
-    };
-    const updated = [docItem, ...documents];
-    setDocuments(updated);
-    try {
-      localStorage.setItem('cp_account_docs', JSON.stringify(updated));
-    } catch (err) {
-      console.error(err);
-    }
-    setNewDoc({ title: '', file: '', size: '1.2 MB' });
-    setShowAddDocModal(false);
-    triggerAlert('✓ New verification document uploaded successfully!');
-  };
-
-  const handleDeleteDocument = (id) => {
-    if (window.confirm('Are you sure you want to delete this document?')) {
-      const updated = documents.filter(d => d.id !== id);
-      setDocuments(updated);
-      try {
-        localStorage.setItem('cp_account_docs', JSON.stringify(updated));
-      } catch (err) {
-        console.error(err);
-      }
-      triggerAlert('✓ Document deleted successfully!');
-    }
-  };
-
-  const toggleNotification = (key) => {
-    const updated = { ...notifications, [key]: !notifications[key] };
-    setNotifications(updated);
-    triggerAlert(`✓ Notification preference updated!`);
-  };
-
+// Others > Google Analytics: the tracking code the public website uses
+export function DashboardGCode() {
+  const [code, setCode] = useState(() => localStorage.getItem('cp_gcode') || '');
+  const [saved, setSaved] = useState(false);
   return (
     <DashboardLayout>
-      {/* Toast / Alert Banner */}
-      {saveAlert && (
-        <div 
-          className="alert alert-success d-flex align-items-center justify-content-between py-2 px-3 mb-3 border-0 shadow-sm"
-          style={{ backgroundColor: '#10b981', color: '#fff', borderRadius: '8px', fontSize: '13.5px', fontWeight: '600' }}
-        >
-          <div className="d-flex align-items-center gap-2">
-            <i className="ri-checkbox-circle-fill fs-5"></i>
-            <span>{saveAlert}</span>
-          </div>
-          <button onClick={() => setSaveAlert('')} className="btn-close btn-close-white" style={{ fontSize: '10px' }}></button>
-        </div>
-      )}
-
-      {/* Profile Header Card */}
-      <div className="card border-0 shadow-sm overflow-hidden mb-4" style={{ borderRadius: '12px' }}>
-        <div style={{ height: '140px', background: 'linear-gradient(135deg, #1e293b 0%, #3b82f6 50%, #00b894 100%)', position: 'relative' }}>
-          <div style={{ position: 'absolute', right: '20px', bottom: '15px', color: 'rgba(255,255,255,0.7)', fontSize: '12px' }}>
-            <i className="ri-shield-check-fill text-warning me-1"></i> MahaRERA Verified Business Account
-          </div>
-        </div>
-        <div className="px-4 pb-3 d-flex justify-content-between align-items-end flex-wrap gap-3" style={{ marginTop: '-45px' }}>
-          <div className="d-flex align-items-end gap-3 flex-wrap">
-            <div 
-              style={{ 
-                width: '90px', 
-                height: '90px', 
-                borderRadius: '50%', 
-                border: '4px solid #fff', 
-                backgroundColor: '#f8fafc', 
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'center', 
-                color: '#405189', 
-                fontSize: '44px', 
-                boxShadow: '0 4px 12px rgba(0,0,0,0.12)',
-                position: 'relative'
-              }}
-            >
-              <i className="ri-user-3-fill"></i>
-              <button 
-                onClick={handleOpenEdit}
-                title="Change Avatar" 
-                style={{ position: 'absolute', bottom: '0', right: '0', width: '26px', height: '26px', borderRadius: '50%', border: '2px solid #fff', backgroundColor: '#00b894', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', cursor: 'pointer' }}
-              >
-                <i className="ri-pencil-fill"></i>
-              </button>
-            </div>
-            <div>
-              <div className="d-flex align-items-center gap-2">
-                <h4 className="mb-0 fw-bold text-dark">{profile.name}</h4>
-                <span className="badge bg-success" style={{ fontSize: '11px' }}>{profile.role}</span>
-              </div>
-              <span className="small text-muted d-block mt-1">
-                <i className="ri-mail-line me-1"></i>{profile.email} • <i className="ri-phone-line me-1"></i>{profile.mobile} • 📍 {profile.location}
-              </span>
-            </div>
-          </div>
-          <div className="d-flex gap-2">
-            <button onClick={() => setShowPasswordModal(true)} className="btn btn-sm btn-light border fw-semibold">
-              <i className="ri-lock-password-line me-1"></i> Change Password
-            </button>
-            <button onClick={handleOpenEdit} className="btn btn-sm text-white fw-bold shadow-sm" style={{ backgroundColor: '#00b894', borderColor: '#00b894' }}>
-              <i className="ri-edit-box-line me-1"></i> Edit Profile
-            </button>
-          </div>
-        </div>
-
-        {/* Tab Headers */}
-        <div className="d-flex gap-4 border-top px-4 bg-light bg-opacity-25">
-          {[
-            { id: 'overview', label: 'Overview & Profile', icon: 'ri-user-line' },
-            { id: 'notifications', label: 'Alerts & Settings', icon: 'ri-notification-3-line' },
-            { id: 'documents', label: `Documents (${documents.length})`, icon: 'ri-file-text-line' }
-          ].map(tab => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className="btn btn-link text-decoration-none px-0 py-3 fw-bold d-flex align-items-center gap-2"
-              style={{ 
-                color: activeTab === tab.id ? '#0284c7' : '#64748b', 
-                borderBottom: activeTab === tab.id ? '2px solid #0284c7' : '2px solid transparent', 
-                borderRadius: 0,
-                fontSize: '13.5px'
-              }}
-            >
-              <i className={tab.icon}></i>
-              {tab.label}
-            </button>
-          ))}
-        </div>
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h4 className="mb-0 fw-bold text-uppercase" style={{ fontSize: '15px', color: '#495057' }}>Google Analytics Code</h4>
+        <span style={{ fontSize: '12px', color: '#64748b' }}>Others &gt; Google Analytics</span>
       </div>
-
-      {/* TAB 1: OVERVIEW */}
-      {activeTab === 'overview' && (
-        <div className="row g-3">
-          {/* Personal Details Card */}
-          <div className="col-lg-6">
-            <div className="card border-0 shadow-sm p-4 bg-white h-100" style={{ borderRadius: '12px' }}>
-              <div className="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
-                <div className="d-flex align-items-center gap-2">
-                  <div style={{ width: '32px', height: '32px', borderRadius: '8px', backgroundColor: '#e0f2fe', color: '#0284c7', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <i className="ri-user-smile-line fs-5"></i>
-                  </div>
-                  <h6 className="fw-bold mb-0 text-dark">Personal Details</h6>
-                </div>
-                <button onClick={handleOpenEdit} className="btn btn-sm btn-outline-primary fw-semibold px-2 py-1" style={{ fontSize: '12px' }}>
-                  <i className="ri-edit-line me-1"></i> Edit Personal
-                </button>
-              </div>
-
-              <div className="d-flex flex-column gap-3" style={{ fontSize: '13.5px' }}>
-                <div className="d-flex justify-content-between border-bottom pb-2">
-                  <span className="text-muted">Full Name :</span>
-                  <strong className="text-dark">{profile.name}</strong>
-                </div>
-                <div className="d-flex justify-content-between border-bottom pb-2">
-                  <span className="text-muted">Mobile Number :</span>
-                  <strong className="text-dark">{profile.mobile}</strong>
-                </div>
-                <div className="d-flex justify-content-between border-bottom pb-2">
-                  <span className="text-muted">Email Address :</span>
-                  <strong className="text-dark">{profile.email}</strong>
-                </div>
-                <div className="d-flex justify-content-between border-bottom pb-2">
-                  <span className="text-muted">Assigned Role :</span>
-                  <span className="badge bg-primary-subtle text-primary fw-bold">{profile.role}</span>
-                </div>
-                <div className="d-flex justify-content-between border-bottom pb-2">
-                  <span className="text-muted">City / Location :</span>
-                  <strong className="text-dark">{profile.location}</strong>
-                </div>
-                <div className="d-flex justify-content-between">
-                  <span className="text-muted">Last Login Timestamp :</span>
-                  <strong className="text-muted">{profile.lastLogin}</strong>
-                </div>
-              </div>
-
-              <div className="mt-3 pt-3 border-top">
-                <small className="text-muted fw-bold d-block mb-1">About / Bio:</small>
-                <p className="small text-secondary mb-0" style={{ lineHeight: '1.6' }}>
-                  {profile.bio}
-                </p>
-              </div>
+      <div className="card border-0 shadow-sm">
+        <div className="card-body">
+          <form onSubmit={(e) => { e.preventDefault(); localStorage.setItem('cp_gcode', code); setSaved(true); setTimeout(() => setSaved(false), 2500); }}>
+            <div className="col-lg-6 mb-4 mt-2">
+              <label className="form-label">Google Analytics Code <span className="text-danger">*</span></label>
+              <textarea className="form-control" rows="7" placeholder="Code" required value={code} onChange={(e) => setCode(e.target.value)}></textarea>
             </div>
-          </div>
-
-          {/* Business Details Card */}
-          <div className="col-lg-6">
-            <div className="card border-0 shadow-sm p-4 bg-white h-100" style={{ borderRadius: '12px' }}>
-              <div className="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
-                <div className="d-flex align-items-center gap-2">
-                  <div style={{ width: '32px', height: '32px', borderRadius: '8px', backgroundColor: '#dcfce7', color: '#16a34a', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <i className="ri-building-line fs-5"></i>
-                  </div>
-                  <h6 className="fw-bold mb-0 text-dark">Business Details</h6>
-                </div>
-                <button onClick={handleOpenBusiness} className="btn btn-sm btn-outline-success fw-semibold px-2 py-1" style={{ fontSize: '12px' }}>
-                  <i className="ri-edit-line me-1"></i> Edit Business
-                </button>
-              </div>
-
-              <div className="d-flex flex-column gap-3" style={{ fontSize: '13.5px' }}>
-                <div className="d-flex justify-content-between border-bottom pb-2">
-                  <span className="text-muted">Company Name :</span>
-                  <strong className="text-dark">{profile.companyName}</strong>
-                </div>
-                <div className="d-flex justify-content-between border-bottom pb-2">
-                  <span className="text-muted">Industry :</span>
-                  <strong className="text-dark">{profile.industry}</strong>
-                </div>
-                <div className="d-flex justify-content-between border-bottom pb-2">
-                  <span className="text-muted">MahaRERA Registration :</span>
-                  <span className="badge bg-success-subtle text-success fw-bold font-monospace">{profile.reraNumber}</span>
-                </div>
-                <div className="d-flex justify-content-between border-bottom pb-2">
-                  <span className="text-muted">GST Identification No :</span>
-                  <strong className="text-dark font-monospace">{profile.gstNumber}</strong>
-                </div>
-                <div className="d-flex justify-content-between border-bottom pb-2">
-                  <span className="text-muted">Official Website :</span>
-                  <a href={profile.website} target="_blank" rel="noreferrer" className="text-primary text-decoration-none fw-semibold">
-                    {profile.website} &rarr;
-                  </a>
-                </div>
-                <div className="d-flex justify-content-between">
-                  <span className="text-muted">Office Address :</span>
-                  <strong className="text-dark text-end" style={{ maxWidth: '240px' }}>{profile.officeAddress}</strong>
-                </div>
-              </div>
+            <div className="d-flex gap-2 align-items-center">
+              <button className="btn btn-primary" type="submit"><i className="ri-save-line me-1"></i> Updates</button>
+              {saved && <span className="text-success" style={{ fontSize: '13px' }}>Saved</span>}
             </div>
-          </div>
-        </div>
-      )}
-
-      {/* TAB 2: NOTIFICATIONS & SETTINGS */}
-      {activeTab === 'notifications' && (
-        <div className="card border-0 shadow-sm p-4 bg-white" style={{ borderRadius: '12px' }}>
-          <h6 className="fw-bold text-dark mb-1">CRM Notification Preferences</h6>
-          <p className="text-muted small mb-4">Choose how you want to receive lead alerts, site visit notifications, and daily summaries.</p>
-
-          <div className="d-flex flex-column gap-3">
-            {[
-              { key: 'emailAlerts', title: 'Instant Email Alerts on Inbound Leads', desc: 'Receive real-time lead notification emails as soon as buyers inquire on properties.' },
-              { key: 'whatsappLeads', title: 'WhatsApp Business API Integration', desc: 'Auto-dispatch property brochures and site visit confirmations to client WhatsApp.' },
-              { key: 'smsAlerts', title: 'SMS OTP & Token Confirmation Alerts', desc: 'Send booking token confirmation SMS to buyers upon token deposit.' },
-              { key: 'siteVisitReminders', title: 'Site Visit Reminders & Scheduling', desc: 'Receive alert 2 hours prior to scheduled client property visits.' },
-              { key: 'dailyReportSummary', title: 'Daily Calling & Revenue Digest', desc: 'Receive an automated evening recap of daily calls and sales conversion metrics.' }
-            ].map(item => (
-              <div key={item.key} className="p-3 border rounded d-flex justify-content-between align-items-center bg-light bg-opacity-50">
-                <div>
-                  <div className="fw-bold text-dark" style={{ fontSize: '14px' }}>{item.title}</div>
-                  <small className="text-muted">{item.desc}</small>
-                </div>
-                <div className="form-check form-switch ms-3">
-                  <input 
-                    className="form-check-input" 
-                    type="checkbox" 
-                    role="switch"
-                    style={{ width: '42px', height: '22px', cursor: 'pointer' }}
-                    checked={notifications[item.key]} 
-                    onChange={() => toggleNotification(item.key)}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* TAB 3: DOCUMENTS */}
-      {activeTab === 'documents' && (
-        <div className="card border-0 shadow-sm p-4 bg-white" style={{ borderRadius: '12px' }}>
-          <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
-            <div>
-              <h6 className="fw-bold text-dark mb-1">Company &amp; RERA Verified Documents</h6>
-              <span className="text-muted small">Upload or update official licensing, MahaRERA certificates, and tax filings.</span>
-            </div>
-            <button 
-              onClick={() => setShowAddDocModal(true)} 
-              className="btn btn-sm text-white fw-bold"
-              style={{ backgroundColor: '#00b894', borderColor: '#00b894' }}
-            >
-              <i className="ri-upload-cloud-2-line me-1"></i> + Upload Document
-            </button>
-          </div>
-
-          <div className="row g-3">
-            {documents.map(doc => (
-              <div className="col-md-6" key={doc.id}>
-                <div className="p-3 border rounded bg-light d-flex justify-content-between align-items-center h-100">
-                  <div className="d-flex align-items-center gap-3">
-                    <div style={{ width: '42px', height: '42px', borderRadius: '8px', backgroundColor: '#fee2e2', color: '#ef4444', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px' }}>
-                      <i className="ri-file-pdf-fill"></i>
-                    </div>
-                    <div>
-                      <div className="fw-bold text-dark" style={{ fontSize: '13.5px' }}>{doc.title}</div>
-                      <small className="text-muted">{doc.file} • {doc.size} • Uploaded {doc.date}</small>
-                      <div>
-                        <span className="badge bg-success-subtle text-success" style={{ fontSize: '10px' }}>
-                          <i className="ri-checkbox-circle-fill me-1"></i> Verified Active
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="d-flex gap-1">
-                    <button 
-                      onClick={() => alert(`Downloading ${doc.file}...`)} 
-                      className="btn btn-sm btn-light border text-primary" 
-                      title="Download Document"
-                    >
-                      <i className="ri-download-2-line"></i>
-                    </button>
-                    <button 
-                      onClick={() => handleDeleteDocument(doc.id)} 
-                      className="btn btn-sm btn-light border text-danger" 
-                      title="Delete Document"
-                    >
-                      <i className="ri-delete-bin-line"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* ── MODAL 1: EDIT PROFILE / PERSONAL DETAILS ── */}
-      {showEditModal && (
-        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
-          <div style={{ backgroundColor: '#fff', borderRadius: '12px', width: '100%', maxWidth: '520px', padding: '24px', maxHeight: '90vh', overflowY: 'auto' }}>
-            <div className="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
-              <h5 className="modal-title fw-bold text-dark m-0">✏️ Edit Personal Details</h5>
-              <button onClick={() => setShowEditModal(false)} className="btn-close"></button>
-            </div>
-            <form onSubmit={handleSaveProfile}>
-              <div className="mb-2">
-                <label className="form-label small fw-bold mb-1">Full Name*</label>
-                <input 
-                  type="text" 
-                  required 
-                  className="form-control form-control-sm" 
-                  value={editFormData.name} 
-                  onChange={e => setEditFormData({ ...editFormData, name: e.target.value })} 
-                />
-              </div>
-              <div className="row g-2 mb-2">
-                <div className="col-6">
-                  <label className="form-label small fw-bold mb-1">Mobile Number*</label>
-                  <input 
-                    type="text" 
-                    required 
-                    className="form-control form-control-sm" 
-                    value={editFormData.mobile} 
-                    onChange={e => setEditFormData({ ...editFormData, mobile: e.target.value })} 
-                  />
-                </div>
-                <div className="col-6">
-                  <label className="form-label small fw-bold mb-1">Email Address*</label>
-                  <input 
-                    type="email" 
-                    required 
-                    className="form-control form-control-sm" 
-                    value={editFormData.email} 
-                    onChange={e => setEditFormData({ ...editFormData, email: e.target.value })} 
-                  />
-                </div>
-              </div>
-              <div className="row g-2 mb-2">
-                <div className="col-6">
-                  <label className="form-label small fw-bold mb-1">Assigned Role</label>
-                  <input 
-                    type="text" 
-                    className="form-control form-control-sm" 
-                    value={editFormData.role} 
-                    onChange={e => setEditFormData({ ...editFormData, role: e.target.value })} 
-                  />
-                </div>
-                <div className="col-6">
-                  <label className="form-label small fw-bold mb-1">City / Location</label>
-                  <input 
-                    type="text" 
-                    className="form-control form-control-sm" 
-                    value={editFormData.location} 
-                    onChange={e => setEditFormData({ ...editFormData, location: e.target.value })} 
-                  />
-                </div>
-              </div>
-              <div className="mb-3">
-                <label className="form-label small fw-bold mb-1">About / Bio</label>
-                <textarea 
-                  rows="3" 
-                  className="form-control form-control-sm" 
-                  value={editFormData.bio} 
-                  onChange={e => setEditFormData({ ...editFormData, bio: e.target.value })}
-                ></textarea>
-              </div>
-              <div className="d-flex justify-content-end gap-2 pt-2 border-top">
-                <button type="button" onClick={() => setShowEditModal(false)} className="btn btn-sm btn-light border">Cancel</button>
-                <button type="submit" className="btn btn-sm text-white fw-bold px-3" style={{ backgroundColor: '#00b894', borderColor: '#00b894' }}>
-                  Save Personal Details
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {/* ── MODAL 2: EDIT BUSINESS DETAILS ── */}
-      {showBusinessModal && (
-        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
-          <div style={{ backgroundColor: '#fff', borderRadius: '12px', width: '100%', maxWidth: '520px', padding: '24px', maxHeight: '90vh', overflowY: 'auto' }}>
-            <div className="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
-              <h5 className="modal-title fw-bold text-dark m-0">🏢 Edit Business &amp; RERA Details</h5>
-              <button onClick={() => setShowBusinessModal(false)} className="btn-close"></button>
-            </div>
-            <form onSubmit={handleSaveProfile}>
-              <div className="mb-2">
-                <label className="form-label small fw-bold mb-1">Company Name*</label>
-                <input 
-                  type="text" 
-                  required 
-                  className="form-control form-control-sm" 
-                  value={editFormData.companyName} 
-                  onChange={e => setEditFormData({ ...editFormData, companyName: e.target.value })} 
-                />
-              </div>
-              <div className="mb-2">
-                <label className="form-label small fw-bold mb-1">Industry*</label>
-                <input 
-                  type="text" 
-                  required 
-                  className="form-control form-control-sm" 
-                  value={editFormData.industry} 
-                  onChange={e => setEditFormData({ ...editFormData, industry: e.target.value })} 
-                />
-              </div>
-              <div className="row g-2 mb-2">
-                <div className="col-6">
-                  <label className="form-label small fw-bold mb-1">MahaRERA Registration No*</label>
-                  <input 
-                    type="text" 
-                    required 
-                    className="form-control form-control-sm font-monospace" 
-                    value={editFormData.reraNumber} 
-                    onChange={e => setEditFormData({ ...editFormData, reraNumber: e.target.value })} 
-                  />
-                </div>
-                <div className="col-6">
-                  <label className="form-label small fw-bold mb-1">GST Number*</label>
-                  <input 
-                    type="text" 
-                    required 
-                    className="form-control form-control-sm font-monospace" 
-                    value={editFormData.gstNumber} 
-                    onChange={e => setEditFormData({ ...editFormData, gstNumber: e.target.value })} 
-                  />
-                </div>
-              </div>
-              <div className="mb-2">
-                <label className="form-label small fw-bold mb-1">Website URL*</label>
-                <input 
-                  type="url" 
-                  required 
-                  className="form-control form-control-sm" 
-                  value={editFormData.website} 
-                  onChange={e => setEditFormData({ ...editFormData, website: e.target.value })} 
-                />
-              </div>
-              <div className="mb-3">
-                <label className="form-label small fw-bold mb-1">Office Address*</label>
-                <input 
-                  type="text" 
-                  required 
-                  className="form-control form-control-sm" 
-                  value={editFormData.officeAddress} 
-                  onChange={e => setEditFormData({ ...editFormData, officeAddress: e.target.value })} 
-                />
-              </div>
-              <div className="d-flex justify-content-end gap-2 pt-2 border-top">
-                <button type="button" onClick={() => setShowBusinessModal(false)} className="btn btn-sm btn-light border">Cancel</button>
-                <button type="submit" className="btn btn-sm text-white fw-bold px-3" style={{ backgroundColor: '#00b894', borderColor: '#00b894' }}>
-                  Save Business Details
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {/* ── MODAL 3: CHANGE PASSWORD ── */}
-      {showPasswordModal && (
-        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
-          <div style={{ backgroundColor: '#fff', borderRadius: '12px', width: '100%', maxWidth: '420px', padding: '24px' }}>
-            <div className="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
-              <h5 className="modal-title fw-bold text-dark m-0">🔒 Change Password</h5>
-              <button onClick={() => setShowPasswordModal(false)} className="btn-close"></button>
-            </div>
-            <form onSubmit={handleSavePassword}>
-              <div className="mb-2">
-                <label className="form-label small fw-bold mb-1">Current Password*</label>
-                <input 
-                  type="password" 
-                  required 
-                  className="form-control form-control-sm" 
-                  placeholder="Enter current password"
-                  value={passwordData.currentPassword}
-                  onChange={e => setPasswordData({ ...passwordData, currentPassword: e.target.value })}
-                />
-              </div>
-              <div className="mb-2">
-                <label className="form-label small fw-bold mb-1">New Password*</label>
-                <input 
-                  type="password" 
-                  required 
-                  className="form-control form-control-sm" 
-                  placeholder="At least 6 characters"
-                  value={passwordData.newPassword}
-                  onChange={e => setPasswordData({ ...passwordData, newPassword: e.target.value })}
-                />
-              </div>
-              <div className="mb-3">
-                <label className="form-label small fw-bold mb-1">Confirm New Password*</label>
-                <input 
-                  type="password" 
-                  required 
-                  className="form-control form-control-sm" 
-                  placeholder="Re-type new password"
-                  value={passwordData.confirmPassword}
-                  onChange={e => setPasswordData({ ...passwordData, confirmPassword: e.target.value })}
-                />
-              </div>
-              <div className="d-flex justify-content-end gap-2 pt-2 border-top">
-                <button type="button" onClick={() => setShowPasswordModal(false)} className="btn btn-sm btn-light border">Cancel</button>
-                <button type="submit" className="btn btn-sm text-white fw-bold px-3" style={{ backgroundColor: '#0284c7', borderColor: '#0284c7' }}>
-                  Update Password
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {/* ── MODAL 4: UPLOAD DOCUMENT ── */}
-      {showAddDocModal && (
-        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
-          <div style={{ backgroundColor: '#fff', borderRadius: '12px', width: '100%', maxWidth: '460px', padding: '24px' }}>
-            <div className="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
-              <h5 className="modal-title fw-bold text-dark m-0">📄 Upload Verification Document</h5>
-              <button onClick={() => setShowAddDocModal(false)} className="btn-close"></button>
-            </div>
-            <form onSubmit={handleAddDocument}>
-              <div className="mb-2">
-                <label className="form-label small fw-bold mb-1">Document Title*</label>
-                <input 
-                  type="text" 
-                  required 
-                  className="form-control form-control-sm" 
-                  placeholder="e.g. MahaRERA Project Agent Certificate"
-                  value={newDoc.title}
-                  onChange={e => setNewDoc({ ...newDoc, title: e.target.value })}
-                />
-              </div>
-              <div className="mb-3">
-                <label className="form-label small fw-bold mb-1">File Attachment Name*</label>
-                <input 
-                  type="text" 
-                  className="form-control form-control-sm" 
-                  placeholder="e.g. RERA_Registration_2026.pdf"
-                  value={newDoc.file}
-                  onChange={e => setNewDoc({ ...newDoc, file: e.target.value })}
-                />
-              </div>
-              <div className="p-3 border rounded bg-light text-center mb-3">
-                <i className="ri-file-upload-line text-primary fs-2"></i>
-                <div className="small fw-bold mt-1">Select PDF or JPG File</div>
-                <small className="text-muted">Maximum file upload size: 10 MB</small>
-              </div>
-              <div className="d-flex justify-content-end gap-2 pt-2 border-top">
-                <button type="button" onClick={() => setShowAddDocModal(false)} className="btn btn-sm btn-light border">Cancel</button>
-                <button type="submit" className="btn btn-sm text-white fw-bold px-3" style={{ backgroundColor: '#00b894', borderColor: '#00b894' }}>
-                  Upload &amp; Verify
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-    </DashboardLayout>
-  );
-}
-
-/**
- * ════════════════════════════════════════════════════════════
- * 18. FAQ's (All 11 questions from live site)
- * ════════════════════════════════════════════════════════════
- */
-export function DashboardFAQ() {
-  const [openIndex, setOpenIndex] = useState(0);
-
-  const faqs = [
-    { q: 'What is CRM?', a: 'Customer Relationship Management (CRM) is a system designed to manage all company relationships and interactions with leads, buyers, and builders in one central dashboard.' },
-    { q: 'Who Can Benefit from CRM or Why use CRM?', a: 'Real estate agents, sales executives, telecallers, and managers use it to track inquiries, schedule site visits, verify booking tokens, and prevent lead drop-offs.' },
-    { q: 'How can CRM improve your business process?', a: 'Automates lead assignment through round-robin queues, triggers WhatsApp follow-up reminders, tracks marketing ROI, and speeds up deal closures.' },
-    { q: 'What are the benefits of CRM system?', a: 'Zero brokerage transparency, real-time analytics, instant call-back logs, and seamless inventory management across 800+ Pune properties.' },
-    { q: 'How to manage my account?', a: 'Go to Master > My Account to configure administrator profiles, update contact information, and upload company RERA documents.' },
-    { q: 'How can I manage my plan and billing?', a: 'Access Finance & Accounting > Overview or Transactions to review developer brokerage statements, token deposits, and invoices.' },
-    { q: 'How can I renew my account plan?', a: 'Contact Phenoware support desk via the Helpline numbers or email support@certifiedproperties.in.' },
-    { q: 'How does round-robin user assignment work?', a: 'Configure sequence priority and shifts in Others > Users Sequence to automatically allocate inbound leads to available agents.' },
-    { q: 'How do I upload new project media?', a: 'Open Others > Media / Gallery and click "+ Add New Media" to upload high-res banners and floor plan blueprints.' },
-    { q: 'How do I export leads to CSV?', a: 'On the CRM Leads dashboard, click the "Download Leads" button to download a spreadsheet with all filtered lead records.' },
-    { q: 'How do I log site visits?', a: 'In the Leads table, select "SITE VISIT" from the status dropdown and log visitor remarks in the "See Followups" timeline modal.' }
-  ];
-
-  return (
-    <DashboardLayout>
-      <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-        <div>
-          <h4 className="mb-0 fw-bold" style={{ color: '#1e293b' }}>Frequently Asked Questions</h4>
-          <span style={{ fontSize: '12px', color: '#64748b' }}>Support &gt; FAQ's</span>
-        </div>
-      </div>
-
-      <div className="card border-0 shadow-sm p-4 bg-white mb-4" style={{ borderRadius: '8px' }}>
-        <h6 className="fw-bold mb-3 text-primary">General Questions &amp; System Guides:</h6>
-        <div className="d-flex flex-column gap-2">
-          {faqs.map((f, i) => (
-            <div key={i} className="border rounded overflow-hidden">
-              <button 
-                onClick={() => setOpenIndex(openIndex === i ? -1 : i)}
-                className="w-100 p-3 text-start bg-light border-0 d-flex justify-content-between align-items-center fw-semibold text-dark"
-                style={{ fontSize: '13.5px' }}
-              >
-                <span>{f.q}</span>
-                <i className={openIndex === i ? 'ri-arrow-up-s-line text-primary' : 'ri-arrow-down-s-line text-muted'}></i>
-              </button>
-              {openIndex === i && (
-                <div className="p-3 bg-white border-top text-muted small" style={{ lineHeight: 1.6 }}>
-                  {f.a}
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="row g-3 text-center">
-        <div className="col-md-4">
-          <div className="card border-0 shadow-sm p-3 bg-white" style={{ borderRadius: '8px' }}>
-            <i className="ri-mail-send-line text-primary fs-3 mb-1"></i>
-            <h6 className="fw-bold mb-1">Email Us</h6>
-            <small className="text-muted">support@certifiedproperties.in</small>
-          </div>
-        </div>
-        <div className="col-md-4">
-          <div className="card border-0 shadow-sm p-3 bg-white" style={{ borderRadius: '8px' }}>
-            <i className="ri-phone-line text-success fs-3 mb-1"></i>
-            <h6 className="fw-bold mb-1">Call Us</h6>
-            <small className="text-muted">+91 9222445513</small>
-          </div>
-        </div>
-        <div className="col-md-4">
-          <div className="card border-0 shadow-sm p-3 bg-white" style={{ borderRadius: '8px' }}>
-            <i className="ri-whatsapp-line text-success fs-3 mb-1"></i>
-            <h6 className="fw-bold mb-1">WhatsApp Us</h6>
-            <small className="text-muted">+91 9320072003</small>
-          </div>
+          </form>
         </div>
       </div>
     </DashboardLayout>
   );
 }
 
-/**
- * ════════════════════════════════════════════════════════════
- * 19. HELP & SUPPORT DESK
- * ════════════════════════════════════════════════════════════
- */
 export function DashboardHelp() {
   return (
     <DashboardLayout>

@@ -1,0 +1,93 @@
+[
+ {
+  "title": "General Questions",
+  "icon": "ri-question-line fs-24 align-middle text-success me-1",
+  "items": [
+   {
+    "q": "What is CRM?",
+    "a": [
+     "CRM system is software that manages the relationship between an organization and its customers. The abbreviation CRM stands for Customer Relationship Management. The main goal of any CRM is to ensure sales increase by optimizing business processes, improving the quality of goods and services, and effectively communicating with customers (after-sales service and technical support).",
+     "CRM captures and analyzes leads, stores information about customers, accepts complaints and offers from these customers, and, based on all this information, provides you with the data, which allows for making data-backed decisions. This data is a great way to improve the quality of service and, as a result, increase sales."
+    ]
+   },
+   {
+    "q": "Who Can Benefit from CRM or Why use CRM?",
+    "a": [
+     "The best part about a CRM system is that almost any organizational unit can benefit from it — from sales and customer service to recruiting, marketing, and business development. Good CRM software gives a better way to manage external relationships.",
+     "Storing all customer information in one place, recording service issues, identifying sales opportunities, managing marketing campaigns — are just a few capabilities that CRM features.",
+     "Since CRM provides easy access to data, it also becomes much easier for users to collaborate on different processes and increase productivity. Another strong argument in favor of CRM is that it is suitable for businesses of any size."
+    ]
+   },
+   {
+    "q": "How can CRM improve your business process?",
+    "a": [
+     "Nowadays, every company strives to keep abreast with modern business tendencies, which is impossible without appropriate software. As almost all business strategies are aimed at customer experience improvement, streamlined CRM processes are in high necessity.",
+     "CRM process is meant to enhance overall business efficiency. Advanced CRM software is capable of enhancing key business processes and improving the productivity of your marketing, sales, and customer support teams.",
+     ""
+    ]
+   },
+   {
+    "q": "What are the benefits of CRM system?",
+    "a": [
+     "Costs reduction Quality of the service/product improvement Performance improvement Increases customer loyalty Increased number of customers Increased sales volume"
+    ]
+   }
+  ]
+ },
+ {
+  "title": "How to Manage Account ?",
+  "icon": "ri-user-settings-line fs-24 align-middle text-success me-1",
+  "items": [
+   {
+    "q": "How to manage my account?",
+    "a": [
+     "On the left sidebar there is option or manu named My account. Click on My account and access account details."
+    ]
+   },
+   {
+    "q": "How can i manage my plan and biiling?",
+    "a": [
+     "In plan and pricing section you can find your current plan . You can select new or update your existing plan there. You can renew your plan anytime but its good to you we will inform you before five days by email ,call or sms when your plan comes expires ."
+    ]
+   },
+   {
+    "q": "How can i renew my account plan ?",
+    "a": [
+     "You can renew your plan using multiple payment option like UPI, Credit card, Netbanking."
+    ]
+   },
+   {
+    "q": "How can i get support or how can i contact with BUSINESSYOG support teams?",
+    "a": [
+     "Best part is that, In BUSINESSYOG CRM support tickets system is Available so you can raise your tickets with screenshots, Our team will response you back in very short time period."
+    ]
+   }
+  ]
+ },
+ {
+  "title": "Privacy & Security",
+  "icon": "ri-shield-keyhole-line fs-24 align-middle text-success me-1",
+  "items": [
+   {
+    "q": "Is my data secure with BUSINESSYOG CRM ?",
+    "a": [
+     "BUSINESSYOG CRM are continuously protected by HTTPS SSL Security certificate and advanced security infrastructures of Digital Ocean, and we vigorously resist any unlawful attempt to access our customers’ data. This built-in security automatically detects and prevents online threats, so you can be confident your private information is safe.",
+     "However we do not share or sell data to anybody or anyone. Your data sefty and security is our top most priority."
+    ]
+   },
+   {
+    "q": "Which technologies are used for BUSINESSYOG CRM?",
+    "a": [
+     "BUSINESSYOG CRM Software is designed & developed with world's most trusted and fast growing technology which is Python programming language.",
+     "Python is an advantageous programming language for cybersecurity because it can perform many cybersecurity functions, including malware analysis, scanning, and penetration testing. It is user-friendly and has an elegant simplicity, making it the perfect language choice for many cybersecurity professionals."
+    ]
+   },
+   {
+    "q": "Can i close and delete my user account from BUSINESSYOG CRM?",
+    "a": [
+     "Definitely yes, We provides fully data control to our user. They can easily close and delete their account from BUSINESSYOG CRM. After closing and deleting user account complete data will be deleted from our database. In case user want to reuse CRM they need to be new registration and account creations."
+    ]
+   }
+  ]
+ }
+]

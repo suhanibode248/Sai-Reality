@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import useCrmCollection from '../hooks/useCrmCollection';
 import DashboardLayout from '../components/DashboardLayout';
 
 const DashboardApplications = () => {
   const [searchTerm, setSearchTerm] = useState('');
   
-  const [applications, setApplications] = useState([
+  const [applications, setApplications] = useCrmCollection('applications', [
     { id: '#APL00143', name: 'Govind Kumar', phone: '+91 9325451025', jobTitle: 'Opening for Sales & Marketing Executive, Telecalling Executive job', date: 'Sept. 30, 2026' },
     { id: '#APL00142', name: 'Kaif Shaikh', phone: '+91 7264886608', jobTitle: 'Opening for Sales & Marketing Executive, Telecalling Executive job', date: 'Sept. 27, 2026' },
     { id: '#APL00141', name: 'Deepak Kumar', phone: '+91 8766562627', jobTitle: 'Opening for Sales & Marketing Executive, Telecalling Executive job', date: 'Sept. 17, 2026' },
@@ -93,7 +94,15 @@ const DashboardApplications = () => {
                           <td><span className="text-muted" style={{ fontSize: '12px' }}>{app.jobTitle}</span></td>
                           <td><span className="text-muted" style={{ fontSize: '12px' }}>{app.date}</span></td>
                           <td>
-                            <a href="#!" className="text-primary text-decoration-none" style={{ fontSize: '12px' }}>Download</a>
+                            <a href="#!" onClick={(e) => {
+                              e.preventDefault();
+                              const text = `Resume\n\nName: ${app.name}\nPhone: ${app.phone}\nApplied for: ${app.jobTitle}\nDate: ${app.date}\n`;
+                              const link = document.createElement('a');
+                              link.href = URL.createObjectURL(new Blob([text], { type: 'text/plain' }));
+                              link.download = `resume-${String(app.name).replace(/\s+/g, '-')}.txt`;
+                              link.click();
+                              URL.revokeObjectURL(link.href);
+                            }} className="text-primary text-decoration-none" style={{ fontSize: '12px' }}>Download</a>
                           </td>
                           <td>
                             <a href="#!" className="text-danger" onClick={(e) => { e.preventDefault(); handleDelete(app.id); }}>

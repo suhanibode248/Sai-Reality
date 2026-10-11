@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html lang="eng">
 
@@ -881,6 +881,207 @@ document.addEventListener('click', function(e) {
         }
     }
 });
+</script>
+
+<!-- ══════════════════════════════════════════
+     CAREER PAGE — PREMIUM VISUAL ENHANCEMENTS
+══════════════════════════════════════════ -->
+<style>
+@keyframes sbSlideIn  { from{opacity:0;transform:translateY(36px)} to{opacity:1;transform:none} }
+@keyframes floatBob   { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-18px)} }
+@keyframes crFadeUp   { from{opacity:0;transform:translateY(40px)} to{opacity:1;transform:none} }
+@keyframes borderFlow { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+
+/* ── Premium Sub-banner ── */
+.sub-banner {
+    position:relative; background-size:cover !important; background-position:center !important;
+    min-height:320px; display:flex; align-items:center; overflow:hidden;
+}
+.sub-banner::before {
+    content:''; position:absolute; inset:0;
+    background:linear-gradient(120deg,rgba(10,15,40,0.90) 0%,rgba(15,23,65,0.76) 55%,rgba(5,46,22,0.82) 100%);
+}
+.sub-banner::after {
+    content:''; position:absolute; bottom:0; left:0; right:0; height:70px;
+    background:url("data:image/svg+xml,%3Csvg viewBox='0 0 1440 70' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,40 C360,90 1080,-10 1440,40 L1440,70 L0,70Z' fill='white'/%3E%3C/svg%3E") no-repeat bottom/cover;
+}
+.sub-banner-orb { position:absolute; border-radius:50%; background:rgba(255,255,255,0.06); animation:floatBob 6s ease-in-out infinite; pointer-events:none; }
+.sub-banner .container { position:relative; z-index:2; }
+.sub-banner h1 {
+    color:#fff !important; font-size:3rem; font-weight:900;
+    text-shadow:0 4px 20px rgba(0,0,0,0.4); animation:sbSlideIn 0.8s cubic-bezier(.22,.61,.36,1) both;
+}
+.sub-banner .breadcrumb-area ul li,
+.sub-banner .breadcrumb-area ul li a,
+.sub-banner .breadcrumb-area ul li span { color:rgba(255,255,255,0.85) !important; }
+
+/* ── Career page background ── */
+.contact-1.content-area-5 { background: #f8fafc; padding: 70px 0 80px; }
+
+/* ── Intro section (dark charcoal card with gold accent) ── */
+.contact-1 .contact-info {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 60%, #0f172a 100%);
+    border-radius: 24px;
+    padding: 50px 48px !important;
+    color: #fff;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.22);
+    margin-bottom: 40px;
+    position: relative;
+    overflow: hidden;
+    border-left: 6px solid #d97706;
+}
+.contact-1 .contact-info::before {
+    content: '💼';
+    position: absolute; top: 16px; right: 32px;
+    font-size: 90px; opacity: 0.07; transform: rotate(10deg);
+}
+.contact-1 .contact-info::after {
+    content: '';
+    position: absolute; bottom: -50px; left: -50px;
+    width: 200px; height: 200px; border-radius: 50%;
+    background: rgba(13,112,52,0.10);
+}
+.contact-1 .contact-info .heading {
+    color: #f59e0b !important;
+    font-size: 2rem; font-weight: 900; margin-bottom: 14px;
+}
+.contact-1 .contact-info .text {
+    color: rgba(255,255,255,0.82) !important;
+    font-size: 1rem; line-height: 1.8; max-width: 700px;
+}
+
+/* ── Job section title ── */
+.career-section-title {
+    font-size: 1.6rem; font-weight: 800; color: #0f172a;
+    margin-bottom: 28px; padding-bottom: 14px;
+    border-bottom: 2px solid #e2e8f0; position: relative;
+}
+.career-section-title::after {
+    content: ''; position: absolute; bottom: -2px; left: 0;
+    width: 80px; height: 2px;
+    background: linear-gradient(90deg, #d97706, #f59e0b);
+    border-radius: 2px;
+}
+
+/* ── Job listing cards ── */
+.contact-info-box[style*="border"] {
+    background: #fff !important;
+    border: none !important;
+    border-radius: 18px !important;
+    padding: 28px 28px 28px 36px !important;
+    box-shadow: 0 4px 28px rgba(0,0,0,0.07) !important;
+    margin-bottom: 22px !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+.contact-info-box[style*="border"]::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 6px;
+    background: linear-gradient(180deg, #0d7034, #22c55e);
+    border-radius: 0;
+    transition: width 0.3s ease;
+}
+.contact-info-box[style*="border"]:hover::before { width: 8px; }
+.contact-info-box[style*="border"]:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 56px rgba(17,142,66,0.18) !important;
+}
+.contact-info-box[style*="border"] img {
+    width: 60px !important;
+    height: 60px;
+    border-radius: 14px;
+    object-fit: contain;
+    background: linear-gradient(135deg,#e8f5e9,#f0fdf4);
+    padding: 8px;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(17,142,66,0.12);
+}
+.contact-info-box[style*="border"] h5 a {
+    color: #0f172a !important;
+    font-weight: 800 !important;
+    font-size: 1.08rem !important;
+    text-decoration: none !important;
+    transition: color 0.2s;
+}
+.contact-info-box[style*="border"]:hover h5 a { color: #0d7034 !important; }
+.contact-info-box[style*="border"] p { color: #475569; font-size: 0.88rem; line-height: 1.7; }
+.contact-info-box[style*="border"] a[style*="green"] {
+    display: inline-block !important;
+    background: linear-gradient(135deg, #0d7034, #22c55e) !important;
+    color: #fff !important;
+    padding: 10px 28px !important;
+    border-radius: 50px !important;
+    font-weight: 700 !important;
+    font-size: 0.9rem !important;
+    text-decoration: none !important;
+    transition: transform 0.25s, box-shadow 0.25s;
+    margin-top: 10px;
+    letter-spacing: 0.3px;
+}
+.contact-info-box[style*="border"] a[style*="green"]:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px rgba(17,142,66,0.40) !important;
+}
+
+/* ── Info pill icons ── */
+.contact-info-box .bi-geo-alt,
+.contact-info-box .bi-calendar { color: #0d7034; font-size: 1rem; }
+
+/* ── Scroll animations ── */
+.cr-hidden { opacity: 0; transform: translateY(40px); transition: opacity 0.65s ease, transform 0.65s ease; }
+.cr-hidden.cr-show { opacity: 1; transform: none; }
+.cr-intro-hidden { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.cr-intro-hidden.cr-intro-show { opacity: 1; transform: none; }
+</style>
+
+<script>
+(function(){
+    /* inject floating orbs into sub-banner */
+    var banner = document.querySelector('.sub-banner');
+    if(banner){
+        [[55,45,'190px'],[640,8,'120px'],[720,120,'85px']].forEach(function(o){
+            var el = document.createElement('div'); el.className = 'sub-banner-orb';
+            el.style.cssText = 'left:'+o[0]+'px;top:'+o[1]+'px;width:'+o[2]+';height:'+o[2]+';animation-duration:'+(5+Math.random()*3)+'s;';
+            banner.insertBefore(el, banner.firstChild);
+        });
+    }
+
+    /* inject "Open Positions" title before first card */
+    var firstCard = document.querySelector('.contact-info-box[style*="border"]');
+    if(firstCard){
+        var title = document.createElement('h4');
+        title.className = 'career-section-title';
+        title.textContent = '🏢 Open Positions';
+        firstCard.parentNode.insertBefore(title, firstCard);
+    }
+
+    /* animate intro card */
+    var intro = document.querySelector('.contact-1 .contact-info');
+    if(intro){ intro.classList.add('cr-intro-hidden'); }
+
+    /* animate job cards */
+    var cards = document.querySelectorAll('.contact-info-box[style*="border"]');
+    cards.forEach(function(c){ c.classList.add('cr-hidden'); });
+
+    var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(e, i){
+            if(e.isIntersecting){
+                if(e.target.classList.contains('cr-intro-hidden')){
+                    e.target.classList.add('cr-intro-show');
+                } else {
+                    setTimeout(function(){ e.target.classList.add('cr-show'); }, i * 130);
+                }
+                io.unobserve(e.target);
+            }
+        });
+    },{ threshold: 0.10 });
+
+    if(intro) io.observe(intro);
+    cards.forEach(function(c){ io.observe(c); });
+})();
 </script>
 </body>
 

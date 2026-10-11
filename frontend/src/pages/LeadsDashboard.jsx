@@ -85,7 +85,6 @@ export default function LeadsDashboard() {
   });
   const [totalLeads, setTotalLeads] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
-  const [followupInfo, setFollowupInfo] = useState('');
   const [bellCount, setBellCount] = useState(0);
   const [reloadKey, setReloadKey] = useState(0);
   const forceReloadRef = useRef(false);
@@ -186,7 +185,6 @@ export default function LeadsDashboard() {
       setTotalLeads(data.total);
       setTotalPages(mode === 'page' ? data.lastPage : 1);
       if (data.counts) setTabCounts(prev => ({ ...prev, ...data.counts }));
-      if (data.followupInfo) setFollowupInfo(data.followupInfo);
       if (data.bellCount !== undefined) setBellCount(data.bellCount);
     };
 
@@ -479,14 +477,6 @@ export default function LeadsDashboard() {
             <span>CRM</span> <span style={{ margin: '0 4px' }}>&gt;</span> <span style={{ color: '#334155', fontWeight: '600' }}>Leads</span>
           </div>
         </div>
-
-      {/* ── Testing IDs Section Banner ── */}
-      <div style={{ marginBottom: '16px' }}>
-        <h6 style={{ fontSize: '16px', fontWeight: '600', color: '#0f172a', margin: '0 0 2px' }}>
-          this is ids section for testing purpose
-        </h6>
-        <span style={{ fontSize: '11px', color: '#64748b' }}>{followupInfo}</span>
-      </div>
 
       {/* ── Status Tab Pills (Two Rows) ── */}
       <div style={{ backgroundColor: '#fff', border: '1px solid #e2e8f0', borderRadius: '6px', padding: '12px 16px', marginBottom: '16px' }}>

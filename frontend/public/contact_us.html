@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html lang="eng">
 
@@ -828,6 +828,137 @@ document.addEventListener('click', function(e) {
         }
     }
 });
+</script>
+
+<!-- ══════════════════════════════════════════
+     CONTACT US PAGE — VISUAL ENHANCEMENTS
+══════════════════════════════════════════ -->
+<style>
+@keyframes sbSlideIn  { from{opacity:0;transform:translateY(36px)} to{opacity:1;transform:none} }
+@keyframes floatBob   { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-16px)} }
+@keyframes slideL     { from{opacity:0;transform:translateX(-60px)} to{opacity:1;transform:none} }
+@keyframes slideR     { from{opacity:0;transform:translateX(60px)} to{opacity:1;transform:none} }
+/* ── SUB-BANNER ── */
+.sub-banner {
+    position:relative; background-size:cover !important; background-position:center !important;
+    min-height:320px; display:flex; align-items:center; overflow:hidden;
+}
+.sub-banner::before {
+    content:''; position:absolute; inset:0;
+    background:linear-gradient(120deg,rgba(10,15,40,0.90) 0%,rgba(15,23,65,0.76) 55%,rgba(5,46,22,0.82) 100%);
+}
+.sub-banner::after {
+    content:''; position:absolute; bottom:0; left:0; right:0; height:70px;
+    background:url("data:image/svg+xml,%3Csvg viewBox='0 0 1440 70' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,40 C360,90 1080,-10 1440,40 L1440,70 L0,70Z' fill='white'/%3E%3C/svg%3E") no-repeat bottom/cover;
+}
+.sub-banner-orb { position:absolute; border-radius:50%; background:rgba(255,255,255,0.06); animation:floatBob 6s ease-in-out infinite; pointer-events:none; }
+.sub-banner .container { position:relative; z-index:2; }
+.sub-banner h1 {
+    color:#fff !important; font-size:3rem; font-weight:900;
+    text-shadow:0 4px 20px rgba(0,0,0,0.4); animation:sbSlideIn 0.8s cubic-bezier(.22,.61,.36,1) both;
+}
+.sub-banner .breadcrumb-area ul li,
+.sub-banner .breadcrumb-area ul li a,
+.sub-banner .breadcrumb-area ul li span { color:rgba(255,255,255,0.85) !important; }
+
+/* ── Contact section background ── */
+.contact-1.content-area-5 { background: #f8fafc; }
+
+/* ── Contact info sidebar — dark charcoal ── */
+.contact-info {
+    background: linear-gradient(145deg, #1e293b, #0f172a);
+    border-radius: 20px;
+    padding: 36px 28px !important;
+    color: #fff;
+    box-shadow: 0 20px 56px rgba(0,0,0,0.22);
+    position: relative;
+    overflow: hidden;
+}
+.contact-info::before {
+    content: '';
+    position: absolute; top: -60px; right: -60px;
+    width: 200px; height: 200px; border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+}
+.contact-info::after {
+    content: '';
+    position: absolute; bottom: -50px; left: -50px;
+    width: 160px; height: 160px; border-radius: 50%;
+    background: rgba(13,112,52,0.12);
+}
+.contact-info .heading { color: #fff !important; font-size: 1.5rem; font-weight: 800; margin-bottom: 6px; }
+.contact-info .text { color: rgba(255,255,255,0.65) !important; margin-bottom: 28px; font-size: 0.9rem; }
+.contact-info-box { align-items: flex-start; gap: 16px; position: relative; z-index: 1; }
+.contact-info-box i {
+    width: 44px; height: 44px; border-radius: 12px;
+    background: #0d7034;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; color: #fff; flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(13,112,52,0.4);
+}
+.contact-info-box .detail h5 { color: #f59e0b !important; font-weight: 700; font-size: 0.82rem; margin-bottom: 3px; text-transform: uppercase; letter-spacing: 1px; }
+.contact-info-box .detail p,
+.contact-info-box .detail a { color: rgba(255,255,255,0.80) !important; font-size: 0.9rem; }
+
+/* ── Contact form card ── */
+.contact-inner {
+    background: #fff;
+    border-radius: 20px;
+    padding: 40px 36px !important;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+    border: 1px solid #e2e8f0;
+    border-top: 4px solid #d97706;
+}
+.contact-inner .heading { font-size: 1.5rem; font-weight: 800; color: #0f172a; margin-bottom: 24px; }
+.contact-inner .form-control {
+    border-radius: 10px; border: 1.5px solid #e2e8f0;
+    padding: 12px 16px; font-size: 0.92rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.contact-inner .form-control:focus {
+    border-color: #0d7034; box-shadow: 0 0 0 3px rgba(13,112,52,0.10);
+}
+.contact-inner .btn-1, .contact-inner button[type=submit] {
+    background: #0f172a !important; border: none !important;
+    border-radius: 50px !important; padding: 14px 40px !important;
+    font-weight: 700 !important; color: #fff !important; letter-spacing: 0.5px;
+    transition: background 0.25s, transform 0.25s, box-shadow 0.25s;
+}
+.contact-inner .btn-1:hover, .contact-inner button[type=submit]:hover {
+    background: #0d7034 !important;
+    transform: translateY(-3px); box-shadow: 0 10px 28px rgba(0,0,0,0.18) !important;
+}
+
+/* ── Slide-in animation ── */
+.ct-hidden { opacity: 0; transition: opacity 0.7s ease, transform 0.7s ease; }
+.ct-left { transform: translateX(-50px); }
+.ct-right { transform: translateX(50px); }
+.ct-hidden.ct-show { opacity: 1; transform: none !important; }
+</style>
+
+<script>
+(function(){
+    /* orbs */
+    var banner = document.querySelector('.sub-banner');
+    if(banner){
+        [[60,50,'200px'],[620,10,'130px'],[700,130,'90px']].forEach(function(o){
+            var el=document.createElement('div'); el.className='sub-banner-orb';
+            el.style.cssText='left:'+o[0]+'px;top:'+o[1]+'px;width:'+o[2]+';height:'+o[2]+';animation-duration:'+(5+Math.random()*3)+'s;';
+            banner.insertBefore(el,banner.firstChild);
+        });
+    }
+    /* slide-in */
+    var sidebar = document.querySelector('.contact-info');
+    var form = document.querySelector('.contact-inner');
+    if(sidebar){ sidebar.classList.add('ct-hidden','ct-left'); }
+    if(form){ form.classList.add('ct-hidden','ct-right'); }
+    var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+            if(e.isIntersecting){ setTimeout(function(){ e.target.classList.add('ct-show'); }, 100); io.unobserve(e.target); }
+        });
+    },{ threshold: 0.12 });
+    [sidebar, form].forEach(function(el){ if(el) io.observe(el); });
+})();
 </script>
 </body>
 

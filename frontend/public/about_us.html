@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html lang="eng">
 
@@ -546,20 +546,20 @@
 
 
 <!-- Services 2 start -->
-<div class="services-2 content-area-2 mb-30 bg-grea-3">
+<div class="services-2 content-area-2 mb-30">
     <div class="container">
         <!-- Main title -->
         <div class="main-title-4">
             <h1>What Are You <span>Looking For?</span></h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.</p>
+            <p>Search. Discover. Find Your Perfect Space.</p>
         </div>
-        <div class="row wow">
-            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 wow fadeInLeft delay-04s">
+        <div class="row">
+            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                 <div class="services-demo">
                     <img class="img-fluid" src="/static/website/img/img-1.png" alt="properties">
                 </div>
             </div>
-            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 wow fadeInRight delay-04s">
+            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                 <div class="service-section2">
                     <div class="row">
                         <div class="col-lg-12 col-md-6">
@@ -570,10 +570,8 @@
                                 <div class="service-detail">
                                     <h3>
                                         <a href="/properties_residential_appartment.html">Apartments & Flats</a>
-                                        
                                     </h3>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec luctus tincidunt
-                                        aliquam.</p>
+                                    <p>Urban comfort awaits! Explore modern apartments and flats designed for contemporary living. Your ideal urban dwelling is just clicks away.</p>
                                 </div>
                             </div>
                         </div>
@@ -586,8 +584,7 @@
                                     <h3>
                                         <a href="/properties_banglow.html">Houses & Banglow</a>
                                     </h3>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec luctus tincidunt
-                                        aliquam.</p>
+                                    <p>Discover serene retreats and elegant bungalows. Find your dream home among our collection of exquisite houses tailored to your lifestyle.</p>
                                 </div>
                             </div>
                         </div>
@@ -600,8 +597,7 @@
                                     <h3>
                                         <a href="/properties_open_plot.html">Plots & lands</a>
                                     </h3>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec luctus tincidunt
-                                        aliquam.</p>
+                                    <p>Build your vision on vast plots and lands. Invest in your future with endless possibilities in prime locations available now.</p>
                                 </div>
                             </div>
                         </div>
@@ -614,8 +610,7 @@
                                     <h3>
                                         <a href="/properties_commercial_space.html">Commercial Space</a>
                                     </h3>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec luctus tincidunt
-                                        aliquam.</p>
+                                    <p>Grow your business in prime locations. Explore commercial spaces designed to elevate your venture. Your success story starts here.</p>
                                 </div>
                             </div>
                         </div>
@@ -887,6 +882,214 @@ document.addEventListener('click', function(e) {
         }
     }
 });
+</script>
+
+<!-- ══════════════════════════════════════════
+     ABOUT US — PREMIUM VISUAL ENHANCEMENTS
+══════════════════════════════════════════ -->
+<style>
+/* ── Keyframes ── */
+@keyframes sbSlideIn    { from{opacity:0;transform:translateY(36px)} to{opacity:1;transform:none} }
+@keyframes floatBob     { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-18px)} }
+@keyframes gradShift    { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+@keyframes countUp      { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:none} }
+@keyframes ringPulse    { 0%{box-shadow:0 0 0 0 rgba(34,197,94,0.5)} 70%{box-shadow:0 0 0 16px rgba(34,197,94,0)} 100%{box-shadow:0 0 0 0 rgba(34,197,94,0)} }
+@keyframes slideL       { from{opacity:0;transform:translateX(-60px)} to{opacity:1;transform:none} }
+@keyframes slideR       { from{opacity:0;transform:translateX(60px)} to{opacity:1;transform:none} }
+@keyframes slideU       { from{opacity:0;transform:translateY(50px)} to{opacity:1;transform:none} }
+@keyframes shimmer      { 0%{background-position:-200%} 100%{background-position:200%} }
+
+/* ── SUB-BANNER ── */
+.sub-banner {
+    position: relative;
+    background-size: cover !important;
+    background-position: center !important;
+    min-height: 320px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+.sub-banner::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(120deg, rgba(10,15,40,0.90) 0%, rgba(15,23,65,0.76) 55%, rgba(5,46,22,0.82) 100%);
+}
+.sub-banner::after {
+    content: '';
+    position: absolute; bottom:0; left:0; right:0; height:70px;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 1440 70' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,40 C360,90 1080,-10 1440,40 L1440,70 L0,70Z' fill='white'/%3E%3C/svg%3E") no-repeat bottom/cover;
+}
+/* floating orbs inside banner */
+.sub-banner-orb { position:absolute; border-radius:50%; background:rgba(255,255,255,0.06); animation:floatBob 6s ease-in-out infinite; pointer-events:none; }
+.sub-banner .container { position:relative; z-index:2; }
+.sub-banner h1 {
+    color:#fff !important; font-size:3rem; font-weight:900; letter-spacing:1px;
+    text-shadow:0 4px 20px rgba(0,0,0,0.4);
+    animation: sbSlideIn 0.8s cubic-bezier(.22,.61,.36,1) both;
+}
+.sub-banner .breadcrumb-area ul li,
+.sub-banner .breadcrumb-area ul li a,
+.sub-banner .breadcrumb-area ul li span { color:rgba(255,255,255,0.85) !important; }
+
+/* ── ABOUT SECTION ── */
+.about-real-estate-2 { background:#fff; position:relative; }
+.about-text .main-title-2 p {
+    display:inline-block; background:#1e293b; color:#f59e0b;
+    font-size:0.75rem; font-weight:700; letter-spacing:3px; text-transform:uppercase;
+    padding:3px 14px; border-radius:50px; margin-bottom:12px;
+}
+.about-text .main-title-2 h1 { font-size:2.2rem; font-weight:900; color:#0f172a; line-height:1.25; }
+.about-text p { color:#475569; line-height:1.8; }
+
+/* ── Experience badge ── */
+.about-box-Experience {
+    background: linear-gradient(135deg,#1e293b,#0f172a) !important;
+    border-radius:20px !important;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.25) !important;
+}
+.about-box-Experience .content h3 { color:#f59e0b !important; font-size:2.8rem !important; font-weight:900 !important; }
+.about-box-Experience .content p { color:rgba(255,255,255,0.85) !important; font-weight:600 !important; }
+
+/* ── STATS STRIP ── */
+.abt-stats-strip {
+    display:flex; background:#0f172a;
+    border-radius:20px; box-shadow:0 12px 48px rgba(0,0,0,0.18);
+    overflow:hidden; margin:40px 0;
+}
+.abt-stat-item {
+    flex:1; text-align:center; padding:30px 16px;
+    border-right:1px solid rgba(255,255,255,0.08);
+    transition:background 0.3s;
+}
+.abt-stat-item:last-child { border-right:none; }
+.abt-stat-item:hover { background:rgba(255,255,255,0.05); }
+.abt-stat-item .stat-num {
+    font-size:2.3rem; font-weight:900; color:#f59e0b;
+    display:block; line-height:1;
+}
+.abt-stat-item .stat-label { color:rgba(255,255,255,0.65); font-size:0.82rem; font-weight:600; margin-top:6px; display:block; text-transform:uppercase; letter-spacing:1px; }
+.abt-stat-item i { font-size:22px; color:#0d7034; margin-bottom:8px; display:block; }
+
+/* ── MISSION / VISION cards ── */
+.about-real-estate-2 .row.mt-5 .col-6 .main-title-4 {
+    background:#f8fafc; border-radius:20px; padding:36px 32px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.05);
+    border:1px solid #e2e8f0;
+    position:relative; overflow:hidden;
+    transition:transform 0.35s, box-shadow 0.35s;
+    border-top:4px solid transparent;
+}
+.about-real-estate-2 .row.mt-5 .col-6:first-child .main-title-4 { border-top-color:#0d7034; }
+.about-real-estate-2 .row.mt-5 .col-6:last-child .main-title-4 { border-top-color:#d97706; }
+.about-real-estate-2 .row.mt-5 .col-6 .main-title-4:hover { transform:translateY(-8px); box-shadow:0 20px 48px rgba(0,0,0,0.10); }
+.mv-icon { width:54px; height:54px; border-radius:14px; background:#fff; border:1px solid #e2e8f0; box-shadow:0 2px 8px rgba(0,0,0,0.06); display:flex; align-items:center; justify-content:center; font-size:26px; margin-bottom:18px; }
+.about-real-estate-2 .row.mt-5 .col-6 .main-title-4 h1 { font-size:1.5rem; font-weight:900; color:#0f172a; }
+.about-real-estate-2 .row.mt-5 .col-6 .main-title-4 h1 span { color:#0d7034; }
+.about-real-estate-2 .row.mt-5 .col-6 .main-title-4 p { color:#475569; line-height:1.75; font-size:0.92rem; }
+
+/* ── WHAT ARE YOU LOOKING FOR — About page ── */
+.services-2.content-area-2 {
+    background: #fff !important;
+    padding: 70px 0 80px;
+    border-top: 1px solid #e2e8f0;
+}
+.services-2.content-area-2 .main-title-4 h1 { font-size:2.2rem; font-weight:900; color:#0f172a; }
+.services-2.content-area-2 .main-title-4 h1 span { color:#0d7034; }
+.services-2.content-area-2 .main-title-4 p { color:#64748b; }
+.services-2.content-area-2 .service-info-3 {
+    background: #fff;
+    border-radius: 14px;
+    padding: 18px 20px;
+    margin-bottom: 14px;
+    border: 1px solid #e8f0e8;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+    transition: box-shadow 0.3s, transform 0.3s;
+}
+.services-2.content-area-2 .service-info-3:hover {
+    transform: translateX(8px);
+    box-shadow: 0 8px 30px rgba(17,142,66,0.15);
+}
+.services-2.content-area-2 .service-info-3 .service-detail h3 a { color: #0f172a; font-weight:700; text-decoration:none; transition: color 0.2s; }
+.services-2.content-area-2 .service-info-3:hover .service-detail h3 a { color: #0d7034; }
+.services-2.content-area-2 .service-info-3 .service-detail p { color: #475569; font-size: 0.9rem; margin-bottom: 0; line-height: 1.65; }
+.services-2.content-area-2 .services-demo img { border-radius: 16px; }
+
+/* ── SCROLL ANIMATIONS ── */
+.abt-sl { opacity:0; transition: opacity 0.75s cubic-bezier(.22,.61,.36,1), transform 0.75s cubic-bezier(.22,.61,.36,1); }
+.abt-sl.from-l { transform:translateX(-60px); }
+.abt-sl.from-r { transform:translateX(60px); }
+.abt-sl.from-u { transform:translateY(40px); }
+.abt-sl.d1 { transition-delay:0.1s; }
+.abt-sl.d2 { transition-delay:0.2s; }
+.abt-sl.d3 { transition-delay:0.3s; }
+.abt-sl.d4 { transition-delay:0.4s; }
+.abt-sl.running { opacity:1; transform:none; }
+</style>
+
+<script>
+(function(){
+    /* ─ Add orbs to sub-banner ─ */
+    var banner = document.querySelector('.sub-banner');
+    if(banner){
+        [[80,60,'200px'],[600,20,'140px'],[720,120,'100px']].forEach(function(o){
+            var el=document.createElement('div');
+            el.className='sub-banner-orb';
+            el.style.cssText='left:'+o[0]+'px;top:'+o[1]+'px;width:'+o[2]+';height:'+o[2]+';animation-duration:'+(5+Math.random()*3)+'s;';
+            banner.insertBefore(el,banner.firstChild);
+        });
+    }
+
+    /* ─ Inject stats strip after about img/text row ─ */
+    var aboutSection = document.querySelector('.about-real-estate-2 .container');
+    if(aboutSection){
+        var strip = document.createElement('div');
+        strip.className='abt-stats-strip';
+        strip.innerHTML=[
+            {i:'flaticon-apartment',n:'1000+',l:'Properties Sold'},
+            {i:'flaticon-coins',n:'10+',l:'Years Experience'},
+            {i:'flaticon-internet',n:'60+',l:'Bank Partners'},
+            {i:'flaticon-vehicle',n:'500+',l:'Happy Clients'}
+        ].map(function(s){
+            return '<div class="abt-stat-item"><i class="'+s.i+'"></i><span class="stat-num">'+s.n+'</span><span class="stat-label">'+s.l+'</span></div>';
+        }).join('');
+        aboutSection.appendChild(strip);
+    }
+
+    /* ─ Inject mission/vision icons ─ */
+    var mvCols = document.querySelectorAll('.about-real-estate-2 .row.mt-5 .col-6');
+    var mvEmoji = ['🎯','🔭'];
+    mvCols.forEach(function(col,i){
+        var card = col.querySelector('.main-title-4');
+        if(!card) return;
+        var icon = document.createElement('div');
+        icon.className = 'mv-icon';
+        icon.textContent = mvEmoji[i] || '✨';
+        card.insertBefore(icon, card.firstChild);
+    });
+
+    /* ─ Scroll-trigger animations ─ */
+    function addAnim(el,dir,delay){
+        el.classList.add('abt-sl','from-'+dir);
+        if(delay) el.classList.add('d'+delay);
+    }
+    var aboutImg = document.querySelector('.about-img-section');
+    var aboutTxt = document.querySelector('.about-text');
+    var mvCards  = document.querySelectorAll('.about-real-estate-2 .row.mt-5 .col-6 .main-title-4');
+    var lkfItems = document.querySelectorAll('.services-2.content-area-2 .service-info-3');
+
+    if(aboutImg) addAnim(aboutImg,'l');
+    if(aboutTxt) addAnim(aboutTxt,'r',1);
+    mvCards.forEach(function(c,i){ addAnim(c,'u',i+1); });
+    lkfItems.forEach(function(c,i){ addAnim(c,'r',Math.min(i+1,4)); });
+
+    var allAnims = document.querySelectorAll('.abt-sl');
+    var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+            if(e.isIntersecting){ e.target.classList.add('running'); io.unobserve(e.target); }
+        });
+    },{ threshold:0, rootMargin:'0px 0px -40px 0px' });
+    allAnims.forEach(function(el){ io.observe(el); });
+})();
 </script>
 </body>
 

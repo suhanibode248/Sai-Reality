@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html lang="eng">
 
@@ -573,39 +573,40 @@
 </div>
 <!-- Service section 2 end -->
 
-<!-- The Modal -->
-<!-- MODAL DELETED -->
-
-            <div class="contact-form">
-                <form action="/get-call-back-lead/?redirectUrl=/services/" method="post">
-                    <input type="hidden" name="csrfmiddlewaretoken" value="1VJ0HMCVpMn53vVUPHutlyOzBa8ZPXgAipXuyEIluxnuepHGtc24rRkTZT1ynJCo">
-                    <div class="form-group">
-                        <label for="inputprice1" class="form-label">Name *</label>
-                        <input type="text" name="name" class="form-control" id="inputprice1"
-                            placeholder="Enter your name" required>
+<!-- Get a Callback Section -->
+<div style="background:#f8fafb; padding:60px 0;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8 col-sm-12">
+                <div class="contact-1 financing-calculator widget wdt-2" style="background:#fff; border-radius:12px; padding:36px; box-shadow:0 4px 24px rgba(0,0,0,0.08);">
+                    <h5 class="sidebar-title" style="font-size:1.25rem; font-weight:700; color:#16a34a; margin-bottom:24px;">
+                        <i class="fa fa-phone me-2"></i> Get an Instant Call Back!
+                    </h5>
+                    <div class="contact-form">
+                        <form action="/get-call-back-lead/?redirectUrl=/services/" method="post">
+                            <input type="hidden" name="csrfmiddlewaretoken" value="1VJ0HMCVpMn53vVUPHutlyOzBa8ZPXgAipXuyEIluxnuepHGtc24rRkTZT1ynJCo">
+                            <div class="form-group mb-3">
+                                <label for="inputprice1" class="form-label fw-semibold">Name <span class="text-danger">*</span></label>
+                                <input type="text" name="name" class="form-control" id="inputprice1" placeholder="Enter your name" required>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="inputinterest1" class="form-label fw-semibold">Primary Phone <span class="text-danger">*</span></label>
+                                <input type="tel" name="phone" class="form-control" id="inputinterest1" maxlength="10" placeholder="Primary Phone Number" required>
+                            </div>
+                            <div class="form-group mb-4">
+                                <label for="inputinterest2" class="form-label fw-semibold">Secondary Phone <span class="text-danger">*</span></label>
+                                <input type="tel" name="phone2" class="form-control" id="inputinterest2" maxlength="10" placeholder="Secondary Phone Number" required>
+                            </div>
+                            <input type="text" name="propertyName" id="propertyNameId" hidden>
+                            <div class="form-group mb-0">
+                                <button type="submit" id="getCallBackBtn" class="button-md button-theme btn-3 w-100">Apply Now</button>
+                            </div>
+                        </form>
                     </div>
-                    <div class="form-group">
-                        <label for="inputinterest1" class="form-label">Primary Phone <span class="text-danger">*</span></label>
-                        <input type="tel" name="phone" class="form-control" id="inputinterest1" maxlength="10" placeholder="Primary Phone Number" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputinterest2" class="form-label">Secondary Phone <span class="text-danger">*</span></label>
-                        <input type="tel" name="phone2" class="form-control" id="inputinterest2" maxlength="10" placeholder="Secondary Phone Number" required>
-                    </div>
-
-
-                        <input type="text" name="propertyName" id="propertyNameId"  hidden>
-                    </div>
-
-                    <div class="form-group mb-0">
-                        <button type="submit" id="getCallBackBtn" class="button-md button-theme btn-3 w-100">Apply Now
-                        </button>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
-
 </div>
 
 
@@ -874,6 +875,137 @@ document.addEventListener('click', function(e) {
         }
     }
 });
+</script>
+
+<!-- ══════════════════════════════════════════
+     SERVICES PAGE — PREMIUM REDESIGN
+══════════════════════════════════════════ -->
+<style>
+@keyframes sbSlideIn { from{opacity:0;transform:translateY(36px)} to{opacity:1;transform:none} }
+@keyframes floatBob  { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-14px)} }
+
+/* ── SUB-BANNER ── */
+.sub-banner {
+    position:relative; background-size:cover !important; background-position:center !important;
+    min-height:320px; display:flex; align-items:center; overflow:hidden;
+}
+.sub-banner::before {
+    content:''; position:absolute; inset:0;
+    background:linear-gradient(120deg,rgba(10,15,40,0.88) 0%,rgba(15,23,65,0.75) 55%,rgba(5,46,22,0.82) 100%);
+}
+.sub-banner::after {
+    content:''; position:absolute; bottom:0; left:0; right:0; height:70px;
+    background:url("data:image/svg+xml,%3Csvg viewBox='0 0 1440 70' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,40 C360,90 1080,-10 1440,40 L1440,70 L0,70Z' fill='white'/%3E%3C/svg%3E") no-repeat bottom/cover;
+}
+.sub-banner-orb { position:absolute; border-radius:50%; background:rgba(255,255,255,0.05); animation:floatBob 6s ease-in-out infinite; pointer-events:none; }
+.sub-banner .container { position:relative; z-index:2; }
+.sub-banner h1 {
+    color:#fff !important; font-size:3rem; font-weight:900;
+    text-shadow:0 4px 24px rgba(0,0,0,0.5); animation:sbSlideIn 0.8s cubic-bezier(.22,.61,.36,1) both;
+}
+.sub-banner .breadcrumb-area ul li,
+.sub-banner .breadcrumb-area ul li a,
+.sub-banner .breadcrumb-area ul li span { color:rgba(255,255,255,0.80) !important; }
+
+/* ── SERVICES SECTION ── */
+.services-3 { background:#f8fafc; padding:80px 0; }
+
+/* ── Section heading ── */
+.services-3 .main-title { text-align:center; margin-bottom:52px; }
+.services-3 .main-title p {
+    display:inline-block; background:#0d7034; color:#fff;
+    font-size:0.75rem; font-weight:700; letter-spacing:3px; text-transform:uppercase;
+    padding:4px 16px; border-radius:50px; margin-bottom:14px;
+}
+.services-3 .main-title h1 { font-size:2.4rem; font-weight:900; color:#0f172a; line-height:1.2; }
+.services-3 .main-title h1 span { color:#0d7034; }
+.services-3 .main-title::after {
+    content:''; display:block; width:48px; height:3px; border-radius:3px;
+    background:#d97706; margin:16px auto 0;
+}
+
+/* ── SERVICE CARDS ── */
+.service-info-2 {
+    background:#fff; border-radius:20px; padding:36px 28px 28px; margin-bottom:28px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.05), 0 8px 32px rgba(0,0,0,0.05);
+    border:1px solid #e8edf3;
+    position:relative; overflow:hidden;
+    transition:transform 0.35s ease, box-shadow 0.35s ease;
+}
+.service-info-2::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:3px;
+    background:linear-gradient(90deg,#d97706,#f59e0b);
+    opacity:0; transition:opacity 0.3s;
+}
+.service-info-2:hover::before { opacity:1; }
+.service-info-2:hover {
+    transform:translateY(-10px);
+    box-shadow:0 20px 60px rgba(0,0,0,0.12);
+}
+
+/* number badge — gold */
+.service-info-2 .number {
+    position:absolute; top:20px; right:22px;
+    width:40px; height:40px; border-radius:50%;
+    background:linear-gradient(135deg,#d97706,#f59e0b);
+    color:#fff; font-size:15px; font-weight:900;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 4px 12px rgba(217,119,6,0.35); z-index:1;
+}
+
+/* icon */
+.service-info-2 .icon {
+    width:68px; height:68px; border-radius:18px;
+    background:#f1f5f9;
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom:20px; font-size:28px; color:#0d7034;
+    transition:background 0.35s, color 0.35s, transform 0.35s;
+    position:relative; z-index:1;
+}
+.service-info-2:hover .icon {
+    background:#0d7034; color:#fff; transform:scale(1.08);
+}
+.service-info-2 .service-info-2-ditels { position:relative; z-index:1; }
+.service-info-2 .service-info-2-ditels h3 a {
+    color:#0f172a; font-weight:800; font-size:1.08rem; text-decoration:none; transition:color 0.2s;
+}
+.service-info-2:hover .service-info-2-ditels h3 a { color:#0d7034; }
+.service-info-2 .service-info-2-ditels p { color:#64748b; line-height:1.72; font-size:0.9rem; margin-top:8px; }
+
+/* read more link */
+.service-info-2 .service-info-2-ditels a.lnk {
+    color:#0d7034; font-weight:700; font-size:0.85rem; text-decoration:none;
+    display:inline-flex; align-items:center; gap:4px; margin-top:12px;
+    transition:gap 0.2s, color 0.2s;
+}
+.service-info-2:hover .service-info-2-ditels a.lnk { gap:8px; }
+
+/* ── SCROLL ANIMATIONS (CSS transitions — reliable) ── */
+.svc-anim { opacity:0; transform:translateY(40px); transition:opacity 0.65s cubic-bezier(.22,.61,.36,1), transform 0.65s cubic-bezier(.22,.61,.36,1); }
+.svc-anim.play { opacity:1; transform:none; }
+.svc-d1{transition-delay:0.05s} .svc-d2{transition-delay:0.12s} .svc-d3{transition-delay:0.19s}
+.svc-d4{transition-delay:0.26s} .svc-d5{transition-delay:0.33s} .svc-d6{transition-delay:0.40s}
+</style>
+
+<script>
+(function(){
+    var banner = document.querySelector('.sub-banner');
+    if(banner){
+        [[60,50,'200px'],[620,10,'130px'],[700,130,'90px']].forEach(function(o){
+            var el=document.createElement('div'); el.className='sub-banner-orb';
+            el.style.cssText='left:'+o[0]+'px;top:'+o[1]+'px;width:'+o[2]+';height:'+o[2]+';animation-duration:'+(5+Math.random()*3)+'s;';
+            banner.insertBefore(el,banner.firstChild);
+        });
+    }
+    var cards = document.querySelectorAll('.service-info-2');
+    cards.forEach(function(c,i){ c.classList.add('svc-anim','svc-d'+(i+1)); });
+    var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+            if(e.isIntersecting){ e.target.classList.add('play'); io.unobserve(e.target); }
+        });
+    },{ threshold:0, rootMargin:'0px 0px -30px 0px' });
+    cards.forEach(function(c){ io.observe(c); });
+})();
 </script>
 </body>
 

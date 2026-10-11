@@ -498,7 +498,9 @@ def root():
 
 
 import os
+import json
 import shutil
+import subprocess
 from fastapi import File, UploadFile, Form
 from fastapi.staticfiles import StaticFiles
 from models import Slider, Offer
@@ -507,6 +509,49 @@ from typing import List
 # Setup uploads directory
 os.makedirs("uploads/sliders", exist_ok=True)
 app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
+
+# Path to frontend public folder (relative to backend/ working directory)
+FRONTEND_PUBLIC = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "frontend", "public")
+FRONTEND_SLIDERS_DIR = os.path.join(FRONTEND_PUBLIC, "uploads", "sliders")
+SLIDERS_JSON_PATH = os.path.join(FRONTEND_PUBLIC, "sliders.json")
+
+def sync_sliders_to_frontend(db):
+    """Copy all slider images to frontend/public and write sliders.json."""
+    os.makedirs(FRONTEND_SLIDERS_DIR, exist_ok=True)
+    sliders = db.query(Slider).order_by(Slider.id.desc()).all()
+    slides_data = []
+    for s in sliders:
+        # Extract filename from stored path like http://localhost:8000/uploads/sliders/file.png
+        raw = s.image_path or ""
+        if "/uploads/sliders/" in raw:
+            filename = raw.split("/uploads/sliders/")[-1]
+            src = os.path.join(os.path.dirname(os.path.abspath(__file__)), "uploads", "sliders", filename)
+            dst = os.path.join(FRONTEND_SLIDERS_DIR, filename)
+            if os.path.isfile(src) and src != dst:
+                shutil.copy2(src, dst)
+            web_path = f"/uploads/sliders/{filename}"
+        else:
+            web_path = raw
+        slides_data.append({"image_path": web_path, "title": s.title})
+    with open(SLIDERS_JSON_PATH, "w", encoding="utf-8") as f:
+        json.dump({"status": "success", "sliders": slides_data}, f, ensure_ascii=False, indent=2)
+
+def deploy_to_netlify():
+    """Git commit and push so Netlify auto-redeploys."""
+    repo_root = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
+    try:
+        subprocess.run(["git", "add", "frontend/public/sliders.json", "frontend/public/uploads/sliders/"],
+                       cwd=repo_root, check=True, capture_output=True)
+        result = subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=repo_root, capture_output=True)
+        if result.returncode != 0:  # there are staged changes
+            subprocess.run(["git", "commit", "-m", "chore: sync sliders from dashboard\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>"],
+                           cwd=repo_root, check=True, capture_output=True)
+            subprocess.run(["git", "push", "origin", "main"],
+                           cwd=repo_root, check=True, capture_output=True)
+            return True
+        return False  # nothing changed
+    except subprocess.CalledProcessError as e:
+        return False
 
 # --- SLIDER ENDPOINTS ---
 
@@ -534,12 +579,15 @@ async def create_slider(
         final_path = image_url
     else:
         return {"status": "error", "message": "No image or image_url provided"}
-    
+
     # Save to db
     slider = Slider(title=title, image_path=final_path)
     db.add(slider)
     db.commit()
     db.refresh(slider)
+    # Auto-sync to frontend
+    sync_sliders_to_frontend(db)
+    deploy_to_netlify()
     return {"status": "success", "slider": slider}
 
 @app.delete("/api/sliders/{slider_id}")
@@ -548,6 +596,9 @@ def delete_slider(slider_id: int, db: Session = Depends(get_db)):
     if slider:
         db.delete(slider)
         db.commit()
+    # Auto-sync to frontend
+    sync_sliders_to_frontend(db)
+    deploy_to_netlify()
     return {"status": "success"}
 
 # --- OFFER ENDPOINTS ---

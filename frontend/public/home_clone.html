@@ -572,23 +572,20 @@ border:none;
             }
 
             var isLocal = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+            var sliderUrl = isLocal ? 'http://localhost:8000/api/sliders' : '/sliders.json';
 
-            if (isLocal) {
-                fetch('http://localhost:8000/api/sliders')
-                    .then(function (r) { return r.json(); })
-                    .then(function (data) {
-                        if (data.status === 'success' && data.sliders && data.sliders.length > 0) {
-                            renderSlides(data.sliders);
-                        } else {
-                            renderSlides(FALLBACK);
-                        }
-                    })
-                    .catch(function () {
+            fetch(sliderUrl)
+                .then(function (r) { return r.json(); })
+                .then(function (data) {
+                    if (data.status === 'success' && data.sliders && data.sliders.length > 0) {
+                        renderSlides(data.sliders);
+                    } else {
                         renderSlides(FALLBACK);
-                    });
-            } else {
-                renderSlides(FALLBACK);
-            }
+                    }
+                })
+                .catch(function () {
+                    renderSlides(FALLBACK);
+                });
         })();
         </script>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">

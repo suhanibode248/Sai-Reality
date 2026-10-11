@@ -576,22 +576,24 @@ border:none;
                 startCarousel();
             }
 
-            var apiBase = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-                ? 'http://localhost:8000'
-                : 'https://certifiedproperties.in';
+            var isLocal = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
 
-            fetch(apiBase + '/api/sliders')
-                .then(function (r) { return r.json(); })
-                .then(function (data) {
-                    if (data.status === 'success' && data.sliders && data.sliders.length > 0) {
-                        renderSlides(data.sliders);
-                    } else {
+            if (isLocal) {
+                fetch('http://localhost:8000/api/sliders')
+                    .then(function (r) { return r.json(); })
+                    .then(function (data) {
+                        if (data.status === 'success' && data.sliders && data.sliders.length > 0) {
+                            renderSlides(data.sliders);
+                        } else {
+                            renderSlides(FALLBACK);
+                        }
+                    })
+                    .catch(function () {
                         renderSlides(FALLBACK);
-                    }
-                })
-                .catch(function () {
-                    renderSlides(FALLBACK);
-                });
+                    });
+            } else {
+                renderSlides(FALLBACK);
+            }
         })();
         </script>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">

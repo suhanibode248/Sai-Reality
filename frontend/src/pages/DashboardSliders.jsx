@@ -7,10 +7,16 @@ const DashboardSliders = () => {
 
   const [sliders, setSliders] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
-  
+  const [deployMsg, setDeployMsg] = useState('');
+
   const [showMediaLibrary, setShowMediaLibrary] = useState(false);
   const [mediaImages, setMediaImages] = useState([]);
   const [selectedMediaUrl, setSelectedMediaUrl] = useState(null);
+
+  const showDeploy = () => {
+    setDeployMsg('✅ Slider saved! Website is deploying... (~2 min)');
+    setTimeout(() => setDeployMsg(''), 8000);
+  };
 
 
   useEffect(() => {
@@ -42,6 +48,7 @@ const DashboardSliders = () => {
         const response = await fetch(`http://localhost:8000/api/sliders/${id}`, { method: 'DELETE' });
         if (response.ok) {
           setSliders(sliders.filter(s => s.id !== id));
+          showDeploy();
         }
       } catch (err) {
         console.error(err);
@@ -76,6 +83,7 @@ const DashboardSliders = () => {
         setNewSlider({ title: '', image: null });
         setSelectedFile(null);
         setSelectedMediaUrl(null);
+        showDeploy();
       }
     } catch (err) {
       console.error(err);
@@ -85,7 +93,14 @@ const DashboardSliders = () => {
   return (
     <DashboardLayout>
       <div className="container-fluid p-0">
-        
+
+        {/* Deploy notification */}
+        {deployMsg && (
+          <div style={{ position: 'fixed', top: '20px', right: '20px', zIndex: 99999, backgroundColor: '#0ab39c', color: '#fff', padding: '12px 20px', borderRadius: '8px', fontWeight: '500', fontSize: '14px', boxShadow: '0 4px 15px rgba(0,0,0,0.2)' }}>
+            {deployMsg}
+          </div>
+        )}
+
         {/* Page Title */}
         <div className="row mb-3 pb-1">
           <div className="col-12">

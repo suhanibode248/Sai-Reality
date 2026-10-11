@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import DashboardLayout from '../components/DashboardLayout';
+import { API_BASE_URL } from '../api/config';
 
 const DashboardOffers = () => {
   const [showAddModal, setShowAddModal] = useState(false);
@@ -12,7 +13,7 @@ const DashboardOffers = () => {
   const [offers, setOffers] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:8000/api/offers')
+    fetch(`${API_BASE_URL}/api/offers`)
       .then(res => res.json())
       .then(data => {
         if (data.status === 'success') {
@@ -25,7 +26,7 @@ const DashboardOffers = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this offer?")) {
       try {
-        const response = await fetch(`http://localhost:8000/api/offers/${id}`, { method: 'DELETE' });
+        const response = await fetch(`${API_BASE_URL}/api/offers/${id}`, { method: 'DELETE' });
         if (response.ok) {
           setOffers(offers.filter(o => o.id !== id));
         }
@@ -38,7 +39,7 @@ const DashboardOffers = () => {
   const handleAddOffer = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:8000/api/offers', {
+      const response = await fetch(`${API_BASE_URL}/api/offers`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

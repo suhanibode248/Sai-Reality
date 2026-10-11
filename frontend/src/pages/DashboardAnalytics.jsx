@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import DashboardLayout from '../components/DashboardLayout';
 import styles from './DashboardAnalytics.module.css';
+import { API_BASE_URL } from '../api/config';
 
 const DashboardAnalytics = () => {
   const [data, setData] = useState({
@@ -19,7 +20,7 @@ const DashboardAnalytics = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch('http://localhost:8000/api/leads');
+        const res = await fetch(`${API_BASE_URL}/api/leads`);
         const result = await res.json();
         
         if (result.status === 'success') {

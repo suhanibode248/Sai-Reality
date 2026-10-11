@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
+import { API_BASE_URL } from '../api/config';
 
-export const CRM_API = 'http://localhost:8000/api/crm';
+export const CRM_API = `${API_BASE_URL}/api/crm`;
 
 /**
  * Like useState for a list, but loaded from and saved to the local backend (backend/data/<name>.json).

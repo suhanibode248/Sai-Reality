@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import DashboardLayout from '../components/DashboardLayout';
+import { API_BASE_URL } from '../api/config';
 
-const API = 'http://localhost:8000/api/dashboard';
+const API = `${API_BASE_URL}/api/dashboard`;
 const NO_IMAGE = `data:image/svg+xml;utf8,${encodeURIComponent(
   '<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400"><rect width="100%" height="100%" fill="#f3f6f9"/>' +
   '<text x="50%" y="50%" fill="#adb5bd" font-family="sans-serif" font-size="28" text-anchor="middle" dominant-baseline="middle">No Image</text></svg>'

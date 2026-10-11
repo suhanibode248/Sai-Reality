@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styles from './DashboardLayout.module.css';
+import { API_BASE_URL } from '../api/config';
 
 const DashboardLayout = ({ children }) => {
     const [sidebarCounts, setSidebarCounts] = React.useState({});
     React.useEffect(() => {
-        fetch('http://localhost:8000/api/dashboard/summary')
+        fetch(`${API_BASE_URL}/api/dashboard/summary`)
             .then(res => res.json())
             .then(data => { if (data.status === 'success') setSidebarCounts(data); })
             .catch(() => {});

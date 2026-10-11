@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import DashboardLayout from '../components/DashboardLayout';
+import { API_BASE_URL } from '../api/config';
 
 export default function LeadsDashboard() {
   const [activeTab, setActiveTab] = useState('all');
@@ -73,7 +74,7 @@ export default function LeadsDashboard() {
     ];
   });
 
-  const API = 'http://localhost:8000/api/dashboard';
+  const API = `${API_BASE_URL}/api/dashboard`;
   const CLIENT_CACHE_SECONDS = 60;
 
   const [leads, setLeads] = useState([]);

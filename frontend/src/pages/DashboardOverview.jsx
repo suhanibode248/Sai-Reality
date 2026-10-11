@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import DashboardLayout from '../components/DashboardLayout';
 import styles from './DashboardOverview.module.css';
+import { API_BASE_URL } from '../api/config';
 
 const DashboardOverview = () => {
   const [summary, setSummary] = useState(null);
   useEffect(() => {
-    fetch('http://localhost:8000/api/dashboard/summary')
+    fetch(`${API_BASE_URL}/api/dashboard/summary`)
       .then(res => res.json())
       .then(data => { if (data.status === 'success') setSummary(data); })
       .catch(() => {});

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from './BookVisitModal.module.css';
+import { API_BASE_URL } from '../api/config';
 
 const BookVisitModal = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -55,7 +56,7 @@ const BookVisitModal = () => {
 
     // Save lead to FastAPI database
     try {
-      await fetch('http://localhost:8000/api/leads', {
+      await fetch(`${API_BASE_URL}/api/leads`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

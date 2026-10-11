@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import DashboardLayout from '../components/DashboardLayout';
+import { API_BASE_URL } from '../api/config';
 
 const DashboardSliders = () => {
   const [showAddModal, setShowAddModal] = useState(false);
@@ -20,7 +21,7 @@ const DashboardSliders = () => {
 
 
   useEffect(() => {
-    fetch('http://localhost:8000/api/sliders')
+    fetch(`${API_BASE_URL}/api/sliders`)
       .then(res => res.json())
       .then(data => {
         if (data.status === 'success') {
@@ -31,7 +32,7 @@ const DashboardSliders = () => {
   }, []);
 
   const openMediaLibrary = () => {
-    fetch('http://localhost:8000/api/media')
+    fetch(`${API_BASE_URL}/api/media`)
       .then(res => res.json())
       .then(data => {
         if(data.status === 'success') {
@@ -45,7 +46,7 @@ const DashboardSliders = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this slider?")) {
       try {
-        const response = await fetch(`http://localhost:8000/api/sliders/${id}`, { method: 'DELETE' });
+        const response = await fetch(`${API_BASE_URL}/api/sliders/${id}`, { method: 'DELETE' });
         if (response.ok) {
           setSliders(sliders.filter(s => s.id !== id));
           showDeploy();
@@ -72,7 +73,7 @@ const DashboardSliders = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:8000/api/sliders', {
+      const response = await fetch(`${API_BASE_URL}/api/sliders`, {
         method: 'POST',
         body: formData
       });

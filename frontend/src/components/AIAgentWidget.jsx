@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { API_BASE_URL } from '../api/config';
 
 /**
  * Sai AI Agent - Advanced Real Estate Consultant for Sai Properties & Certified Properties.
@@ -414,7 +415,7 @@ export default function AIAgentWidget() {
           }));
 
           // Post to FastAPI backend
-          fetch('http://localhost:8000/api/leads', {
+          fetch(`${API_BASE_URL}/api/leads`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -1173,7 +1174,7 @@ export default function AIAgentWidget() {
     }));
 
     // Post lead to database
-    fetch('http://localhost:8000/api/leads', {
+    fetch(`${API_BASE_URL}/api/leads`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

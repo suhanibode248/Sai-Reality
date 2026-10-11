@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import DashboardLayout from '../components/DashboardLayout';
 import ProfileView, { formatFileSize } from '../components/ProfileView';
+import { API_BASE_URL } from '../api/config';
 
 const DEFAULT_PROFILE = {
   name: 'Admin',
@@ -47,7 +48,7 @@ const DashboardMyAccount = () => {
 
   // Today's follow-ups are the account's notifications
   useEffect(() => {
-    fetch('http://localhost:8000/api/dashboard/notifications')
+    fetch(`${API_BASE_URL}/api/dashboard/notifications`)
       .then(res => res.json())
       .then(data => setNotifications((data.rows || []).map(r => ({ title: `Follow up: ${r.Name} (${r.Phone})`, text: `${r.Nextfollowupdate} - ${r.Status} - ${r.Comment}` }))))
       .catch(() => {});

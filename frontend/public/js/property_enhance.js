@@ -95,24 +95,6 @@
         });
     }
 
-    /* ── Add "View All Properties" link below Similar Properties ── */
-    function addViewAllButton() {
-        var section = document.querySelector('.featured-properties.slide-box-2');
-        if (!section || section.querySelector('.vap-btn')) return;
-        var btn = document.createElement('div');
-        btn.className = 'vap-btn text-center';
-        btn.style.cssText = 'padding:10px 0 20px;';
-        btn.innerHTML = '<a href="/properties_all.html" style="' +
-            'display:inline-block;background:linear-gradient(135deg,#0d7034,#118e42);' +
-            'color:#fff;padding:12px 36px;border-radius:50px;font-weight:700;' +
-            'font-size:14px;letter-spacing:0.5px;text-decoration:none;' +
-            'box-shadow:0 6px 20px rgba(17,142,66,0.3);transition:all 0.3s;"' +
-            ' onmouseover="this.style.transform=\'translateY(-3px)\'"' +
-            ' onmouseout="this.style.transform=\'\'">' +
-            'View All Properties &rarr;</a>';
-        var container = section.querySelector('.mx-5') || section.querySelector('.container');
-        if (container) container.appendChild(btn);
-    }
 
     /* ── Fix broken "Back" href="None" ── */
     function fixBackButton() {
@@ -126,7 +108,6 @@
     function init() {
         fixBrokenImages();
         formatIndianPrices();
-        addViewAllButton();
         fixBackButton();
     }
 

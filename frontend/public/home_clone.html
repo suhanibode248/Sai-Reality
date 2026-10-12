@@ -382,11 +382,30 @@ border:none;
                 display: none !important;
             }
 
-            /* Make carousel/banner full-width and reasonable height */
-            .banner .carousel-item img {
-                object-fit: cover;
-                min-height: 220px;
-                max-height: 55vw;
+            /* Slider: show full image, no cropping */
+            .banner,
+            #carouselExampleFade {
+                width: 100% !important;
+                overflow: hidden !important;
+            }
+            .banner .carousel-item,
+            #carouselExampleFade .carousel-item {
+                width: 100% !important;
+                height: auto !important;
+            }
+            .banner .carousel-item img,
+            #carouselExampleFade .carousel-item img {
+                width: 100% !important;
+                height: auto !important;
+                max-height: none !important;
+                min-height: 0 !important;
+                object-fit: contain !important;
+                display: block !important;
+            }
+            /* Caption overlay: don't block the image */
+            .banner .carousel-caption,
+            .banner-slider-inner {
+                display: none !important;
             }
 
             /* Search / filter bar */
@@ -1193,15 +1212,15 @@ border:none;
 
 @media (max-width: 768px) {
     .section-featured-projects .featured-projects-horizontal-track {
-        gap: 18px !important;
+        gap: 16px !important;
         padding: 10px 16px 20px 16px !important;
     }
 
     .section-featured-projects .featured-projects-horizontal-track > .wrapper {
-        flex: 0 0 280px !important;
-        width: 280px !important;
-        min-width: 280px !important;
-        max-width: 280px !important;
+        flex: 0 0 calc(85vw) !important;
+        width: calc(85vw) !important;
+        min-width: calc(85vw) !important;
+        max-width: calc(85vw) !important;
     }
 }
 </style>
@@ -1778,16 +1797,16 @@ border:none;
 @media (max-width: 768px) {
     .section-featured-properties .featured-properties-horizontal-track,
     .section-featured-properties .row {
-        gap: 18px !important;
+        gap: 16px !important;
         padding: 10px 16px 20px 16px !important;
     }
 
     .section-featured-properties .featured-properties-horizontal-track > [class*="col-"],
     .section-featured-properties .row > [class*="col-"] {
-        flex: 0 0 280px !important;
-        width: 280px !important;
-        min-width: 280px !important;
-        max-width: 280px !important;
+        flex: 0 0 calc(85vw) !important;
+        width: calc(85vw) !important;
+        min-width: calc(85vw) !important;
+        max-width: calc(85vw) !important;
     }
 }
 </style>

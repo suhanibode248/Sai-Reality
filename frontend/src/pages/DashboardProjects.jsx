@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import ReactDOM from 'react-dom';
 import useCrmCollection from '../hooks/useCrmCollection';
 import scrapedProjects from '../data/scrapedProjects.json';
 import DashboardLayout from '../components/DashboardLayout';
@@ -30,82 +31,15 @@ const DashboardProjects = () => {
       <div className="container-fluid p-0">
         
         {viewProject ? (
-          <div className="container-fluid p-0">
-            {/* Header */}
-            <div className="row mb-3">
-              <div className="col-12">
-                <div className="page-title-box d-sm-flex align-items-center justify-content-between bg-white border-0 p-3 shadow-sm rounded">
-                  <h4 className="mb-sm-0 fw-bold text-uppercase" style={{ fontSize: '14px', color: '#495057' }}>Project Details</h4>
-                  <div className="page-title-right">
-                    <ol className="breadcrumb m-0" style={{ backgroundColor: 'transparent', padding: 0 }}>
-                      <li className="breadcrumb-item"><a href="#!" style={{ color: '#495057', textDecoration: 'none' }}>CRM</a></li>
-                      <li className="breadcrumb-item active" style={{ color: '#74788d' }}>Project Details</li>
-                    </ol>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="row">
-              {/* Left Column: Image Gallery */}
-              <div className="col-lg-4">
-                <div className="card shadow-sm border-0 mb-3 rounded">
-                  <div className="card-body p-2 position-relative">
-                    <img src={viewProject.image} alt="Main" className="w-100 rounded mb-2" style={{ height: '250px', objectFit: 'cover' }} />
-                  </div>
-                </div>
-              </div>
-
-              {/* Right Column: Details */}
-              <div className="col-lg-8">
-                <div className="card shadow-sm border-0 mb-3 rounded">
-                  <div className="card-body">
-                    <div className="d-flex justify-content-between align-items-start mb-2">
-                      <div>
-                        <h4 className="fw-bold mb-1" style={{ color: '#405189', fontSize: '18px' }}>{viewProject.title}</h4>
-                        <p className="text-muted mb-2" style={{ fontSize: '12px' }}>
-                          Status: {viewProject.status} | Date : {viewProject.date}
-                        </p>
-                        <p className="text-muted mb-3" style={{ fontSize: '13px' }}>
-                          <i className="ri-map-pin-line text-primary me-1"></i> {viewProject.location}
-                        </p>
-                      </div>
-                      <div className="d-flex gap-2">
-                        <button onClick={() => { navigator.clipboard?.writeText(`${viewProject.title} - ${viewProject.location} - ${viewProject.price}`); alert('Project details copied'); }} className="btn btn-light btn-sm border" title="Copy project details"><i className="ri-links-line"></i></button>
-                        <button onClick={() => { setEditingProject(viewProject); setShowAddModal(true); }} className="btn btn-light btn-sm border" title="Edit"><i className="ri-pencil-line"></i></button>
-                        <button onClick={() => setViewProject(null)} className="btn btn-light btn-sm border"><i className="ri-arrow-go-back-line"></i></button>
-                      </div>
-                    </div>
-
-                    <div className="row g-3 mb-4">
-                      <div className="col-md-6">
-                        <div className="border rounded p-3 d-flex align-items-center gap-3">
-                          <i className="ri-money-rupee-circle-line" style={{ fontSize: '24px', color: '#0ab39c' }}></i>
-                          <div>
-                            <p className="text-muted mb-0" style={{ fontSize: '11px' }}>Price Range -</p>
-                            <h6 className="mb-0 fw-bold">{viewProject.price}</h6>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="border rounded p-3 d-flex align-items-center gap-3">
-                          <i className="ri-shape-line" style={{ fontSize: '24px', color: '#0ab39c' }}></i>
-                          <div>
-                            <p className="text-muted mb-0" style={{ fontSize: '11px' }}>Project Area -</p>
-                            <h6 className="mb-0 fw-bold">{viewProject.area}</h6>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <h6 className="fw-bold mt-4" style={{ fontSize: '13px' }}>Project Information :</h6>
-                    <p className="text-muted" style={{ fontSize: '13px' }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <ViewProjectDetail
+            project={viewProject}
+            onBack={() => setViewProject(null)}
+            onEdit={() => { setEditingProject(viewProject); setShowAddModal(true); }}
+            onUpdate={(updated) => {
+              setProjects(projects.map(p => p.id === updated.id ? updated : p));
+              setViewProject(updated);
+            }}
+          />
         ) : (
           <>
             {/* Title Box */}
@@ -153,11 +87,11 @@ const DashboardProjects = () => {
                       {p.status}
                     </div>
 
-                    <div style={{ height: '180px', width: '100%', overflow: 'hidden', backgroundColor: '#f3f6f9' }}>
-                      <img 
-                        alt={p.title} 
-                        className="w-100 h-100" 
-                        src={p.image} 
+                    <div onClick={() => setViewProject(p)} style={{ height: '180px', width: '100%', overflow: 'hidden', backgroundColor: '#f3f6f9', cursor: 'pointer' }}>
+                      <img
+                        alt={p.title}
+                        className="w-100 h-100"
+                        src={p.image}
                         style={{ objectFit: 'cover' }}
                       />
                     </div>
@@ -191,10 +125,12 @@ const DashboardProjects = () => {
 
                     <div className="card-footer bg-transparent p-2 px-3 border-0 d-flex justify-content-between align-items-center">
                       <div className="d-flex gap-2">
-                        <a href="tel:+919876543210" className="text-muted" title="Call To Seller"><i className="ri-phone-line" style={{ fontSize: '15px' }}></i></a>
-                        <a href="https://wa.me/919876543210" target="_blank" rel="noreferrer" className="text-muted" title="Send Details On Whatsapp"><i className="ri-whatsapp-line" style={{ fontSize: '15px' }}></i></a>
-                        <a href="#!" onClick={(e) => { e.preventDefault(); setEditingProject(p); setShowAddModal(true); }} className="text-muted" title="Edit Project Details"><i className="ri-pencil-fill" style={{ fontSize: '15px' }}></i></a>
-                        <a href="#!" onClick={(e) => { e.preventDefault(); handleDeleteProject(p.id); }} className="text-muted" title="Delete Property"><i className="ri-delete-bin-fill" style={{ fontSize: '15px' }}></i></a>
+                        <a href="#!" onClick={(e) => { e.preventDefault(); setViewProject(p); }} className="text-primary" title="View Project Details"><i className="ri-eye-line" style={{ fontSize: '15px' }}></i></a>
+                        <a href={`/project-details/${p.id}`} target="_blank" rel="noreferrer" className="text-success" title="Landing Page"><i className="ri-global-line" style={{ fontSize: '15px' }}></i></a>
+                        <a href="tel:+919222445513" className="text-muted" title="Call"><i className="ri-phone-line" style={{ fontSize: '15px' }}></i></a>
+                        <a href="https://wa.me/919222445513" target="_blank" rel="noreferrer" className="text-muted" title="WhatsApp"><i className="ri-whatsapp-line" style={{ fontSize: '15px' }}></i></a>
+                        <a href="#!" onClick={(e) => { e.preventDefault(); setEditingProject(p); setShowAddModal(true); }} className="text-muted" title="Edit"><i className="ri-pencil-fill" style={{ fontSize: '15px' }}></i></a>
+                        <a href="#!" onClick={(e) => { e.preventDefault(); handleDeleteProject(p.id); }} className="text-muted" title="Delete"><i className="ri-delete-bin-fill" style={{ fontSize: '15px' }}></i></a>
                       </div>
                       <span className="text-muted d-flex align-items-center" style={{ fontSize: '11px', whiteSpace: 'nowrap' }}>
                         <i className="ri-calendar-2-line me-1 align-bottom"></i> {p.date}
@@ -208,7 +144,7 @@ const DashboardProjects = () => {
         )}
 
         {/* ── Filter Modal (Sidebar) ── */}
-        {showFilterModal && (
+        {showFilterModal && ReactDOM.createPortal(
           <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 99999, display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
             <div style={{ backgroundColor: '#fff', width: '380px', height: '100vh', display: 'flex', flexDirection: 'column', overflow: 'hidden', boxShadow: '-5px 0 25px rgba(0,0,0,0.1)' }}>
               
@@ -267,12 +203,12 @@ const DashboardProjects = () => {
               </div>
             </div>
           </div>
-        )}
+        , document.body)}
 
       </div>
-    
+
         {/* ── Add New Project Full Modal ── */}
-        {showAddModal && (
+        {showAddModal && ReactDOM.createPortal(
           <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: '#f3f3f9', zIndex: 99999, overflowY: 'auto' }}>
             
             {/* Header */}
@@ -576,10 +512,365 @@ const DashboardProjects = () => {
             </div>
 
           </div>
-        )}
+        , document.body)}
 
     </DashboardLayout>
   );
 };
+
+function getEmbedUrl(url) {
+  if (!url) return '';
+  const shortMatch = url.match(/youtu\.be\/([a-zA-Z0-9_-]+)/);
+  if (shortMatch) return `https://www.youtube.com/embed/${shortMatch[1]}`;
+  const watchMatch = url.match(/[?&]v=([a-zA-Z0-9_-]+)/);
+  if (watchMatch) return `https://www.youtube.com/embed/${watchMatch[1]}`;
+  const shortsMatch = url.match(/\/shorts\/([a-zA-Z0-9_-]+)/);
+  if (shortsMatch) return `https://www.youtube.com/embed/${shortsMatch[1]}`;
+  if (url.includes('/embed/')) return url;
+  return url;
+}
+
+/* ─── ViewProjectDetail ─── */
+function ViewProjectDetail({ project: initialProject, onBack, onEdit, onUpdate }) {
+  const p = initialProject;
+  const [mainImg, setMainImg] = useState(p.image || '');
+  const [infoTab, setInfoTab] = useState('description');
+  const [fpTab, setFpTab] = useState('floorplans');
+  const [floorPlans, setFloorPlans] = useState(
+    Array.isArray(p.floorPlans) && p.floorPlans.length ? p.floorPlans :
+    [{ bhk: '', carpet: '', price: '', planImage: '' }]
+  );
+  const [nearby, setNearby] = useState(Array.isArray(p.nearby) ? p.nearby : [{ place: '', distance: '' }]);
+  const [videoUrl, setVideoUrl] = useState(p.videoUrl || '');
+  const [masterPlan, setMasterPlan] = useState(p.masterPlan || '');
+  const [brochure, setBrochure] = useState(p.brochure || '');
+  const [logo, setLogo] = useState(p.logo || '');
+  const [description, setDescription] = useState(p.description || '');
+  const [amenities, setAmenities] = useState(
+    Array.isArray(p.amenities) ? p.amenities.join(', ') :
+    (typeof p.amenities === 'string' ? p.amenities : '')
+  );
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+
+  const images = p.images?.length ? p.images : (p.image ? [p.image] : []);
+
+  const fpTabList = [
+    { id: 'floorplans', label: 'Floor Plans' },
+    { id: 'nearby', label: "What's Nearby?" },
+    { id: 'video', label: "Video URL's" },
+    { id: 'masterplan', label: 'Master Plan' },
+    { id: 'brochure', label: 'Brochure' },
+    { id: 'logo', label: 'Project Logo' },
+  ];
+
+  const addFpRow = () => setFloorPlans(rows => [...rows, { bhk: '', carpet: '', price: '', planImage: '' }]);
+  const updateFpRow = (idx, field, val) => setFloorPlans(rows => rows.map((r, i) => i === idx ? { ...r, [field]: val } : r));
+  const removeFpRow = (idx) => setFloorPlans(rows => rows.filter((_, i) => i !== idx));
+
+  const addNearbyRow = () => setNearby(rows => [...rows, { place: '', distance: '' }]);
+  const updateNearbyRow = (idx, field, val) => setNearby(rows => rows.map((r, i) => i === idx ? { ...r, [field]: val } : r));
+  const removeNearbyRow = (idx) => setNearby(rows => rows.filter((_, i) => i !== idx));
+
+  const handleSave = () => {
+    setSaving(true);
+    const updated = {
+      ...p,
+      description,
+      amenities: amenities.split(',').map(a => a.trim()).filter(Boolean),
+      floorPlans,
+      nearby,
+      videoUrl,
+      masterPlan,
+      brochure,
+      logo,
+    };
+    onUpdate(updated);
+    setTimeout(() => { setSaving(false); setSaved(true); setTimeout(() => setSaved(false), 2000); }, 500);
+  };
+
+  const thStyle = { padding: '8px 12px', background: '#f8f9fa', fontSize: '12px', fontWeight: 700, borderBottom: '2px solid #dee2e6', whiteSpace: 'nowrap' };
+  const tdStyle = { padding: '6px 8px', verticalAlign: 'middle' };
+  const inputSm = { fontSize: '12px', padding: '4px 8px', height: 'auto' };
+
+  return (
+    <div className="container-fluid p-0">
+      {/* Breadcrumb bar */}
+      <div className="page-title-box d-flex align-items-center justify-content-between bg-white border-0 p-3 shadow-sm rounded mb-3">
+        <div className="d-flex align-items-center gap-3">
+          <button onClick={onBack} className="btn btn-light btn-sm border" title="Back to list">
+            <i className="ri-arrow-left-line me-1"></i> Back
+          </button>
+          <h4 className="mb-0 fw-bold text-uppercase" style={{ fontSize: '14px', color: '#495057' }}>Project Details</h4>
+        </div>
+        <ol className="breadcrumb m-0" style={{ backgroundColor: 'transparent', padding: 0 }}>
+          <li className="breadcrumb-item"><a href="#!" onClick={e => { e.preventDefault(); onBack(); }} style={{ color: '#495057', textDecoration: 'none' }}>Projects</a></li>
+          <li className="breadcrumb-item active" style={{ color: '#74788d' }}>View</li>
+        </ol>
+      </div>
+
+      <div className="row">
+        {/* Left: Image Gallery */}
+        <div className="col-lg-4 mb-4">
+          <div className="card shadow-sm border-0 rounded">
+            <div className="card-body p-2">
+              <img src={mainImg || '/placeholder.jpg'} alt="Main" className="w-100 rounded mb-2" style={{ height: '260px', objectFit: 'cover', background: '#eee' }}
+                onError={e => { e.target.src = 'https://placehold.co/600x400?text=No+Image'; }} />
+              {images.length > 1 && (
+                <div className="d-flex flex-wrap gap-2 mt-2">
+                  {images.map((img, idx) => (
+                    <img key={idx} src={img} alt={`thumb-${idx}`}
+                      onClick={() => setMainImg(img)}
+                      style={{ width: 60, height: 50, objectFit: 'cover', borderRadius: 4, cursor: 'pointer', border: mainImg === img ? '2px solid #405189' : '2px solid transparent', opacity: mainImg === img ? 1 : 0.7 }}
+                      onError={e => { e.target.src = 'https://placehold.co/60x50?text=img'; }} />
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Right: Project Info */}
+        <div className="col-lg-8 mb-4">
+          <div className="card shadow-sm border-0 rounded h-100">
+            <div className="card-body">
+              <div className="d-flex justify-content-between align-items-start mb-3">
+                <div>
+                  <h4 className="fw-bold mb-1" style={{ color: '#405189', fontSize: '20px' }}>{p.title}</h4>
+                  <p className="text-muted mb-1" style={{ fontSize: '12px' }}>
+                    <span className={`badge me-2 ${p.status === 'Published' ? 'bg-success' : 'bg-warning text-dark'}`}>{p.status}</span>
+                    {p.date}
+                  </p>
+                  <p className="text-muted mb-2" style={{ fontSize: '13px' }}>
+                    <i className="ri-map-pin-line text-primary me-1"></i>{p.location}
+                  </p>
+                  <a href={`/project-details/${p.id}`} target="_blank" rel="noreferrer"
+                    style={{ color: '#405189', fontWeight: 600, fontSize: '13px', textDecoration: 'none' }}>
+                    <i className="ri-global-line me-1"></i>Project Landing Page ↗
+                  </a>
+                </div>
+                <div className="d-flex gap-2">
+                  <button onClick={onEdit} className="btn btn-light btn-sm border" title="Edit"><i className="ri-pencil-line"></i> Edit</button>
+                  <button onClick={onBack} className="btn btn-light btn-sm border"><i className="ri-arrow-go-back-line"></i></button>
+                </div>
+              </div>
+
+              {/* Price / Area / Possession boxes */}
+              <div className="row g-3 mb-0">
+                <div className="col-md-4">
+                  <div className="border rounded p-3 text-center" style={{ background: '#f8f9fa' }}>
+                    <i className="ri-money-rupee-circle-line" style={{ fontSize: '22px', color: '#0ab39c' }}></i>
+                    <p className="text-muted mb-0 mt-1" style={{ fontSize: '11px' }}>Price Range</p>
+                    <h6 className="mb-0 fw-bold" style={{ fontSize: '13px' }}>{p.price}</h6>
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="border rounded p-3 text-center" style={{ background: '#f8f9fa' }}>
+                    <i className="ri-shape-line" style={{ fontSize: '22px', color: '#0ab39c' }}></i>
+                    <p className="text-muted mb-0 mt-1" style={{ fontSize: '11px' }}>Project Area</p>
+                    <h6 className="mb-0 fw-bold" style={{ fontSize: '13px' }}>{p.area}</h6>
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="border rounded p-3 text-center" style={{ background: '#f8f9fa' }}>
+                    <i className="ri-home-4-line" style={{ fontSize: '22px', color: '#0ab39c' }}></i>
+                    <p className="text-muted mb-0 mt-1" style={{ fontSize: '11px' }}>Possession</p>
+                    <h6 className="mb-0 fw-bold" style={{ fontSize: '13px' }}>{p.possession || p.date || '—'}</h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Description / Amenities Tabs */}
+      <div className="card shadow-sm border-0 rounded mb-4">
+        <div className="card-header bg-white border-bottom p-0">
+          <ul className="nav nav-tabs border-0" style={{ paddingLeft: 16 }}>
+            {['description', 'amenities'].map(tab => (
+              <li key={tab} className="nav-item">
+                <button className={`nav-link ${infoTab === tab ? 'active fw-bold' : 'text-muted'}`}
+                  style={{ textTransform: 'capitalize', fontSize: '13px' }}
+                  onClick={() => setInfoTab(tab)}>
+                  {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="card-body p-3">
+          {infoTab === 'description' && (
+            <div>
+              <label className="form-label fw-semibold" style={{ fontSize: '13px' }}>Project Description</label>
+              <textarea className="form-control" rows={5} style={{ fontSize: '13px', resize: 'vertical' }}
+                value={description} onChange={e => setDescription(e.target.value)}
+                placeholder="Enter project description..." />
+            </div>
+          )}
+          {infoTab === 'amenities' && (
+            <div>
+              <label className="form-label fw-semibold" style={{ fontSize: '13px' }}>Amenities (comma-separated)</label>
+              <textarea className="form-control" rows={4} style={{ fontSize: '13px', resize: 'vertical' }}
+                value={amenities} onChange={e => setAmenities(e.target.value)}
+                placeholder="Swimming Pool, Gym, Club House, Garden, Parking..." />
+              {amenities && (
+                <div className="mt-3 d-flex flex-wrap gap-2">
+                  {amenities.split(',').map(a => a.trim()).filter(Boolean).map((a, i) => (
+                    <span key={i} className="badge" style={{ background: '#eef1fb', color: '#405189', fontSize: '12px', padding: '6px 12px', borderRadius: 20 }}>
+                      <i className="ri-checkbox-circle-line me-1"></i>{a}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Floor Plan & Features */}
+      <div className="card shadow-sm border-0 rounded mb-4">
+        <div className="card-header bg-white border-bottom p-0 d-flex align-items-center justify-content-between pe-3">
+          <ul className="nav nav-tabs border-0" style={{ paddingLeft: 16 }}>
+            {fpTabList.map(tab => (
+              <li key={tab.id} className="nav-item">
+                <button className={`nav-link ${fpTab === tab.id ? 'active fw-bold' : 'text-muted'}`}
+                  style={{ fontSize: '12px', whiteSpace: 'nowrap' }}
+                  onClick={() => setFpTab(tab.id)}>
+                  {tab.label}
+                </button>
+              </li>
+            ))}
+          </ul>
+          <button onClick={handleSave} className="btn btn-sm"
+            style={{ background: '#405189', color: '#fff', fontSize: '12px', padding: '4px 14px', borderRadius: 4, minWidth: 70 }}
+            disabled={saving}>
+            {saving ? '...' : saved ? '✓ Saved' : 'Save'}
+          </button>
+        </div>
+
+        <div className="card-body p-3">
+          {/* Floor Plans tab */}
+          {fpTab === 'floorplans' && (
+            <div>
+              <div className="d-flex justify-content-between align-items-center mb-2">
+                <h6 className="mb-0 fw-semibold" style={{ fontSize: '13px' }}>Floor Plan Details</h6>
+                <button onClick={addFpRow} className="btn btn-sm btn-outline-primary" style={{ fontSize: '12px' }}>
+                  <i className="ri-add-line"></i> Add Row
+                </button>
+              </div>
+              <div className="table-responsive">
+                <table className="table table-bordered table-sm" style={{ fontSize: '12px' }}>
+                  <thead>
+                    <tr>
+                      <th style={thStyle}>BHK / Type</th>
+                      <th style={thStyle}>Carpet Area</th>
+                      <th style={thStyle}>Price</th>
+                      <th style={thStyle}>Floor Plan Image URL</th>
+                      <th style={thStyle}>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {floorPlans.map((row, idx) => (
+                      <tr key={idx}>
+                        <td style={tdStyle}><input type="text" className="form-control form-control-sm" style={inputSm} value={row.bhk} onChange={e => updateFpRow(idx, 'bhk', e.target.value)} placeholder="2 BHK" /></td>
+                        <td style={tdStyle}><input type="text" className="form-control form-control-sm" style={inputSm} value={row.carpet} onChange={e => updateFpRow(idx, 'carpet', e.target.value)} placeholder="850 sq.ft" /></td>
+                        <td style={tdStyle}><input type="text" className="form-control form-control-sm" style={inputSm} value={row.price} onChange={e => updateFpRow(idx, 'price', e.target.value)} placeholder="65 Lac" /></td>
+                        <td style={tdStyle}><input type="text" className="form-control form-control-sm" style={inputSm} value={row.planImage} onChange={e => updateFpRow(idx, 'planImage', e.target.value)} placeholder="https://..." /></td>
+                        <td style={tdStyle}>
+                          <button onClick={() => removeFpRow(idx)} className="btn btn-sm btn-outline-danger" style={{ fontSize: '11px', padding: '2px 8px' }}>
+                            <i className="ri-delete-bin-line"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {/* Nearby tab */}
+          {fpTab === 'nearby' && (
+            <div>
+              <div className="d-flex justify-content-between align-items-center mb-2">
+                <h6 className="mb-0 fw-semibold" style={{ fontSize: '13px' }}>What's Nearby?</h6>
+                <button onClick={addNearbyRow} className="btn btn-sm btn-outline-primary" style={{ fontSize: '12px' }}>
+                  <i className="ri-add-line"></i> Add Row
+                </button>
+              </div>
+              <div className="table-responsive">
+                <table className="table table-bordered table-sm" style={{ fontSize: '12px' }}>
+                  <thead>
+                    <tr>
+                      <th style={thStyle}>Place / Landmark</th>
+                      <th style={thStyle}>Distance</th>
+                      <th style={thStyle}>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {nearby.map((row, idx) => (
+                      <tr key={idx}>
+                        <td style={tdStyle}><input type="text" className="form-control form-control-sm" style={inputSm} value={row.place} onChange={e => updateNearbyRow(idx, 'place', e.target.value)} placeholder="School / Hospital / Mall" /></td>
+                        <td style={tdStyle}><input type="text" className="form-control form-control-sm" style={inputSm} value={row.distance} onChange={e => updateNearbyRow(idx, 'distance', e.target.value)} placeholder="500 m / 2 km" /></td>
+                        <td style={tdStyle}><button onClick={() => removeNearbyRow(idx)} className="btn btn-sm btn-outline-danger" style={{ fontSize: '11px', padding: '2px 8px' }}><i className="ri-delete-bin-line"></i></button></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {/* Video tab */}
+          {fpTab === 'video' && (
+            <div>
+              <label className="form-label fw-semibold" style={{ fontSize: '13px' }}>YouTube / Video URL</label>
+              <input type="url" className="form-control form-control-sm" value={videoUrl} onChange={e => setVideoUrl(e.target.value)} placeholder="https://www.youtube.com/watch?v=..." />
+              <p className="text-muted mt-1" style={{ fontSize: '11px' }}>Supports youtube.com/watch, youtu.be, and /shorts/ links</p>
+              {videoUrl && getEmbedUrl(videoUrl) && (
+                <div className="mt-3" style={{ position: 'relative', paddingBottom: '40%', height: 0, overflow: 'hidden', borderRadius: 6 }}>
+                  <iframe src={getEmbedUrl(videoUrl)} title="Video Preview" allowFullScreen
+                    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }} />
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Master Plan tab */}
+          {fpTab === 'masterplan' && (
+            <div>
+              <label className="form-label fw-semibold" style={{ fontSize: '13px' }}>Master Plan Image URL</label>
+              <input type="url" className="form-control form-control-sm" value={masterPlan} onChange={e => setMasterPlan(e.target.value)} placeholder="https://..." />
+              {masterPlan && <img src={masterPlan} alt="Master Plan" className="mt-3 w-100 rounded" style={{ maxHeight: 400, objectFit: 'contain', background: '#f8f9fa' }} />}
+            </div>
+          )}
+
+          {/* Brochure tab */}
+          {fpTab === 'brochure' && (
+            <div>
+              <label className="form-label fw-semibold" style={{ fontSize: '13px' }}>Brochure PDF URL</label>
+              <input type="url" className="form-control form-control-sm" value={brochure} onChange={e => setBrochure(e.target.value)} placeholder="https://..." />
+              {brochure && (
+                <a href={brochure} target="_blank" rel="noreferrer" className="btn btn-sm btn-outline-primary mt-3">
+                  <i className="ri-file-pdf-line me-1"></i> Open Brochure
+                </a>
+              )}
+            </div>
+          )}
+
+          {/* Logo tab */}
+          {fpTab === 'logo' && (
+            <div>
+              <label className="form-label fw-semibold" style={{ fontSize: '13px' }}>Project Logo URL</label>
+              <input type="url" className="form-control form-control-sm" value={logo} onChange={e => setLogo(e.target.value)} placeholder="https://..." />
+              {logo && <img src={logo} alt="Logo" className="mt-3" style={{ maxHeight: 120, maxWidth: 200, objectFit: 'contain', borderRadius: 6, border: '1px solid #dee2e6' }} />}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default DashboardProjects;

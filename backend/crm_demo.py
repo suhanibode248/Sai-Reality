@@ -521,6 +521,47 @@ def _count_collection(name):
         return None
 
 
+# ── OTP Auth ──────────────────────────────────────────────────────────────────
+_otps: dict = {}  # {phone: {"otp": str, "expires": datetime, "name": str}}
+
+class OtpSendRequest(BaseModel):
+    phone: str
+    name: Optional[str] = None
+
+class OtpVerifyRequest(BaseModel):
+    phone: str
+    otp: str
+    name: Optional[str] = None
+
+@router.post("/api/auth/send-otp")
+def send_otp(req: OtpSendRequest):
+    phone = re.sub(r"\D", "", req.phone)[-10:]
+    if len(phone) < 10:
+        return {"status": "error", "message": "Invalid phone number"}
+    otp = str(random.randint(100000, 999999))
+    _otps[phone] = {"otp": otp, "expires": datetime.now() + timedelta(minutes=10), "name": req.name or ""}
+    # In production: send via SMS gateway (Twilio / MSG91 etc.)
+    # For development: returned in response so it can be shown
+    print(f"[OTP] Phone: {phone} OTP: {otp}")
+    return {"status": "success", "message": f"OTP sent to +91 {phone[-10:]}", "dev_otp": otp}
+
+@router.post("/api/auth/verify-otp")
+def verify_otp(req: OtpVerifyRequest):
+    phone = re.sub(r"\D", "", req.phone)[-10:]
+    entry = _otps.get(phone)
+    if not entry:
+        return {"status": "error", "message": "No OTP requested for this number"}
+    if datetime.now() > entry["expires"]:
+        del _otps[phone]
+        return {"status": "error", "message": "OTP expired. Please request again"}
+    if req.otp.strip() != entry["otp"]:
+        return {"status": "error", "message": "Incorrect OTP"}
+    del _otps[phone]
+    token = f"cp_{phone}_{int(datetime.now().timestamp())}"
+    name = req.name or entry.get("name") or "User"
+    return {"status": "success", "token": token, "name": name, "phone": phone}
+
+
 @router.get("/api/dashboard/summary")
 def summary():
     leads = _leads()

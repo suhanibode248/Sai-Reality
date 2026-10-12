@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import DashboardLayout from '../components/DashboardLayout';
 import { API_BASE_URL } from '../api/config';
 
@@ -893,7 +894,7 @@ export default function LeadsDashboard() {
       {/* ── Filter Drawer / Modal ── */}
       
       {/* ── Filter Leads Modal ── */}
-      {showFilterModal && (
+      {showFilterModal && ReactDOM.createPortal(
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 99999, display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
           <div style={{ backgroundColor: '#fff', width: '380px', height: '100vh', display: 'flex', flexDirection: 'column', overflow: 'hidden', boxShadow: '-5px 0 25px rgba(0,0,0,0.1)' }}>
             
@@ -1001,10 +1002,10 @@ export default function LeadsDashboard() {
             </div>
           </div>
         </div>
-      )}
+      , document.body)}
 
       {/* ── Download Leads Modal ── */}
-      {showDownloadModal && (
+      {showDownloadModal && ReactDOM.createPortal(
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 99999, display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
           <div style={{ backgroundColor: '#fff', width: '420px', height: '100vh', display: 'flex', flexDirection: 'column', overflow: 'hidden', boxShadow: '-5px 0 25px rgba(0,0,0,0.1)' }}>
             
@@ -1132,10 +1133,10 @@ export default function LeadsDashboard() {
             </div>
           </div>
         </div>
-      )}
+      , document.body)}
 
       {/* ── Notification Section Modal ── */}
-      {showNotificationModal && (
+      {showNotificationModal && ReactDOM.createPortal(
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 99999, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <div style={{ backgroundColor: '#f8fafc', borderRadius: '8px', width: '90%', maxWidth: '1000px', maxHeight: '90vh', display: 'flex', flexDirection: 'column', overflow: 'hidden', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)' }}>
             
@@ -1218,9 +1219,9 @@ export default function LeadsDashboard() {
             </div>
           </div>
         </div>
-      )}
+      , document.body)}
 {/* ── Add New Lead Modal ── */}
-      {showAddModal && (
+      {showAddModal && ReactDOM.createPortal(
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 99999, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <div style={{ backgroundColor: '#fff', borderRadius: '8px', width: '90%', maxWidth: '420px', maxHeight: '90vh', display: 'flex', flexDirection: 'column', overflow: 'hidden', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)' }}>
             
@@ -1412,11 +1413,11 @@ export default function LeadsDashboard() {
             </form>
           </div>
         </div>
-      )}
+      , document.body)}
       </div>
-    
+
       {/* Right Side Status Panel (Full Form) */}
-        {showStatusModal && (
+        {showStatusModal && ReactDOM.createPortal(
           <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 99999, display: 'flex', alignItems: 'flex-start', justifyContent: 'flex-end' }}>
             <div style={{ backgroundColor: '#fff', width: '450px', height: '100%', display: 'flex', flexDirection: 'column', boxShadow: '-5px 0 25px rgba(0,0,0,0.1)' }}>
               
@@ -1618,10 +1619,10 @@ export default function LeadsDashboard() {
               </div>
             </div>
           </div>
-        )}
-      
-{/* Lead Detail Full Screen View */}
-      {showLeadDetailModal && (
+        , document.body)}
+
+{/* Lead Detail Full Screen View — rendered via portal so it covers the sidebar */}
+      {showLeadDetailModal && ReactDOM.createPortal(
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: '#f1f5f9', zIndex: 99999, overflowY: 'auto' }}>
           {/* Top Header Section */}
           <div style={{ backgroundColor: '#2b3652', color: '#fff', padding: '20px 30px 0 30px' }}>
@@ -1844,7 +1845,7 @@ export default function LeadsDashboard() {
             </div>
           </div>
         </div>
-      )}
+      , document.body)}
 
     </DashboardLayout>
   );

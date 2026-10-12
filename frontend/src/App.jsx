@@ -1,6 +1,8 @@
 import React from 'react'
 import DashboardProjects from './pages/DashboardProjects.jsx';
 import DashboardDailyReport from './pages/DashboardDailyReport.jsx';
+import PropertyLandingPage from './pages/PropertyLandingPage.jsx';
+import ProjectLandingPage from './pages/ProjectLandingPage.jsx';
 import DashboardFinance from './pages/DashboardFinance.jsx';
 import DashboardTransactions from './pages/DashboardTransactions.jsx';
 import DashboardUsers from './pages/DashboardUsers.jsx';
@@ -43,6 +45,12 @@ function App() {
 
         {/* Sai Reality Home Website */}
         <Route path="/home" element={<Home />} />
+
+        {/* Public-facing Property & Project Landing Pages */}
+        <Route path="/property-details/:id" element={<PropertyLandingPage />} />
+        <Route path="/property-details/:id/*" element={<PropertyLandingPage />} />
+        <Route path="/project-details/:id" element={<ProjectLandingPage />} />
+        <Route path="/project-details/:id/*" element={<ProjectLandingPage />} />
 
         {/* CRM Dashboard: Dashboards */}
         <Route path="/dashboard" element={<DashboardOverview />} />

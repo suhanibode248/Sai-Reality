@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import ReactDOM from 'react-dom';
 import DashboardLayout from '../components/DashboardLayout';
 import { API_BASE_URL } from '../api/config';
 
@@ -57,7 +58,7 @@ const PropertyForm = ({ initial, filterOptions, onClose, onSaved }) => {
     </div>
   );
 
-  return (
+  return ReactDOM.createPortal(
     <div style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 99999, display: 'flex', alignItems: 'flex-start', justifyContent: 'center', overflowY: 'auto', padding: '40px 16px' }}>
       <form onSubmit={submit} className="card shadow border-0" style={{ width: '100%', maxWidth: '760px', borderRadius: '8px' }}>
         <div className="card-header bg-white d-flex justify-content-between align-items-center">
@@ -95,7 +96,7 @@ const PropertyForm = ({ initial, filterOptions, onClose, onSaved }) => {
         </div>
       </form>
     </div>
-  );
+  , document.body);
 };
 
 const norm = (s) => (s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -168,6 +169,8 @@ const DashboardProperties = () => {
   const [activeImage, setActiveImage] = useState(0);
   const [detailsTab, setDetailsTab] = useState('seller');
   const [editing, setEditing] = useState(null); // {} = add new, property = edit
+  const [leadForm, setLeadForm] = useState({ name: '', phone: '' });
+  const [leadMsg, setLeadMsg] = useState('');
 
   useEffect(() => {
     let ignore = false;
@@ -258,162 +261,371 @@ const DashboardProperties = () => {
 
   const selectOptions = (name, fallback) => (filterOptions[name]?.length ? filterOptions[name] : fallback);
 
-  // ── Property details view ──
+  // ── Property Landing Page view ──
   if (viewProperty) {
     const d = details || {};
     const images = details?.images?.length ? details.images : (viewProperty.image ? [viewProperty.image] : []);
     const mainImage = images[activeImage] || images[0];
-    const features = Object.entries(d.features || {});
-    const sellerRows = Object.entries(d.sellerInfo || {});
-    const metaRows = Object.entries(d.meta || {});
+    const features = d.features || viewProperty.features || {};
+    const amenities = d.amenities || viewProperty.amenities || [];
+    const propTitle = d.title || viewProperty.title;
+    const propPrice = d.price || viewProperty.price;
+    const propType = d.type || viewProperty.type;
+    const propAddress = d.address || viewProperty.address;
+    const propLocation = d.location || viewProperty.location;
+    const propCity = d.city || viewProperty.city;
+    const propCategory = d.category || viewProperty.category;
+    const propBedroom = d.bedroom || viewProperty.bedroom || '';
+    const propBathroom = d.bathroom || viewProperty.bathroom || '';
+    const propArea = d.area || viewProperty.area || '';
+    const propDescription = d.description || viewProperty.description || '';
+    const propId = `PR${String(viewProperty.id).padStart(10, '0')}`;
+
+    const similarProps = properties
+      .filter(p => p.id !== viewProperty.id && (p.category === propCategory || p.location === propLocation))
+      .slice(0, 4);
+
+    const submitLead = (viaWhatsapp) => {
+      if (!leadForm.name || !leadForm.phone) { setLeadMsg('Please fill in your name and phone.'); return; }
+      if (viaWhatsapp) {
+        const msg = `Hi, I am interested in: ${propTitle}\nPrice: ${propPrice}\nLocation: ${propAddress}\nMy name: ${leadForm.name}`;
+        window.open(`https://wa.me/919222445513?text=${encodeURIComponent(msg)}`, '_blank', 'noopener');
+        return;
+      }
+      fetch(`${API_BASE_URL}/api/leads`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ full_name: leadForm.name, phone: leadForm.phone, property_name: propTitle, notes: `Interested in: ${propAddress}` })
+      })
+        .then(r => r.json())
+        .then(res => setLeadMsg(res.status === 'success' ? '✅ Thank you! We will call you back shortly.' : '❌ Could not submit. Please call us directly.'))
+        .catch(() => setLeadMsg('❌ Could not submit. Please call us directly.'));
+    };
 
     return (
       <DashboardLayout>
         {propertyForm}
         <div className="container-fluid p-0">
+
+          {/* Breadcrumb + Action bar */}
           <div className="row mb-3">
             <div className="col-12">
-              <div className="page-title-box d-sm-flex align-items-center justify-content-between bg-white border-0 p-3 shadow-sm rounded" style={{ margin: 0 }}>
-                <h4 className="mb-sm-0 fw-bold text-uppercase" style={{ fontSize: '14px', color: '#495057' }}>Property Details</h4>
-                <div className="page-title-right">
-                  <ol className="breadcrumb m-0" style={{ backgroundColor: 'transparent', padding: 0 }}>
-                    <li className="breadcrumb-item"><a href="#!" onClick={(e) => { e.preventDefault(); setViewProperty(null); }} style={{ color: '#495057', textDecoration: 'none' }}>CRM</a></li>
-                    <li className="breadcrumb-item active" style={{ color: '#74788d' }}>Property Details</li>
-                  </ol>
+              <div className="d-flex align-items-center justify-content-between bg-white p-3 shadow-sm rounded">
+                <ol className="breadcrumb m-0" style={{ backgroundColor: 'transparent', padding: 0, fontSize: '13px' }}>
+                  <li className="breadcrumb-item">
+                    <a href="#!" onClick={e => { e.preventDefault(); setViewProperty(null); }} style={{ color: '#405189', textDecoration: 'none' }}>
+                      <i className="ri-arrow-left-line me-1"></i> Back to Properties
+                    </a>
+                  </li>
+                  <li className="breadcrumb-item active text-muted">Property Details</li>
+                </ol>
+                <div className="d-flex gap-2">
+                  <button onClick={() => shareOnWhatsapp(viewProperty)} className="btn btn-sm" style={{ backgroundColor: '#25d366', color: '#fff', border: 'none', fontSize: '12px' }} title="Share on WhatsApp">
+                    <i className="ri-whatsapp-line me-1"></i> Share
+                  </button>
+                  <button onClick={() => setEditing(viewProperty)} className="btn btn-sm btn-light border" title="Edit Property" style={{ fontSize: '12px' }}>
+                    <i className="ri-pencil-line me-1"></i> Edit
+                  </button>
+                  <button onClick={() => { handleDelete(viewProperty); }} className="btn btn-sm btn-light border text-danger" title="Delete Property" style={{ fontSize: '12px' }}>
+                    <i className="ri-delete-bin-line"></i>
+                  </button>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="row">
-            {/* Left Column: Image Gallery */}
-            <div className="col-lg-4">
-              <div className="card shadow-sm border-0 mb-3 rounded">
-                <div className="card-body p-2 position-relative">
-                  {images.length > 0 && (
-                    <div className="position-absolute top-0 start-0 m-3 bg-dark bg-opacity-75 text-white px-2 py-1 rounded" style={{ fontSize: '12px', zIndex: 10 }}>
-                      <i className="ri-image-line me-1"></i> {activeImage + 1} of {images.length}
-                    </div>
-                  )}
-                  <img src={mainImage || NO_IMAGE} alt={viewProperty.title} className="w-100 rounded mb-2" style={{ height: '250px', objectFit: 'cover' }} onError={(e) => { e.target.src = NO_IMAGE; }} />
+          {/* Property Title Hero */}
+          <div className="card shadow-sm border-0 mb-3" style={{ borderRadius: '8px' }}>
+            <div className="card-body p-4">
+              <div className="d-flex flex-wrap align-items-start justify-content-between gap-3">
+                <div>
+                  <h2 className="fw-bold mb-2" style={{ fontSize: '22px', color: '#2c3e50' }}>{propTitle}</h2>
+                  <p className="text-muted mb-2" style={{ fontSize: '14px' }}>
+                    <i className="ri-map-pin-line text-danger me-1"></i>
+                    {propAddress || `${propLocation}, ${propCity}`}
+                    &nbsp;&nbsp;
+                    <a href={`/property-details/${viewProperty.id}`} target="_blank" rel="noreferrer" style={{ color: '#405189', fontWeight: '600', fontSize: '13px', textDecoration: 'none' }}>
+                      <i className="ri-global-line me-1"></i>Property Landing Page
+                    </a>
+                  </p>
+                  <div className="d-flex align-items-center gap-3 flex-wrap">
+                    <span className="badge px-3 py-2" style={{ backgroundColor: propType === 'For Sale' ? '#0ab39c' : '#405189', fontSize: '12px' }}>
+                      {propType}
+                    </span>
+                    <span className="fw-bold" style={{ fontSize: '20px', color: '#e74c3c' }}>{propPrice}</span>
+                    {propArea && <span className="text-muted" style={{ fontSize: '13px' }}><i className="ri-layout-masonry-line me-1"></i>Area : {propArea}</span>}
+                  </div>
+                </div>
+                {detailsLoading && !details && (
+                  <span className="badge bg-light text-muted border" style={{ fontSize: '11px' }}>Loading details...</span>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Main 2-column layout */}
+          <div className="row g-3">
+
+            {/* LEFT: Gallery + Description + Features + Amenities */}
+            <div className="col-lg-8">
+
+              {/* Image Gallery */}
+              <div className="card shadow-sm border-0 mb-3" style={{ borderRadius: '8px' }}>
+                <div className="card-body p-2">
+                  <div className="position-relative mb-2">
+                    {images.length > 0 && (
+                      <div className="position-absolute top-0 start-0 m-2 bg-dark bg-opacity-75 text-white px-2 py-1 rounded" style={{ fontSize: '11px', zIndex: 10 }}>
+                        <i className="ri-image-line me-1"></i>{activeImage + 1} / {images.length}
+                      </div>
+                    )}
+                    <img
+                      src={mainImage || NO_IMAGE}
+                      alt={propTitle}
+                      className="w-100 rounded"
+                      style={{ height: '340px', objectFit: 'cover' }}
+                      onError={e => { e.target.src = NO_IMAGE; }}
+                    />
+                  </div>
                   {images.length > 1 && (
-                    <div className="d-flex gap-2 flex-wrap">
+                    <div className="d-flex gap-2 flex-wrap px-1">
                       {images.map((src, i) => (
-                        <img key={src} src={src} alt={`Photo ${i + 1}`} onClick={() => setActiveImage(i)} className="rounded" style={{ width: '70px', height: '70px', objectFit: 'cover', cursor: 'pointer', border: i === activeImage ? '2px solid #0ab39c' : '2px solid transparent' }} />
+                        <img
+                          key={src + i}
+                          src={src}
+                          alt={`Photo ${i + 1}`}
+                          onClick={() => setActiveImage(i)}
+                          className="rounded"
+                          style={{ width: '80px', height: '60px', objectFit: 'cover', cursor: 'pointer', border: i === activeImage ? '2px solid #0ab39c' : '2px solid #dee2e6', opacity: i === activeImage ? 1 : 0.7 }}
+                          onError={e => { e.target.src = NO_IMAGE; }}
+                        />
                       ))}
                     </div>
                   )}
                 </div>
               </div>
-            </div>
 
-            {/* Right Column: Details */}
-            <div className="col-lg-8">
-              <div className="card shadow-sm border-0 mb-3 rounded">
-                <div className="card-body">
-                  <div className="d-flex justify-content-between align-items-start mb-2">
-                    <div>
-                      <h4 className="fw-bold mb-1" style={{ color: '#405189', fontSize: '18px' }}>{d.title || viewProperty.title}</h4>
-                      <p className="text-muted mb-2" style={{ fontSize: '12px' }}>
-                        {d.category || viewProperty.category || '-'} - {d.type || viewProperty.type} | Seller : <strong>{d.seller || '-'}</strong> | Published : {d.published || viewProperty.created}
-                      </p>
-                      <p className="text-muted mb-3" style={{ fontSize: '13px' }}>
-                        <i className="ri-map-pin-line text-primary me-1"></i> {d.address || viewProperty.address}
-                      </p>
-                    </div>
-                    <div className="d-flex gap-2">
-                      <button onClick={() => shareOnWhatsapp(viewProperty)} className="btn btn-light btn-sm border" title="Send Details On Whatsapp"><i className="ri-whatsapp-line"></i></button>
-                      <button onClick={() => setEditing(viewProperty)} className="btn btn-light btn-sm border" title="Edit"><i className="ri-pencil-line"></i></button>
-                      <button onClick={() => setViewProperty(null)} className="btn btn-light btn-sm border" title="Back to property list"><i className="ri-arrow-go-back-line"></i></button>
-                    </div>
-                  </div>
-
-                  {detailsLoading && !details && (
-                    <p className="text-muted" style={{ fontSize: '13px' }}>Loading details...</p>
-                  )}
-
-                  {/* 4 Info Boxes */}
-                  <div className="row g-3 mb-4">
+              {/* Quick Stats Row */}
+              <div className="card shadow-sm border-0 mb-3" style={{ borderRadius: '8px' }}>
+                <div className="card-body p-3">
+                  <div className="row g-0 text-center">
                     {[
-                      ['ri-money-rupee-circle-line', 'Price', d.price || viewProperty.price],
-                      ['ri-layout-masonry-line', 'Area', d.area],
-                      ['ri-hotel-bed-line', 'Bedroom', d.bedroom],
-                      ['ri-showers-line', 'Bathroom', d.bathroom]
-                    ].map(([icon, label, value]) => (
-                      <div className="col-md-3" key={label}>
-                        <div className="border rounded p-3 d-flex align-items-center gap-3">
-                          <i className={icon} style={{ fontSize: '24px', color: '#0ab39c' }}></i>
-                          <div>
-                            <p className="text-muted mb-0" style={{ fontSize: '11px' }}>{label} :</p>
-                            <h6 className="mb-0 fw-bold">{value || '-'}</h6>
-                          </div>
-                        </div>
+                      ['ri-hotel-bed-line', propBedroom ? propBedroom.replace('BHK', '') + ' Bedroom' : '-', '#405189'],
+                      ['ri-showers-line', propBathroom ? propBathroom + ' Bathroom' : '-', '#0ab39c'],
+                      ['ri-layout-masonry-line', propArea || '-', '#e74c3c'],
+                      ['ri-home-4-line', features['Furnishing'] || '-', '#f39c12'],
+                    ].map(([icon, val, color], idx) => (
+                      <div key={idx} className={`col-3 ${idx < 3 ? 'border-end' : ''}`}>
+                        <i className={icon} style={{ fontSize: '22px', color }}></i>
+                        <p className="mb-0 mt-1" style={{ fontSize: '12px', color: '#495057' }}>{val}</p>
                       </div>
                     ))}
                   </div>
+                </div>
+              </div>
 
-                  <h6 className="fw-bold" style={{ fontSize: '13px' }}>Description :</h6>
-                  <p className="text-muted" style={{ fontSize: '13px', whiteSpace: 'pre-line' }}>{d.description || '-'}</p>
-
-                  <h6 className="fw-bold mt-4" style={{ fontSize: '13px' }}>Features :</h6>
-                  <ul className="list-unstyled text-muted" style={{ fontSize: '13px' }}>
-                    {features.length ? features.map(([key, value]) => (
-                      <li className="mb-1" key={key}><i className="ri-checkbox-circle-line text-success me-1"></i> {key} : {value}</li>
-                    )) : <li>-</li>}
-                  </ul>
-
-                  <h6 className="fw-bold mt-4" style={{ fontSize: '13px' }}>Amenities :</h6>
-                  <div className="d-flex flex-wrap gap-3 mb-4 text-muted" style={{ fontSize: '12px' }}>
-                    {d.amenities?.length ? d.amenities.map(a => (
-                      <span key={a}><i className="ri-check-line text-success"></i> {a}</span>
-                    )) : <span>-</span>}
+              {/* Description */}
+              {propDescription && (
+                <div className="card shadow-sm border-0 mb-3" style={{ borderRadius: '8px' }}>
+                  <div className="card-body p-4">
+                    <h5 className="fw-bold mb-3" style={{ fontSize: '15px', color: '#2c3e50', borderBottom: '2px solid #0ab39c', paddingBottom: '8px', display: 'inline-block' }}>Description</h5>
+                    <p className="text-muted mb-0" style={{ fontSize: '14px', lineHeight: '1.7', whiteSpace: 'pre-line' }}>{propDescription}</p>
                   </div>
+                </div>
+              )}
 
-                  <h6 className="fw-bold mt-4" style={{ fontSize: '13px' }}>Property Description :</h6>
-                  <ul className="nav nav-tabs nav-tabs-custom mb-3">
-                    {[['seller', 'Seller Information'], ['meta', 'Meta SEO Details']].map(([key, label]) => (
-                      <li className="nav-item" key={key}>
-                        <a
-                          className={`nav-link ${detailsTab === key ? 'active' : 'text-muted'}`}
-                          style={detailsTab === key ? { color: '#0ab39c', borderBottom: '2px solid #0ab39c' } : {}}
-                          href="#!"
-                          onClick={(e) => { e.preventDefault(); setDetailsTab(key); }}
-                        >
-                          {label}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-
-                  {detailsTab === 'seller' ? (
-                    <div className="table-responsive">
-                      <table className="table table-borderless table-sm text-muted" style={{ fontSize: '13px' }}>
-                        <tbody>
-                          {sellerRows.map(([label, value]) => (
-                            <tr className="border-bottom" key={label}>
-                              <th className="fw-medium py-2" style={{ width: '150px' }}>{label}</th>
-                              <td className="py-2">
-                                {label === 'Seller Phone' && value ? <a href={`tel:${value}`}>{value}</a> : value}
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  ) : (
-                    <div className="text-muted" style={{ fontSize: '13px' }}>
-                      {metaRows.map(([label, value]) => (
-                        <div key={label} className="mb-3">
-                          <h6 className="fw-bold mb-1" style={{ fontSize: '13px' }}>{label}</h6>
-                          <p className="mb-0">{value || '-'}</p>
+              {/* Features */}
+              {Object.keys(features).length > 0 && (
+                <div className="card shadow-sm border-0 mb-3" style={{ borderRadius: '8px' }}>
+                  <div className="card-body p-4">
+                    <h5 className="fw-bold mb-3" style={{ fontSize: '15px', color: '#2c3e50', borderBottom: '2px solid #0ab39c', paddingBottom: '8px', display: 'inline-block' }}>Features</h5>
+                    <div className="row g-2">
+                      {Object.entries(features).map(([key, val]) => (
+                        <div key={key} className="col-sm-6">
+                          <div className="d-flex align-items-center gap-2 p-2 rounded" style={{ backgroundColor: '#f8f9fa', fontSize: '13px' }}>
+                            <i className="ri-check-double-line text-success"></i>
+                            <span className="text-muted">{key}:</span>
+                            <span className="fw-medium text-dark">{val}</span>
+                          </div>
                         </div>
                       ))}
                     </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Amenities */}
+              {amenities.length > 0 && (
+                <div className="card shadow-sm border-0 mb-3" style={{ borderRadius: '8px' }}>
+                  <div className="card-body p-4">
+                    <h5 className="fw-bold mb-3" style={{ fontSize: '15px', color: '#2c3e50', borderBottom: '2px solid #0ab39c', paddingBottom: '8px', display: 'inline-block' }}>Amenities</h5>
+                    <div className="d-flex flex-wrap gap-2">
+                      {amenities.map(a => (
+                        <span key={a} className="badge border" style={{ backgroundColor: '#e8f5e9', color: '#2e7d32', fontSize: '12px', padding: '6px 12px', borderColor: '#a5d6a7' }}>
+                          <i className="ri-check-line me-1"></i>{a}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* RIGHT: Property Details + Lead Form + Support */}
+            <div className="col-lg-4">
+
+              {/* Property Details Table */}
+              <div className="card shadow-sm border-0 mb-3" style={{ borderRadius: '8px' }}>
+                <div className="card-header bg-white border-0 pb-0 pt-3 px-3">
+                  <h6 className="fw-bold mb-0" style={{ fontSize: '14px', color: '#2c3e50' }}>Property Details</h6>
+                </div>
+                <div className="card-body p-0">
+                  <table className="table table-sm mb-0" style={{ fontSize: '13px' }}>
+                    <tbody>
+                      {[
+                        ['Property Id', propId],
+                        ['Price', propPrice],
+                        ['Category', propCategory],
+                        ['Bedrooms', propBedroom ? propBedroom.replace('BHK', '') : '-'],
+                        ['Bathrooms', propBathroom || '-'],
+                        ['Property For', propType],
+                        ['Area', propArea || '-'],
+                        ['Year Built', features['Built Year'] || '-'],
+                        ['Furnishing', features['Furnishing'] || '-'],
+                        ['Facing', features['Facing'] || '-'],
+                        ['Transaction', features['Transaction'] || '-'],
+                      ].map(([label, value]) => (
+                        <tr key={label} style={{ borderBottom: '1px solid #f3f6f9' }}>
+                          <td className="py-2 px-3 text-muted fw-medium" style={{ width: '45%', whiteSpace: 'nowrap' }}>{label}</td>
+                          <td className="py-2 px-3 fw-semibold text-dark">{value}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* Lead Capture Form */}
+              <div className="card shadow-sm border-0 mb-3" style={{ borderRadius: '8px', border: '1px solid #0ab39c20' }}>
+                <div className="card-body p-4">
+                  <h6 className="fw-bold mb-1" style={{ fontSize: '14px', color: '#2c3e50' }}>
+                    <i className="ri-phone-line text-success me-2"></i>Get a instant call back !
+                  </h6>
+                  <p className="text-muted mb-3" style={{ fontSize: '12px' }}>Fill the form below and our agent will contact you shortly.</p>
+                  <div className="mb-2">
+                    <input
+                      type="text"
+                      className="form-control form-control-sm"
+                      placeholder="Name *"
+                      value={leadForm.name}
+                      onChange={e => setLeadForm(prev => ({ ...prev, name: e.target.value }))}
+                      style={{ fontSize: '13px' }}
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <input
+                      type="tel"
+                      className="form-control form-control-sm"
+                      placeholder="Phone *"
+                      value={leadForm.phone}
+                      onChange={e => setLeadForm(prev => ({ ...prev, phone: e.target.value }))}
+                      style={{ fontSize: '13px' }}
+                    />
+                  </div>
+                  {leadMsg && (
+                    <div className={`alert py-2 mb-2`} style={{ fontSize: '12px', backgroundColor: leadMsg.startsWith('✅') ? '#d4edda' : '#f8d7da', color: leadMsg.startsWith('✅') ? '#155724' : '#721c24', border: 'none', borderRadius: '4px' }}>
+                      {leadMsg}
+                    </div>
                   )}
+                  <button
+                    onClick={() => submitLead(false)}
+                    className="btn btn-sm w-100 mb-2"
+                    style={{ backgroundColor: '#0ab39c', color: '#fff', fontSize: '13px', fontWeight: '600' }}
+                  >
+                    <i className="ri-phone-line me-1"></i> Get a Call back
+                  </button>
+                  <button
+                    onClick={() => submitLead(true)}
+                    className="btn btn-sm w-100"
+                    style={{ backgroundColor: '#25d366', color: '#fff', fontSize: '13px', fontWeight: '600' }}
+                  >
+                    <i className="ri-whatsapp-line me-1"></i> Get Details On Whatsapp
+                  </button>
+                </div>
+              </div>
+
+              {/* Customer Support */}
+              <div className="card shadow-sm border-0 mb-3" style={{ borderRadius: '8px' }}>
+                <div className="card-body p-4">
+                  <h6 className="fw-bold mb-3" style={{ fontSize: '14px', color: '#2c3e50' }}>Customer Support</h6>
+                  <div className="d-flex align-items-center gap-2 mb-2">
+                    <i className="ri-phone-line text-success" style={{ fontSize: '16px' }}></i>
+                    <a href="tel:+919222445513" className="text-decoration-none text-dark" style={{ fontSize: '13px' }}>+91 9222445513</a>
+                  </div>
+                  <div className="d-flex align-items-center gap-2 mb-2">
+                    <i className="ri-phone-line text-success" style={{ fontSize: '16px' }}></i>
+                    <a href="tel:+919320072003" className="text-decoration-none text-dark" style={{ fontSize: '13px' }}>+91 9320072003</a>
+                  </div>
+                  <div className="d-flex align-items-center gap-2">
+                    <i className="ri-mail-line text-primary" style={{ fontSize: '16px' }}></i>
+                    <a href="mailto:raj@sairealty.in" className="text-decoration-none text-dark" style={{ fontSize: '13px' }}>raj@sairealty.in</a>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          {/* Similar Properties */}
+          {similarProps.length > 0 && (
+            <div className="card shadow-sm border-0 mt-2" style={{ borderRadius: '8px' }}>
+              <div className="card-body p-4">
+                <h5 className="fw-bold mb-1" style={{ fontSize: '15px', color: '#2c3e50' }}>Similar Properties</h5>
+                <p className="text-muted mb-3" style={{ fontSize: '13px' }}>Explore the Latest Properties.</p>
+                <div className="row g-3">
+                  {similarProps.map(p => (
+                    <div key={p.id} className="col-lg-3 col-md-6">
+                      <div
+                        className="card border h-100"
+                        style={{ cursor: 'pointer', borderRadius: '6px', overflow: 'hidden', transition: 'box-shadow 0.2s' }}
+                        onClick={() => openDetails(p)}
+                        onMouseEnter={e => e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.12)'}
+                        onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
+                      >
+                        <div style={{ position: 'relative' }}>
+                          <span className="badge position-absolute top-0 start-0 m-2" style={{ backgroundColor: p.type === 'For Sale' ? '#0ab39c' : '#405189', fontSize: '10px', zIndex: 5 }}>{p.type}</span>
+                          <img
+                            src={p.image || NO_IMAGE}
+                            alt={p.title}
+                            className="w-100"
+                            style={{ height: '140px', objectFit: 'cover' }}
+                            onError={e => { e.target.src = NO_IMAGE; }}
+                          />
+                        </div>
+                        <div className="card-body p-2">
+                          <p className="fw-bold mb-1 text-truncate" style={{ fontSize: '12px', color: '#e74c3c' }}>{p.price}</p>
+                          <p className="text-dark fw-medium mb-1 text-truncate" style={{ fontSize: '12px' }} title={p.title}>{p.title}</p>
+                          <p className="text-muted mb-2 text-truncate" style={{ fontSize: '11px' }}>
+                            <i className="ri-map-pin-line me-1"></i>{p.location} - {p.city}
+                          </p>
+                          <div className="d-flex gap-2 flex-wrap" style={{ fontSize: '11px', color: '#666' }}>
+                            {p.bedroom && <span><i className="ri-hotel-bed-line me-1"></i>{p.bedroom}</span>}
+                            {p.bathroom && <span><i className="ri-showers-line me-1"></i>{p.bathroom} Bath</span>}
+                            {p.area && <span><i className="ri-layout-masonry-line me-1"></i>{p.area}</span>}
+                          </div>
+                        </div>
+                        <div className="card-footer bg-white p-2 border-top">
+                          <button className="btn btn-sm w-100" style={{ backgroundColor: '#405189', color: '#fff', fontSize: '11px', fontWeight: '600' }}>
+                            SEE DETAILS
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
-          </div>
+          )}
+
         </div>
       </DashboardLayout>
     );
